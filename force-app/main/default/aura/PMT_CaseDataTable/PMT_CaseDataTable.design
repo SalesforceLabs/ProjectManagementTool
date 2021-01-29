@@ -1,0 +1,10 @@
+<design:component label="PMT Case Data Table">
+    <sfdc:objects>
+        <sfdc:object>PMT_Project__c</sfdc:object>
+    </sfdc:objects>    
+    <design:supportedFormFactors>
+        <design:supportedFormFactor type="Large"/>
+        <design:supportedFormFactor type="Small"/>
+    </design:supportedFormFactors>
+    
+</design:component>

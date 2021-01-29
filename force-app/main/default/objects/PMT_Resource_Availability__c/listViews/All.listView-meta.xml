@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>User_Name__c</columns>
+    <columns>Fiscal_Year__c</columns>
+    <columns>Feb__c</columns>
+    <columns>Mar__c</columns>
+    <columns>Apr__c</columns>
+    <columns>May__c</columns>
+    <columns>Jun__c</columns>
+    <columns>Jul__c</columns>
+    <columns>Aug__c</columns>
+    <columns>Sep__c</columns>
+    <columns>Oct__c</columns>
+    <columns>Nov__c</columns>
+    <columns>Dec__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Availability</label>
+</ListView>

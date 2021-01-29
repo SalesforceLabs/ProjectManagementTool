@@ -1,0 +1,41 @@
+<aura:component implements="force:hasRecordId" access="global" controller="PMT_ResourceManagementCtrl">
+    <aura:attribute name="recordId" type="String" description="recordid"/>
+    <aura:attribute name="fiscalYear" type="String" description="Fisacl Year of the resource availibility record"/>
+    <aura:attribute name="isResourcePlanner" type="Boolean" default="false" description="Defines whether the current user is a resource planner"/>
+    
+    <!--Datatable attributes--> 
+    <aura:attribute name="allocation" type="Object" description="Resource allocation object"/>
+    <aura:attribute name="columns" type="List" description="DataTable columns"/>
+    <aura:attribute name="errors" type="Object" default="[]" description="errors list"/>
+    <aura:attribute name="draftValues" type="Object" default="[]" description="draft values"/>
+    <aura:attribute name="selectedAllocation" type="Object" description="selected allocation records"/>
+    <aura:attribute name="selectedRows" type="List" description="selected rows" />
+    <aura:attribute name="selectedIds" type="string[]" description="selected ids" />
+    <aura:attribute name="sortedBy" type="String" description="Store filedName in datatable column sort"/>
+    <aura:attribute name="sortedDirection" type="Boolean" default="true" description="Store sort direction in datatable column sort"/>
+    <aura:attribute name="fiscalYearOffset" type="Integer" description="Fiscal year start month"/>
+    
+    <aura:handler name="change" action="{!c.transformDataForFiscalYear}" value="{!v.fiscalYearOffset}"/>
+    <!--Component initialization-->
+    <aura:handler name="change" action="{!c.doInit}" value="{!v.fiscalYear}"/>
+
+    <!--START Project datatable-->
+    <lightning:datatable aura:id="allocationList" 
+                         columns="{! v.columns }"
+                         data="{!v.allocation}"
+                         keyField="Id"
+                         errors="{!v.errors }"
+                         draftValues="{!v.draftValues }"
+                         onsave="{!c.onSave }"
+                         onrowselection="{!c.handleAllocationsSelect}"
+                         selectedRows="{!v.selectedRows}"
+                         onrowaction="{!c.handleRowAction}"
+                         onsort="{!c.handleSort}"
+                         sortedBy="{!v.sortedBy}"
+                         sortedDirection="{!v.sortedDirection}"
+                         />
+    
+    
+    <!--END Project datatable-->
+    
+</aura:component>

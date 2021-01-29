@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Action to load PMT_CreateMultiTasks Lightning component. This component allows users to create multiple Tasks in one single screen and action.</description>
+    <height>350</height>
+    <label>Create Tasks</label>
+    <lightningComponent>PMT_CreateMultiTasks</lightningComponent>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <type>LightningComponent</type>
+    <width>-100</width>
+</QuickAction>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Icon_Name__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(AND(Days_Late__c &gt;0,TEXT(Status__c) &lt;&gt; &quot;On Hold&quot;),&quot;utility:warning&quot;, 
+IF( TEXT(Sign_off_status__c) = &quot;Approved&quot;, &quot;utility:approval&quot;, 
+CASE( TEXT(Status__c) , 
+&quot;Not Started&quot;, &quot;utility:routing_offline&quot;, 
+&quot;In Progress&quot;, &quot;utility:clock&quot;, 
+&quot;On Hold&quot;,&quot;utility:error&quot;, 
+&quot;utility:success&quot;)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Status Icon Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,91 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="PMT_ResourceManagementCtrl">
+    <aura:attribute name="recordId" type="String" description="recordid"/>
+    <aura:attribute name="availRecord" type="Object" description="record object for force:recordDacta attribute"/>
+    <aura:attribute name="recordError" type="String" description="record error attributes"/>
+    <aura:attribute name="fiscalYear" type="String" description="Fiscal Year of the record"/>
+    <aura:attribute name="monthNames" type="String" description="Months to display in order"/>
+    <aura:attribute name="resourceAvailability" type="Object" description="Availibility info in order"/>
+    <aura:attribute name="fiscalYearOffset" type="Integer" description="Fiscal year start month"/>
+    
+    
+    <!--Get Resource availability record data-->          
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}" 
+                      targetFields="{!v.availRecord}"
+                      targetError="{!v.recordError}"
+                      layoutType="FULL"
+                      fields="User_Name__c,Fiscal_Year__c,Start_Date__c,End_Date__c,User__c, is_Dummy_Availability__c"
+                      recordUpdated="{!c.doInit}"
+                      /> 
+    
+    <!--START Lightning card for component display-->
+    <Lightning:card>
+        <aura:set attribute="title">
+            <lightning:icon iconName="standard:solution" size="small"/>
+            Allocation summary
+        </aura:set>
+        <!--START allocation summary table-->        
+        <Table class="slds-table slds-table_bordered">
+            <Thead>
+                <tr>
+                    <!--Blank columns for alignments with other columns-->
+                    <th class="active"></th>
+                    <aura:iteration items="{!v.monthNames}" var="monthName">
+                        <th class="active" style="width: 70px;">{!monthName + ' %'}</th>
+                    </aura:iteration>
+                    <th class="active" style="width: 50px;"></th>
+                </tr>
+            </Thead>
+            <Tbody>
+                <!-- Don't show the details for Dummy allocation -->
+                <aura:if isTrue="{!!v.availRecord.is_Dummy_Availability__c}">
+                    <tr>
+                        <td class="slds-text-align_center"><span style="font-weight:1000">Capacity</span> - total capacity of the resource for the year</td>
+                        <aura:iteration items="{!v.resourceAvailability.capacities}" var="capacity">
+                            <th>{!capacity}</th>
+                        </aura:iteration>
+                    </tr>
+                    <tr>
+                        <td class="slds-text-align_center"><span style="font-weight:1000">Allocated</span> - allocated percentage throughout the year</td>
+                        <aura:iteration items="{!v.resourceAvailability.allocations}" var="allocation">
+                            <td class="{!if(allocation>100,'redBorder','')}">{!allocation}</td>
+                        </aura:iteration>
+                    </tr>
+                    <tr>
+                        <td class="slds-text-align_center"><span style="font-weight:1000">Remaining</span> - Remaining capacity after allocation</td>
+                        <aura:iteration items="{!v.resourceAvailability.availabilities}" var="availability">
+                            <td class="{!if(availability&lt;0,'redBorder','')}">{!availability}</td>
+                        </aura:iteration>
+                    </tr>
+                    <!-- Show unallocated values for dummy user-->
+                    <aura:set attribute="else">
+                        <tr>
+                            <td class="slds-text-align_center"><span style="font-weight:1000">Requirement</span> - Total unallocated percentage throughout the year</td>
+                            <aura:iteration items="{!v.resourceAvailability.allocations}" var="allocation">
+                            	<td>{!allocation}</td>
+                            </aura:iteration>
+                        </tr>
+                    </aura:set>
+                </aura:if>
+            </Tbody>
+        </Table>
+    </Lightning:card>
+    <!--END allocation summary table-->
+    
+    <!--START Project datatable-->
+    <Lightning:card class="slds-var-p-top_large">
+        <aura:set attribute="title">
+            <lightning:icon iconName="custom:custom64" size="small"/>
+            {!if(!empty(v.availRecord.User__c),'Assigned Projects','Pending Requirements')}
+        </aura:set>
+        <c:PMT_ResourceAvailabilityDatatable 
+                                             recordId="{!v.recordId}" 
+                                             fiscalYear="{!v.availRecord.Fiscal_Year__c}"
+                                             fiscalYearOffset="{!v.fiscalYearOffset}"
+                                             />
+        
+    </Lightning:card>
+    
+    <!--END Project datatable-->
+    
+</aura:component>

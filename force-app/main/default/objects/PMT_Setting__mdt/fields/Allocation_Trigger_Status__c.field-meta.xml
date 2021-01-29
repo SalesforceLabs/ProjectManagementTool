@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Allocation_Trigger_Status__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Activates/deactivates the trigger which automates the project sharing. Keep this false, if your sharing model is public read/write for project</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Activates/deactivates the trigger which automates the project sharing. Keep this false, if your sharing model is public read/write for project</inlineHelpText>
+    <label>Allocation Trigger Status</label>
+    <type>Checkbox</type>
+</CustomField>

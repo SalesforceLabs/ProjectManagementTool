@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InitialStartDate_should_be_less</fullName>
+    <active>true</active>
+    <description>Initial Start date must be less than the Initial End date</description>
+    <errorConditionFormula>NOT(ISNULL(Initial_Start_Date__c)) &amp;&amp; NOT(ISNULL(Initial_End_Date__c)) &amp;&amp; Initial_End_Date__c&lt; Initial_Start_Date__c</errorConditionFormula>
+    <errorMessage>Initial End date must be after Initial Start date.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>PMT Resource Availability DataTable</aura:description>
+	<aura:example name="PMT Resource Availability DataTable" ref="PMT Resource Availability DataTable" label="PMT Resource Availability DataTable">
+		Display resource allocations by project in a dataTable component format.
+	</aura:example>
+</aura:documentation>

@@ -1,0 +1,203 @@
+<aura:component controller="PMT_TaskandPhaseManagementCtrl" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global">
+
+    <aura:attribute name="isLoading" type="boolean" default="false" description="spinner attribute"/>
+    <aura:attribute name="isError" type="boolean" default="false" description="Error message loading attribute"/>
+    <aura:attribute name="errorMessage" type="string" description="Error message text attribute"/>
+    <aura:attribute name="isCreated" type="boolean" default="false" description="Confirm message loading attribute"/>
+    
+    
+    <aura:attribute name="recordId" type="Id" description="Project record id"/> <!--Define Project Record atrributes -->
+    <aura:attribute name="taskList" type="PMT_Task__c[]" description="tasks to create"/> <!--Define Task List attribute for Mass creation -->
+    
+    <!--Define Attributes for Picklist values -->
+    <aura:attribute name="ObjectName" type="String" default="PMT_Task__c" access="global" description="Object Name as String"/>
+    <aura:attribute name="TaskStatus" type="String" default="Status__c" access="global" description="Define Task Status as String"/>
+    <aura:attribute name="MemberList" type="List" description="List of members assigned to the project"/>
+    <aura:attribute name="PhaseList" type="List" description="List of Project Phases"/>
+    
+    <ltng:require styles="{!$Resource.PMT_StyleUtility}"/>
+
+    <!--Display spinner when loading data to the database-->
+    <aura:if isTrue="{!v.isLoading}">
+        <Lightning:spinner alternativeText="Loading" size="medium"/>    	
+    </aura:if>
+    
+    <!--Display message for errors-->
+    <aura:if isTrue="{!v.isError}">
+        <ui:message title="Error" severity="error" closable="false">
+            {!v.errorMessage}
+        </ui:message>
+    </aura:if>
+    
+    <!--Display message for creation-->
+    <aura:if isTrue="{!v.isCreated}">
+        <ui:message title="Success" severity="confirm" closable="false">
+            PMT Task successfully created.
+        </ui:message>
+    </aura:if>    
+    
+    <!-- Actions on component load -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:if isTrue="{!$Browser.isPhone}">
+        <aura:iteration items="{!v.taskList}" var="ta" indexVar="index">
+            <lightning:card>
+                <aura:set attribute="title">
+                    <lightning:icon iconName="custom:custom83" size="small"/>
+                    Task {!index + 1}
+                </aura:set>
+                <aura:set attribute="actions">
+                    <a onclick="{!c.removeRow}" data-record="{!index}">
+                        <lightning:icon iconName="utility:delete" size="small" alternativeText="Delete"/>
+                        <span class="slds-assistive-text">Delete</span>
+                    </a>
+                </aura:set>
+                <div class="slds-var-p-around_medium">
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <lightning:select aura:id="taPhase" name="taPhase" label="Phase" required="false" value="{!ta.Phase__c}">
+                                <option value="">--None--</option>
+                                <aura:iteration items="{!v.PhaseList}" var="item">
+                                    <option text="{!item.label}" value="{!item.value}"/>
+                                </aura:iteration>
+                            </lightning:select>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem size="12">
+                            <lightning:input name="taName" type="text" label="Name" required="false" value="{!ta.Name}"/>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem size="12">
+                            <lightning:input name="taSart" type="date" label="Start Date" required="false" value="{!ta.Start_Date__c}"/>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem size="12">
+                            <lightning:input name="taEnd" type="date" label="End Date" required="false" value="{!ta.Due_Date__c}"/>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem size="12">
+                            <lightning:select aura:id="taAssigned" label="Assigned To" name="taAssigned" required="false" value="{!ta.Assigned_To1__c}">
+                                <option value="">--None--</option>
+                                <aura:iteration items="{!v.MemberList}" var="item">
+                                    <option text="{!item.label}" value="{!item.value}"/>
+                                </aura:iteration>
+                            </lightning:select>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem size="12">
+                            <lightning:input name="taMilestone" type="toggle" label="is Milestone?" messageToggleActive="" messageToggleInactive="" required="false" checked="{!ta.Is_Milestone__c}"/>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </lightning:card>
+        </aura:iteration>
+        <lightning:layout multipleRows="false" horizontalAlign="center">
+            <lightning:layoutItem size="5" flexibility="grow" padding="horizontal-small">
+                <lightning:button label="Add Row" iconName="utility:add" onclick="{!c.addRow}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" flexibility="grow" padding="horizontal-small">
+                <lightning:button variant="brand" label="Submit" title="Save" onclick="{!c.save}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3" flexibility="grow" padding="horizontal-small">
+                <lightning:button variant="brand" label="Close" title="Close" onclick="{!c.closeQuickAction}" />
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- Mobile end-->
+        
+        <aura:set attribute="else">
+            <Lightning:card class="slds-card_boundary">
+                <!--Card Header -->
+                <aura:set attribute="title">
+                    <lightning:icon iconName="custom:custom83" size="small"/>
+                    Create Tasks
+                </aura:set>
+                <aura:set attribute="actions">
+                        <lightning:button label="Add Row" iconName="utility:add" onclick="{!c.addRow}"/>
+                </aura:set> 
+                
+                <!--Card Body -->
+                <div class="slds-var-m-around_small">
+                    <div class="container-fluid">        
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                            <thead>
+                                <tr class="slds-text-heading_label">
+                                    <th scope="col"  width="2%">
+                                        <div class="slds-truncate">#</div>
+                                    </th>
+                                    <th scope="col" width="18%">
+                                        <div class="slds-truncate" title="Phase">Phase</div>
+                                    </th>
+                                    <th scope="col"  width="28%">
+                                        <div class="slds-truncate" title="Name">Task Name</div>
+                                    </th>
+                                    <th scope="col" width="12%">
+                                        <div class="slds-truncate" title="StartDate">Start Date</div>
+                                    </th>
+                                    <th scope="col" width="12%">
+                                        <div class="slds-truncate" title="EndDate">End Date</div>
+                                    </th>
+                                    <th scope="col" width="16%">
+                                        <div class="slds-truncate" title="Assigned">Assigned To</div>
+                                    </th>
+                                    <th scope="col" width="10%">
+                                        <div class="slds-truncate" title="Milestone">Milestone</div>
+                                    </th>
+                                    <th scope="col" width="2%">
+                                        <div class="slds-truncate" title="Action"></div>
+                                    </th>
+                                </tr>
+                            </thead>   
+                            <tbody>      
+                                <aura:iteration items="{!v.taskList}" var="ta" indexVar="index">
+                                    <tr>
+                                        <td> 
+                                            {!index + 1}
+                                        </td>
+                                        <td>
+                                            <lightning:select aura:id="taPhase" name="taPhase" required="false" value="{!ta.Phase__c}" class="NoLabel">
+                                                <option value="">--None--</option>
+                                                <aura:iteration items="{!v.PhaseList}" var="item">
+                                                    <option text="{!item.label}" value="{!item.value}"/>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </td>
+                                        <td>
+                                            <lightning:input name="taName" type="text" required="false" maxlength="50" label="" value="{!ta.Name}" class="NoLabel"/>
+                                        </td>
+                                        <td>
+                                            <lightning:input name="taSart" type="date" required="false" maxlength="" label="" value="{!ta.Start_Date__c}" class="NoLabel"/>
+                                        </td>
+                                        <td>
+                                            <lightning:input name="taEnd" type="date" required="false" maxlength="" label="" value="{!ta.Due_Date__c}" class="NoLabel"/>
+                                        </td>
+                                        <td>
+                                            <lightning:select aura:id="taAssigned" name="taAssigned" required="false" value="{!ta.Assigned_To1__c}" class="NoLabel">
+                                                <option value="">--None--</option>
+                                                <aura:iteration items="{!v.MemberList}" var="item">
+                                                    <option text="{!item.label}" value="{!item.value}"/>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </td>
+                                        <td>
+                                            <lightning:input name="taMilestone" type="toggle" messageToggleActive="" messageToggleInactive="" required="false" label="" checked="{!ta.Is_Milestone__c}" class="NoLabel"/>
+                                        </td>
+                                        <td>
+                                            <a onclick="{!c.removeRow}" data-record="{!index}">
+                                                <lightning:icon iconName="utility:delete" size="small" alternativeText="Delete"/>
+                                                <span class="slds-assistive-text">Delete</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                        <div class="slds-align_absolute-center slds-var-p-top_small">
+                            <lightning:button variant="brand" label="Submit" title="Brand action" onclick="{!c.save}" />
+                        </div>
+                    </div>
+                </div>
+            </Lightning:card>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Kickoff_before_deadline</fullName>
+    <active>true</active>
+    <description>Phase Start date must be earlier than end date</description>
+    <errorConditionFormula>NOT(ISNULL(Start_Date_Rollup__c)) &amp;&amp; 
+NOT(ISNULL(End_Date_Rollup__c)) &amp;&amp; 
+Start_Date_Rollup__c&gt;End_Date_Rollup__c</errorConditionFormula>
+    <errorMessage>Phase End Date must be after Phase Start date.</errorMessage>
+</ValidationRule>

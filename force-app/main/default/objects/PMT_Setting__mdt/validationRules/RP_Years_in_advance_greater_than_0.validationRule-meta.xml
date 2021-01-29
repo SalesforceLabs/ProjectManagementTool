@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RP_Years_in_advance_greater_than_0</fullName>
+    <active>true</active>
+    <description>Resource planning years in advance should be greater than 0</description>
+    <errorConditionFormula>Resource_Planning_Years_in_Advance__c &lt; 0</errorConditionFormula>
+    <errorDisplayField>Resource_Planning_Years_in_Advance__c</errorDisplayField>
+    <errorMessage>Resource planning years in advance should be greater than 0</errorMessage>
+</ValidationRule>

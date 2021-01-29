@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_Date_from_parent_phase__c</fullName>
+    <externalId>false</externalId>
+    <label>Start Date from parent phase</label>
+    <summarizedField>PMT_Phase__c.Start_date_from_child_project__c</summarizedField>
+    <summaryForeignKey>PMT_Phase__c.Project__c</summaryForeignKey>
+    <summaryOperation>min</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

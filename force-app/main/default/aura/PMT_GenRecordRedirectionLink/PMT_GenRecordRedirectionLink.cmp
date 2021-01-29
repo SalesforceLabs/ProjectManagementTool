@@ -1,0 +1,15 @@
+<aura:component>
+    <!--attributes--> 
+    <aura:attribute name="url" type="String" description="An URL used to open the record in new tab"/>
+    <aura:attribute name="recordId" type="String" required="true" description="record to which to navigate"/>
+    <aura:attribute name="label" type="String" required="true" description="the label visible to user"/>
+    <aura:attribute name="pageReference" type="Object" description="created to navigate"/>
+    
+    <!--handler-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <aura:handler name="change" value="{!v.recordId}" action="{! c.init }" description="To handler asyn dynamic loading such as recordData tag loader"/>
+    
+    <!--body-->
+    <lightning:navigation aura:id="navService"/>
+    <a href="{!v.url}" onclick="{!c.handleClick}" class="slds-truncate">{!v.label}</a>
+</aura:component>

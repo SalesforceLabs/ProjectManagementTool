@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_Month_between_1_and_12</fullName>
+    <active>true</active>
+    <description>Start month for fiscal year setting should be in between 1 and 12</description>
+    <errorConditionFormula>Start_Month_of_Fiscal_Year__c &lt; 1 || Start_Month_of_Fiscal_Year__c &gt; 12</errorConditionFormula>
+    <errorDisplayField>Start_Month_of_Fiscal_Year__c</errorDisplayField>
+    <errorMessage>Start month for fiscal year setting should be in between 1 and 12</errorMessage>
+</ValidationRule>

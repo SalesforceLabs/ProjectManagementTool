@@ -1,0 +1,104 @@
+<aura:component > 
+    <aura:attribute name="recordId" type="String" description="The record id of the project"/>
+    <aura:attribute name="resourceAvailability" type="Object" description="The resource availability without allocated for the requirement"/>
+    <aura:attribute name="masterResourceAllocations" type="Object" description="All the resource allocations for all years"/>
+    <aura:attribute name="resourceAllocation" type="Object" description="The resource allocation to be saved"/>
+    <aura:attribute name="resourceAllocationToDelete" type="Object" description="The resource allocation to be deleted"/>
+    <aura:attribute name="months" type="Object" description="The months for the table columns"/>
+    <aura:attribute name="roles" type="Object" description="The picklist values for the roles"/>
+    <aura:attribute name="isLoading" type="Boolean" description="Flag if there is apex side call runnning" default="false"/>
+    <aura:attribute name="year" type="String" description="The name of the year"/>
+    <aura:attribute name="dummyAvailability" type="Object" description="Dummy Availability"/>
+    <aura:attribute name="resourceAvailabilities" type="Object" description="User Availability"/>
+    <aura:attribute name="index" type="String" description="Index of the loop"/>
+    <aura:attribute name="isReadOnly" type="Boolean" description="Whether the component is in read more or read/write mode"/>
+    <aura:attribute name="activeSectionNames" type="Object" description="Names of the open section"/>
+    <aura:attribute name="showActions" type="Boolean" description="To show actions only if the section is open"/>
+    
+    <!--Handlers-->
+    <aura:handler name="LineItemAction" event="c:PMT_MassResourceAllocationLIEvent" action="{!c.handleLineItemEvent}"/>
+    <aura:handler name="change" value="{!v.activeSectionNames}" action="{!c.showHideActions}"/>
+    
+    <!-- Accordion Section-->
+    <lightning:accordionSection aura:id="accordionSection" name="{!v.year}" label="{!v.year + ' (' + v.resourceAllocation.length + ')'}">
+        <aura:set attribute="actions">
+            <aura:if isTrue="{!and(!v.isReadOnly,v.showActions)}">                
+                <aura:if isTrue="{!!$Browser.isPhone}">
+                    <lightning:buttonGroup>
+                        
+                        <lightning:button label="Add" value="Add" iconName="utility:add" iconPosition="left" onclick="{!c.addNew}"/>
+                        
+                        <aura:if isTrue="{!and(v.resourceAllocation.length==0,v.index!=0)}">
+                            <lightning:button label="Copy from prev year" value="Copy" iconName="utility:copy" iconPosition="left" onclick="{!c.copyAllocations}"/>
+                        </aura:if>
+                    </lightning:buttonGroup>
+                </aura:if>
+            </aura:if>
+        </aura:set> 
+       
+        <aura:if isTrue="{!$Browser.isPhone}">
+            <aura:iteration items="{!v.resourceAllocation}" var="item" indexVar="index">
+                <lightning:card title="{!if(empty(item.Availability.User__r.Name),'Unallocated',item.Availability.User__r.Name) + ' - ' + item.Role}" class="customBottomBorder">
+                    <lightning:layout multipleRows="true" class="slds-var-p-left_small slds-var-p-right_small">
+                        <aura:iteration items="{!item.months}" var="month" >
+                            <aura:if isTrue="{!!v.isReadOnly}">
+                                <lightning:layoutItem size="2">
+                                    <lightning:input label="{!if(empty(v.allocatedResourceName), month.name, month.class)}" type="number" min="0" max="100" value="{!month.percentage}" formatter="number" step="1" />
+                                </lightning:layoutItem>
+                                <aura:set attribute="else">
+                                    <lightning:layoutItem size="2">
+                                        <lightning:tile label="{!month.name}">
+                                            {!if(empty(month.percentage),0,month.percentage)}
+                                        </lightning:tile>
+                                    </lightning:layoutItem>
+                                </aura:set>
+                            </aura:if>
+                            
+                        </aura:iteration>
+                    </lightning:layout>
+                    
+                </lightning:card>
+            </aura:iteration>
+            <!-- Mobile End-->
+            <aura:set attribute="else">
+                
+                <!-- Table -->
+                <table class="slds-table slds-table_bordered " >
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th style="width:100px;">
+                                <div class="slds-truncate">Role</div>
+                            </th>
+                            <th style="width:100px">
+                                <div class="slds-truncate" >Resource</div>
+                            </th>
+                            <!-- Month Names -->
+                            <aura:iteration items="{!v.months}" var="item" >
+                                <th style="width:35px">
+                                    <lightning:formattedRichText value="{!item + ' %'}"/>
+                                </th>
+                            </aura:iteration>
+                            <th style="width:5px">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Months and percentages-->
+                        <aura:iteration items="{!v.resourceAllocation}" var="item" indexVar="index">
+                            <c:PMT_MassResourceAllocationLineItem 
+                                                                  resourceAllocation="{!item}"
+                                                                  selUser="{!item.selUser}"
+                                                                  isAllocated="{!item.allocated}"
+                                                                  index="{!index}"
+                                                                  months="{!v.months}"
+                                                                  roles="{!v.roles}"
+                                                                  dummyAvailability="{!v.dummyAvailability}"
+                                                                  masterResourceAvailabilities="{!v.resourceAvailabilities}"
+                                                                  isReadOnly="{!v.isReadOnly}"/>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </aura:set>
+        </aura:if>
+    </lightning:accordionSection>    
+</aura:component>

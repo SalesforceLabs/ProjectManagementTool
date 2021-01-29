@@ -1,0 +1,237 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <aura:attribute name="recordId" type="String" description="recordid"/>
+    <aura:attribute name="record" type="Object" description="record object for force:recordDacta attribute"/>
+    <aura:attribute name="recordError" type="String" description="record error attributes"/>
+    <aura:attribute name="TimeSpan" type="List" default="[
+                                                         {'label': 'Week', 'value': 'THIS_WEEK'},
+                                                         {'label': 'Month', 'value': 'THIS_MONTH'},
+                                                         {'label': 'Quarter', 'value': 'THIS_QUARTER'} 
+                                                         ]" description="Timespan available in the card action"/>
+    <aura:attribute name="selectedSpan" type="String" default="THIS_WEEK" description="Timespan selected by the user"/>
+    
+    <aura:attribute name="title" type="String" default="Phase 1"/>
+    
+    <!--Get Project record data-->         
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.record}"
+                      targetError="{!v.recordError}"
+                      layoutType="FULL" 
+                      fields="Name, 
+                              Description__c,
+                              Program__c,
+                              OwnerId,
+                              Project_Owner__c, 
+                              Project_Completion_Image__c,
+                              Project_Status__c,
+                              Kickoff_formula__c,
+                              Deadline_formula__c,
+                              Project_Category__c,
+                              Roadmap_Status__c,
+                              Program_Text__c,
+                              Health_Icon__c,
+                              Health_Comment__c,
+                              Path_to_Green__c
+                              "/>
+    
+    <aura:if isTrue="{!$Browser.isPhone}">
+        <lightning:card title="Summary" class="slds-var-p-around_small">
+            <aura:set attribute="actions"> 
+	            <lightning:button variant="neutral" label="Refresh" iconName="utility:refresh" onclick="{!c.doRefresh}"/>
+            </aura:set>
+            <lightning:tile label="Health">
+                <aura:set attribute="media">
+                    <lightning:formattedRichText value="{!v.record.Health_Icon__c}"/>
+                </aura:set>
+                <lightning:formattedRichText value="{!v.record.Health_Comment__c}"/>
+            </lightning:tile>
+            
+            <aura:if isTrue="{!not(empty(v.record.Path_to_Green__c))}">  
+                <lightning:tile label="Path to Green">
+                    <aura:set attribute="media">
+                        <lightning:icon iconName="standard:output" size="small" variant="bare" class="greenBackground"/>
+                    </aura:set>
+                    <lightning:formattedText value="{!v.record.Path_to_Green__c}"></lightning:formattedText>
+                </lightning:tile>
+            </aura:if>
+            
+            <c:PMT_ProjectSummaryPhaseTable aura:id="SummaryTable"
+                                                recordId="{!v.recordId}" 
+                                                selectedSpan="{!v.selectedSpan}"
+                                            />
+        </lightning:card>
+        
+        <!-- Mobile End -->
+        <aura:set attribute="else">
+            <!--START Lightning card for component display-->
+            <Lightning:card title="Project Summary">
+                <aura:set attribute="actions">
+                    <lightning:buttonGroup >
+                        <lightning:radioGroup name="radioButtonGroup"
+                                              options="{! v.TimeSpan }"
+                                              value="{! v.selectedSpan }"
+                                              type="button"/>
+                        <lightning:button class="refreshButton" variant="neutral" label="Milestones List" iconName="utility:favorite" onclick="{!c.milestone}"/>
+                        <lightning:button class="refreshButton" variant="neutral" label="Refresh" iconName="utility:refresh" onclick="{!c.doRefresh}"/>
+                    </lightning:buttonGroup>
+                </aura:set>
+                <aura:set attribute="footer">
+                    Task legend: 
+                    <lightning:icon iconName="utility:routing_offline" size="xx-small" alternativeText="Complete Task" title="Complete" class="slds-m-left--xx-small"/>
+                    <span style="border-right:1px solid rgb(22, 50, 92)" > Not Started </span>
+                    
+                    <lightning:icon iconName="utility:clock" size="xx-small" alternativeText="Blocked Task" title="Incomplete" class="slds-m-left--xx-small"/>
+                    <span style="border-right:1px solid rgb(22, 50, 92)" > In Progress </span>
+                    
+                    <lightning:icon iconName="utility:error" size="xx-small" alternativeText="On Hold Task" title="On Hold" class="slds-m-left--xx-small"/>
+                    <span style="border-right:1px solid rgb(22, 50, 92)" > On Hold </span>
+                    
+                    <lightning:icon iconName="utility:success" size="xx-small" alternativeText="Complete Task" title="Complete" class="slds-m-left--xx-small"/>
+                    <span style="border-right:1px solid rgb(22, 50, 92)" > Completed </span>
+                    
+                    <lightning:icon iconName="utility:approval" size="xx-small" alternativeText="Approved Task" title="Approved" class="slds-m-left--xx-small"/>
+                    <span style="border-right:1px solid rgb(22, 50, 92)" > Approved </span>
+                    
+                    <lightning:icon iconName="utility:warning" size="xx-small" alternativeText="Late Task" title="Late" class="slds-m-left--xx-small"/>
+                    <span style="border-right:1px solid rgb(22, 50, 92)" > Late </span>
+                    <span class="milestone">&nbsp;Milestone</span>
+                </aura:set>
+                <!--START Project Summary information-->
+                <Lightning:card>
+                    <Lightning:Layout>
+                        <Lightning:LayoutItem padding="around-small" size="6" flexibility="auto">
+                            <Lightning:Layout multipleRows="true">
+                                <Lightning:LayoutItem size="12" flexibility="auto">
+                                    <dl>
+                                        <dt class="slds-text-heading_label">Description</dt>
+                                        <dd>
+                                            <lightning:formattedText value="{!v.record.Description__c}"></lightning:formattedText>
+                                        </dd>
+                                    </dl>
+                                </Lightning:LayoutItem>
+                            </Lightning:Layout>
+                        </Lightning:LayoutItem>    
+                        <Lightning:LayoutItem padding="around-small" size="6" flexibility="auto">
+                            <Lightning:Layout multipleRows="true">
+                                <Lightning:LayoutItem size="3" flexibility="auto">
+                                    <dl>
+                                        <dt class="slds-text-heading_label">Completion</dt>
+                                        <lightning:formattedRichText value="{!v.record.Project_Completion_Image__c}"></lightning:formattedRichText>
+                                    </dl>
+                                </Lightning:LayoutItem>
+                                <Lightning:LayoutItem size="3" flexibility="auto">
+                                    <dl>
+                                        <dt class="slds-text-heading_label">Start</dt>
+                                        <dd >
+                                            <lightning:formattedDateTime value="{!v.record.Kickoff_formula__c}" year="2-digit" month="short"/>
+                                        </dd>
+                                    </dl>
+                                </Lightning:LayoutItem>
+                                <Lightning:LayoutItem size="3" flexibility="auto">
+                                    <dl>
+                                        <dt class="slds-text-heading_label">End</dt>
+                                        <dd >
+                                            <lightning:formattedDateTime value="{!v.record.Deadline_formula__c}" year="2-digit" month="short"/>
+                                        </dd>
+                                    </dl>
+                                </Lightning:LayoutItem>
+                                <Lightning:LayoutItem size="3" flexibility="auto">
+                                    <dl>
+                                        <dt class="slds-text-heading_label">Owner</dt>
+                                        <c:PMT_GenRecordRedirectionLink label="{!v.record.Project_Owner__c}" recordId="{!v.record.OwnerId}"/>
+                                    </dl>
+                                </Lightning:LayoutItem>
+                                <Lightning:LayoutItem size="3" flexibility="auto">
+                                    <dl class="slds-var-p-top_x-small">
+                                        <dt class="slds-text-heading_label">Current Stage</dt>
+                                        <dd >{!v.record.Project_Status__c}</dd>
+                                    </dl>
+                                </Lightning:LayoutItem>
+                                <Lightning:LayoutItem size="3" flexibility="auto">
+                                    <dl class="slds-var-p-top_x-small">
+                                        <dt class="slds-text-heading_label">Category</dt>
+                                        <dd>{!v.record.Project_Category__c}</dd>
+                                    </dl>
+                                </Lightning:LayoutItem>
+                                <Lightning:LayoutItem size="3" flexibility="auto">
+                                    <dl class="slds-var-p-top_x-small">
+                                        <dt class="slds-text-heading_label">Roadmap Status</dt>
+                                        <dd>{!v.record.Roadmap_Status__c}</dd>
+                                    </dl>
+                                </Lightning:LayoutItem>
+                                <Lightning:LayoutItem size="3" flexibility="auto">
+                                    <dl class="slds-var-p-top_x-small">
+                                        <dt class="slds-text-heading_label">Program</dt>
+                                        <c:PMT_GenRecordRedirectionLink label="{!v.record.Program_Text__c}" recordId="{!v.record.Program__c}"/>
+                                    </dl>
+                                </Lightning:LayoutItem>
+                            </Lightning:Layout>
+                        </Lightning:LayoutItem>
+                    </Lightning:Layout>
+                </Lightning:card>
+                <!--END Project Summary information-->
+                <!--START Project Health-->
+                <lightning:card class="slds-card_boundary">
+                    <aura:if isTrue="{!not(empty(v.record.Path_to_Green__c))}">  
+                        <Lightning:Layout>
+                            <Lightning:LayoutItem class="slds-border_right" size="6" flexibility="auto">
+                                <Lightning:Layout multipleRows="true">
+                                    <Lightning:LayoutItem size="12" flexibility="auto" padding="horizontal-small">
+                                        <div class="slds-text-heading_label">Health</div>
+                                    </Lightning:LayoutItem>
+                                    <Lightning:LayoutItem size="1" flexibility="auto" padding="around-small">
+                                        <a class="" id="{!v.recordId}" onclick="{!c.editRecord}" >               
+                                            <lightning:formattedRichText value="{!v.record.Health_Icon__c}"/>
+                                        </a>
+                                    </Lightning:LayoutItem>
+                                    <Lightning:LayoutItem size="11" flexibility="auto" padding="around-small">
+                                        <lightning:formattedText value="{!v.record.Health_Comment__c}"></lightning:formattedText>
+                                    </Lightning:LayoutItem>
+                                </Lightning:Layout>
+                            </Lightning:LayoutItem>
+                            <Lightning:LayoutItem size="6" flexibility="auto">
+                                <Lightning:Layout multipleRows="true">
+                                    <Lightning:LayoutItem size="12" flexibility="auto" padding="horizontal-small">
+                                        <div class="slds-text-heading_label">Path to Green</div>
+                                    </Lightning:LayoutItem>
+                                    <Lightning:LayoutItem size="1" flexibility="auto" padding="around-small">
+                                        <lightning:icon iconName="standard:output" size="small" variant="bare" class="greenBackground"/>
+                                    </Lightning:LayoutItem>
+                                    <Lightning:LayoutItem size="11" flexibility="auto" padding="around-small">
+                                        <lightning:formattedText value="{!v.record.Path_to_Green__c}"></lightning:formattedText>
+                                    </Lightning:LayoutItem>
+                                </Lightning:Layout>
+                            </Lightning:LayoutItem>
+                        </Lightning:Layout>
+                        <aura:set attribute="else">
+                            <Lightning:Layout>
+                                <Lightning:LayoutItem flexibility="auto">
+                                    <Lightning:Layout multipleRows="true">
+                                        <Lightning:LayoutItem size="12" flexibility="auto" padding="horizontal-small">
+                                            <div class="slds-text-heading_label">Health</div>
+                                        </Lightning:LayoutItem>
+                                        <Lightning:LayoutItem size="1" flexibility="auto" padding="around-small">
+                                            <a class="" id="{!v.recordId}" onclick="{!c.editRecord}" >               
+                                                <lightning:formattedRichText value="{!v.record.Health_Icon__c}"/>
+                                            </a>
+                                        </Lightning:LayoutItem>
+                                        <Lightning:LayoutItem size="11" flexibility="auto" padding="around-small">
+                                            <lightning:formattedText value="{!v.record.Health_Comment__c}"></lightning:formattedText>
+                                        </Lightning:LayoutItem>
+                                    </Lightning:Layout>
+                                </Lightning:LayoutItem>
+                            </Lightning:Layout>
+                        </aura:set>
+                    </aura:if> 
+                </lightning:card>
+                <!--END Project Health-->
+                <!--START Phase Summary-->
+                <c:PMT_ProjectSummaryPhaseTable aura:id="SummaryTable"
+                                                recordId="{!v.recordId}" 
+                                                selectedSpan="{!v.selectedSpan}"/>
+            </Lightning:card>
+            <!--END Lightning card for component display-->
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

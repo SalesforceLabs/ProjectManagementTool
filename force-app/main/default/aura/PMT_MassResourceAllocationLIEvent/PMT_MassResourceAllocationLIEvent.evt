@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Event for pushing actions at line item to parent">
+    <aura:attribute name="resourceAllocation" type="Object" description="The new line item to be added"/>
+    <aura:attribute name="index" type="Integer" description="The index at which it will be added"/>
+    <aura:attribute name="action" type="String" description="Action to be taken add or remove"/>
+</aura:event>

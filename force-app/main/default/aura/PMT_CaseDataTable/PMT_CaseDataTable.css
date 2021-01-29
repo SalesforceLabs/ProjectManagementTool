@@ -1,0 +1,11 @@
+.THIS .Showstopper{
+ color: red;
+}
+
+.THIS .tileContent{
+    color: inherit;
+}
+
+.THIS .hideLabel .slds-form-element__label{
+    display:none;
+}

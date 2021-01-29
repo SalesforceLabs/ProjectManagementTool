@@ -1,0 +1,95 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global"
+    controller="PMT_Utility">
+    <aura:attribute name="recordId" type="String" description="recordid" />
+    <aura:attribute name="isLoading" type="boolean" default="false" description="spinner when loading data" />
+
+    <!--Datatable attributes-->
+    <aura:attribute name="cases" type="Case" description="cases object" />
+    <aura:attribute name="columns" type="List" description="DataTable columns" />
+    <aura:attribute name="errors" type="Object" default="[]" description="errors list" />
+    <aura:attribute name="draftValues" type="Object" default="[]" description="draft values" />
+    <aura:attribute name="showflowChangeStatus" type="Boolean" default="false"
+        description="whether to show flow Change Status as modal or not" />
+    <aura:attribute name="selectedRecords" type="Object" description="selected records" />
+    <aura:attribute name="selectedRows" type="List" description="selected rows" />
+    <aura:attribute name="selectedIds" type="string[]" description="selected ids" />
+    <aura:attribute name="sortedBy" type="String" description="Store filedName in datatable column sort" />
+    <aura:attribute name="sortedDirection" type="Boolean" default="true"
+        description="Store sort direction in datatable column sort" />
+
+
+    <!--Display spinner when loading data to the database-->
+    <aura:if isTrue="{!v.isLoading}">
+        <Lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+
+    <!--Filters attributes-->
+    <aura:attribute name="typeList" type="List" description="filter options" />
+    <aura:attribute name="statusList" type="List" description="filter options" />
+    <aura:attribute name="priorityList" type="List" description="filter options" />
+
+    <aura:attribute name="selectedType" type="String" description="selected Phase" default="all" />
+    <aura:attribute name="selectedStatus" type="String" description="Selected Member" default="Open Cases" />
+    <aura:attribute name="selectedPriority" type="String" description="Selected Status" default="all" />
+
+    <aura:attribute name="rawData" type="Object" description="Stores the currently displayed rows of data" />
+
+    <!--Component initialization-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+    <aura:attribute name="showSpinner" type="Boolean" default="true" description="Boolean to show/hide spinner" />
+
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+
+    <!--START Lightning Card-->
+    <lightning:card class="slds-card_boundary">
+        <aura:set attribute="title">
+            <lightning:icon iconName="standard:case" size="small" />
+            Cases
+        </aura:set>
+
+        <aura:set attribute="actions">
+            <aura:if isTrue="{!$Browser.isPhone}">
+                <lightning:combobox name="status" class="hideLabel" value="{!v.selectedStatus}"
+                    placeholder="Select Status" options="{! v.statusList}" onchange="{! c.handlefilters}" />
+                <aura:set attribute="else">
+                    <lightning:button label="Refresh" onclick="{!c.doInit}" iconName="utility:refresh"
+                        iconPosition="right" variant="Neutral" />
+                </aura:set>
+            </aura:if>
+        </aura:set>
+        <!--START Filters-->
+
+
+        <Lightning:layout>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="1">
+                <div class="slds-text-heading_label">Filters</div>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <lightning:combobox name="type" value="{!v.selectedType}" label="Type" placeholder="Select a Type"
+                    options="{! v.typeList}" onchange="{! c.handlefilters}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <lightning:combobox name="status" value="{!v.selectedStatus}" label="Status" placeholder="Select Status"
+                    options="{! v.statusList}" onchange="{! c.handlefilters}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <lightning:combobox name="priority" value="{!v.selectedPriority}" label="Priority"
+                    placeholder="Select Priority" options="{! v.priorityList}" onchange="{! c.handlefilters}" />
+            </lightning:layoutItem>
+        </Lightning:layout>
+        <!--END Filters-->
+        <!--START Task Datatable-->
+        <aura:if isTrue="{!v.cases.length>0}">
+        <c:pmtGenLwcDatatable keyField="Id" columns="{! v.columns }" tableData="{!v.cases}" sortedBy="CaseNumber">
+        </c:pmtGenLwcDatatable>
+    </aura:if>
+    <aura:if isTrue="{!v.cases.length==0}">
+        <div class="slds-text-heading_medium slds-align_absolute-center">No cases found matching the filters.</div>
+    </aura:if>
+
+    </lightning:card>
+
+</aura:component>

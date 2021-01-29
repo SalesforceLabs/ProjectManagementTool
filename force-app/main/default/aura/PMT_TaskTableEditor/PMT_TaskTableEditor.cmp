@@ -1,0 +1,131 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="PMT_TaskandPhaseManagementCtrl">
+    <aura:attribute name="recordId" type="String" description="recordid"/>
+    <aura:attribute name="isLoading" type="boolean" default="false" description="spinner when loading data"/>
+    
+    <!--Datatable attributes-->
+    <aura:attribute name="tasks" type="Object" description="Task object"/> 
+    <aura:attribute name="columns" type="List" description="DataTable columns"/>
+    <aura:attribute name="errors" type="Object" default="[]" description="errors list"/>
+    <aura:attribute name="draftValues" type="Object" default="[]" description="draft values"/>
+    <aura:attribute name="showflowChangeStatus" type="Boolean" default="false" description="whether to show flow Change Status as modal or not"/>
+    <aura:attribute name="selectedTasks" type="Object" description="selected tasks"/>    
+    <aura:attribute name="tasksToUpdate" type="Object" description="selected tasks"/>
+    <aura:attribute name="selectedRows" type="List" description="selected rows" />
+    <aura:attribute name="selectedIds" type="string[]" description="selected ids" />
+    <aura:attribute name="sortedBy" type="String" description="Store filedName in datatable column sort"/>
+    <aura:attribute name="sortedDirection" type="Boolean" default="true" description="Store sort direction in datatable column sort"/>
+    
+    <!--Filters attributes-->
+    <aura:attribute name="PhaseList" type="List" description="filter options"/>
+    <aura:attribute name="statusList" type="List" description="filter options"/>
+    <aura:attribute name="MemberList" type="List" description="filter options"/>
+    
+    <aura:attribute name="selectedPhase" type="String" description="selected Phase" default="all"/>
+    <aura:attribute name="selectedStatus" type="String" description="Selected Status" default="Open Tasks"/>
+    <aura:attribute name="selectedMember" type="String" description="Selected Member" default="all"/>
+    
+    <aura:attribute name="rawData" type="Object" description="Stores the currently displayed rows of data"/>
+    <aura:attribute name="activeFilter" type="string" default="all" description="The currently selected actions filter"/>
+    
+    <!--Display spinner when loading data to the database-->
+    <aura:if isTrue="{!v.isLoading}">
+        <Lightning:spinner alternativeText="Loading" size="medium"/>    	
+    </aura:if>
+    
+    <!--Component initialization-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <!--START Lightning Card-->
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:icon iconName="custom:custom83" size="small"/>
+            Tasks
+        </aura:set>
+        <aura:set attribute="actions">
+            <lightning:buttonGroup>
+                <lightning:button label="Change Status"
+                                  onclick="{!c.handleStatusClick}"
+                                  iconName="utility:tracker" 
+                                  iconPosition="right" 
+                                  variant="Neutral"/>
+                <lightning:button label="Change Assignee"
+                                  onclick="{!c.handleAssigneeClick}"
+                                  iconName="utility:change_owner" 
+                                  iconPosition="right" 
+                                  variant="Neutral"/>
+                <lightning:button label="Refresh"
+                                  onclick="{!c.doInit}"
+                                  iconName="utility:refresh" 
+                                  iconPosition="right"
+                                  variant="Neutral"/>
+            </lightning:buttonGroup>
+        </aura:set>
+        
+        <!--START Filters-->
+        <Lightning:layout>
+            <lightning:layoutItem flexibility="auto" padding="around-small" size="1">
+                <div class="slds-text-heading--label">Filters</div>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <lightning:combobox name="phase" 
+                                    value="{!v.selectedPhase}"
+                                    label="Phase" 
+                                    placeholder="Select a Phase" 
+                                    options="{! v.PhaseList}" 
+                                    onchange="{! c.handlefilters}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <lightning:combobox name="status"
+                                    value="{!v.selectedStatus}"
+                                    label="Status" 
+                                    placeholder="Select Status" 
+                                    options="{! v.statusList}" 
+                                    onchange="{! c.handlefilters}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <lightning:combobox name="assignee" 
+                                    value="{!v.selectedMember}"
+                                    label="Assignee" 
+                                    placeholder="Select Assignee" 
+                                    options="{! v.MemberList}" 
+                                    onchange="{! c.handlefilters}"/>
+            </lightning:layoutItem>
+        </Lightning:layout>
+        
+        <!--START Task Datatable-->
+        <lightning:datatable aura:id="taskList" 
+                             columns="{! v.columns }"
+                             data="{!v.tasks}"
+                             keyField="Id"
+                             errors="{!v.errors }"
+                             draftValues="{!v.draftValues }"
+                             onsave="{!c.onSave }"
+                             onrowselection="{!c.handleTaskSelect}"
+                             selectedRows="{!v.selectedRows}"
+                             onrowaction="{!c.handleRowAction}"
+                             onsort="{!c.handleSort}"
+                             sortedBy="{!v.sortedBy}"
+                             sortedDirection="{!v.sortedDirection}"
+                             onheaderaction="{!c.handleHeaderAction}"
+                             />
+        <!--END Task Datatable-->
+    </lightning:card>
+    <!--START Flow modal-->
+    <aura:if isTrue="{!v.showflowChangeStatus}">
+        <div class="demo-only" style="height:200px">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">  
+                <div class="slds-modal__container">
+                    <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-1">
+                        <lightning:flow aura:id="flowChangeStatus" onstatuschange="{!c.handleStatusChange}" />
+                        <button type="button" onclick="{!c.closemodal}" class="slds-button slds-button--neutral .slds-modal__close" aura:id="btnCancel" >
+                            Cancel </button>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+    <!--END Flow modal-->
+    
+</aura:component>

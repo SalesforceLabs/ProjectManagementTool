@@ -1,0 +1,13 @@
+<aura:documentation>
+    <aura:description>
+        <h4>PMT Task Table Editor</h4>
+        
+    </aura:description>
+    <aura:example name="PMT Task Table Editor" ref="PMT Task Table Editor" label="PMT Task Table Editor">
+        Lightning dataTable displaying the project related Tasks to users, including following features:
+        - Filters on Phase, Status and Assignee
+        - Columns sort
+        - Mass edit of tasks using component standard features
+        - Mass edit of tasks using screenFlow for fields having limitations (Assignee, Task Status).
+    </aura:example>
+</aura:documentation>

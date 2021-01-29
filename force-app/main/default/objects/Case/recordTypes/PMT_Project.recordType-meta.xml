@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PMT_Project</fullName>
+    <active>true</active>
+    <businessProcess>PMT</businessProcess>
+    <description>Project Issues &amp; Risks related</description>
+    <label>PMT Project</label>
+</RecordType>

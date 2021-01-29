@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_PMT_User_consider_for_Availability__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Identifies user as PMT user consider for Resource Availability</description>
+    <externalId>false</externalId>
+    <label>Is PMT User consider for Availability</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

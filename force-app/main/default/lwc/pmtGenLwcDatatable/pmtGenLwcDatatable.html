@@ -1,0 +1,9 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Saving the data"></lightning-spinner>
+    </template>
+    <lightning-datatable key-field={keyField} data={tableData} hide-checkbox-column columns={columns}
+        default-sort-direction={defaultSortDirection} sorted-direction={sortDirection} sorted-by={sortedBy}
+        onsort={onHandleSort} onsave={handleSave} onrowaction={handleRowAction}>
+    </lightning-datatable>
+</template>

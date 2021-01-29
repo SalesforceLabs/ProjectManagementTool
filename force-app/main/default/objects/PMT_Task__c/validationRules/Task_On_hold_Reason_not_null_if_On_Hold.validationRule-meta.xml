@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Task_On_hold_Reason_not_null_if_On_Hold</fullName>
+    <active>true</active>
+    <description>Task On hold Reason Mandatory if Task Status is &apos;On Hold&apos;</description>
+    <errorConditionFormula>(TEXT(Status__c)=&apos;On Hold&apos;) &amp;&amp; ISBLANK(On_Hold_Reason__c)</errorConditionFormula>
+    <errorMessage>On Hold Reason should not be Blank if Status is &apos;On Hold&apos;.</errorMessage>
+</ValidationRule>

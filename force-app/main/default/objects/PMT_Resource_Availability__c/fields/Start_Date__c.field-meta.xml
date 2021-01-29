@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Start_Date__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Calculates the start date using FYXX format</description>
+    <externalId>false</externalId>
+    <formula>If($CustomMetadata.PMT_Setting__mdt.Default.Start_Month_of_Fiscal_Year__c==1,
+DATE(
+VALUE(MID(TEXT(YEAR(TODAY())),1,2)
++
+MID(Fiscal_Year__c, 3, 2)),
+$CustomMetadata.PMT_Setting__mdt.Default.Start_Month_of_Fiscal_Year__c,1)
+,
+DATE(
+VALUE(MID(TEXT(YEAR(TODAY())),1,2)
++
+MID(Fiscal_Year__c, 3, 2))-1,
+$CustomMetadata.PMT_Setting__mdt.Default.Start_Month_of_Fiscal_Year__c,1)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Start Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,79 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="PMT_ResourceManagementCtrl">
+    <aura:attribute name="roles" type="Object" description="The picklist values for the roles"/>
+    <aura:attribute name="isLoading" type="Boolean" description="Flag if there is apex side call runnning" default="false"/>
+    <aura:attribute name="resourceAllocation" type="Object" description="The resource allocation to be saved"/>
+    <aura:attribute name="resourceAllocationToDelete" type="Object" description="The resource allocation to be deleted"/>
+    <aura:attribute name="years" type="Object" description="The fiscal years for the project"/>
+    <aura:attribute name="isReadOnly" type="Boolean" default="true" description="Whether the component is in read more or read/write mode"/>
+    <aura:attribute name="isEditable" type="Boolean" default="false" description="Whether the user has edit access or not"/>
+    <aura:attribute name="duplicatesFound" type="Boolean" default="false" description="Whether the duplicate user allocations found in a year"/>
+    <aura:attribute name="activeSectionNames" type="Object" description="Names of the open section"/>
+    <aura:attribute name="fiscalYearOffset" type="Integer" description="Fiscal year start month"/>
+    
+    <!--RecordData/LDS attributes-->   
+    <aura:attribute name="projectRecord" type="Object" description="The project record"/>
+    <aura:attribute name="recordLoadError" type="Object" description="Object to store the error"/>
+    
+    <aura:handler name="LineItemAction" event="c:PMT_MassResourceAllocationLIEvent" action="{!c.handleLineItemEvent}"/>
+    
+    <!-- LDS -->
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Name,Kickoff_formula__c,Deadline_formula__c,Start_Fiscal_Year__c,End_Fiscal_Year__c"
+                      targetFields="{!v.projectRecord}"
+                      targetError="{!v.recordLoadError}"
+                      recordUpdated="{!c.doInit}"
+                      />
+    <!-- Spinner -->
+    <aura:if isTrue="{!v.isLoading}">
+        <lightning:spinner alternativeText="Loading" size="large" />
+    </aura:if>
+    
+    <lightning:card class="marginBottom slds-card_boundary">
+        <aura:set attribute="title">
+            <lightning:icon iconName="standard:groups" size="small"/>
+            Resource Allocation
+        </aura:set>
+        <aura:set attribute="actions">
+            <aura:if isTrue="{!and(v.isEditable, v.isReadOnly)}">
+                
+                <aura:if isTrue="{!$Browser.isPhone}">
+                    <lightning:buttonIcon iconName="{!if(v.isReadOnly, 'utility:edit', 'utility:lock')}" onclick="{!c.toggleMode}" />
+                    <aura:set attribute="else">
+                        <lightning:button label="{!if(v.isReadOnly, 'Edit Allocations', 'Read-Only')}" iconName="{!if(v.isReadOnly, 'utility:edit', 'utility:lock')}" iconPosition="left" onclick="{!c.toggleMode}" />
+                    </aura:set>
+                </aura:if>
+                
+            </aura:if>
+        </aura:set>
+        <!-- Year accordion-->
+        <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true" activeSectionName="{!v.activeSectionNames}">
+            <aura:iteration items="{!v.resourceAllocation}" var="year" indexVar="i">
+                <c:PMT_MassResourceAllocation
+                                              aura:id="AllocationYear"
+                                              recordId="{!v.recordId}"
+                                              roles="{!v.roles}"
+                                              months="{!year.Months}"
+                                              resourceAllocation="{!year.Records}"
+                                              year="{!year.Name}"
+                                              isLoading="{!v.isLoading}"
+                                              dummyAvailability="{!year.DummyAvailability}"
+                                              index="{!i}"
+                                              masterResourceAllocations="{!v.resourceAllocation}"
+                                              resourceAvailabilities="{!year.Availabilities}"
+                                              isReadOnly="{!v.isReadOnly}"
+                                              activeSectionNames="{!v.activeSectionNames}"/>
+            </aura:iteration>
+        </lightning:accordion>
+        
+        <aura:set attribute="footer">
+            <!-- Removed docked button footer because of HTML issue with menu items appearing outside of the screen -->
+            <aura:if isTrue="{!!v.isReadOnly}">
+                <lightning:button variant="brand" label="Refresh" iconName="utility:refresh" iconPosition="left" onclick="{!c.handleCancel}"/>
+                <lightning:button variant="brand" label="Save" iconName="utility:save" iconPosition="left" onclick="{!c.save}"/>
+                <lightning:button variant="brand" label="Cancel" iconName="action:close" iconPosition="left" onclick="{!c.handleCancel}"/>
+            </aura:if>
+        </aura:set>
+    </lightning:card>
+    
+</aura:component>

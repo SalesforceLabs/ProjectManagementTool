@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Projects_Home</fullName>
+    <columns>NAME</columns>
+    <columns>Project_Owner__c</columns>
+    <columns>Health_Icon__c</columns>
+    <columns>Project_Status__c</columns>
+    <columns>Percentage_Completion__c</columns>
+    <columns>Qtr_of_Completion__c</columns>
+    <columns>Health_Comment__c</columns>
+    <columns>Path_to_Green__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>Project_Health__c</field>
+        <operation>equals</operation>
+        <value>Not Started,On Track,At Risk,Late,On Hold</value>
+    </filters>
+    <label>My Open Projects</label>
+</ListView>

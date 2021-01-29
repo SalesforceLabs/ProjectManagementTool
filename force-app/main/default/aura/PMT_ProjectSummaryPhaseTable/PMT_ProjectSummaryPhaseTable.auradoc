@@ -1,0 +1,14 @@
+<aura:documentation>
+    <aura:description>PMT Project Summary Phase Table
+        
+        <h4>Description</h4>
+        <p>Component to display
+         - Phase and Task summary table showing:
+             - Phase name and status
+        	 - Tasks ending in current period
+        	 - Tasks ending in next period
+        	 - Tasks started in or before the current period but ending after next period.</p>
+        <br/>        
+        
+    </aura:description>
+</aura:documentation>

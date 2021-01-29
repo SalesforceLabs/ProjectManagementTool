@@ -1,0 +1,76 @@
+<template>
+    <!-- Spinner -->
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading the resource data"></lightning-spinner>
+    </template>
+    <div class="slds-card">
+        <!-- Filters and summary table in accordion -->
+        <lightning-accordion allow-multiple-sections-open active-section-name={accordionActiveSections}>
+            <lightning-accordion-section name="Filters" label="Filters">
+                <lightning-layout>
+                    <lightning-layout-item flexibility="auto,grow" padding="around-small">
+                        <lightning-combobox name={pmtDeptInputName} label="Department" value={selectedDept}
+                            options={pmtDepts} onchange={handleChangeInFilters}></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto,grow" padding="around-small">
+                        <c-pmt-gen-lwc-custom-lookup field-label={managerInputName} child-object-api-name='PMT_Task__c'
+                            target-field-api-name='Assigned_To1__c' onvalueselected={handleChangeInLookup}>
+                        </c-pmt-gen-lwc-custom-lookup>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto,grow" padding="around-small">
+                        <c-pmt-gen-lwc-custom-lookup field-label={userInputName} child-object-api-name='PMT_Task__c'
+                            target-field-api-name='Assigned_To1__c' onvalueselected={handleChangeInLookup}>
+                        </c-pmt-gen-lwc-custom-lookup>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto,grow" padding="around-small">
+                        <c-pmt-gen-lwc-custom-lookup field-label={projectInputName} child-object-api-name='Case'
+                            target-field-api-name='PMT_Project__c' onvalueselected={handleChangeInLookup}>
+                        </c-pmt-gen-lwc-custom-lookup>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto,grow" padding="around-small">
+                        <lightning-combobox name={fiscalYearInputName} label="Fiscal Year" value={selectedFiscalYear}
+                            options={fiscalYears} onchange={handleChangeInFilters}></lightning-combobox>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="Summary" label="Summary (%)">
+                <c-pmt-gen-lwc-datatable key-field="Name" columns={summaryColumns} table-data={summary}
+                    onrefreshevent={refreshData}></c-pmt-gen-lwc-datatable>
+            </lightning-accordion-section>
+        </lightning-accordion>
+        <!-- Actual datatables in tabsets for lazy loading -->
+        <lightning-tabset>
+            <lightning-tab label="Resource Availability">
+                <div if:false={noDataForAvailabilities}>
+                    <!-- Generic datatable with sorting and inline editing -->
+                    <c-pmt-gen-lwc-datatable key-field="Id" columns={resourceAvailabilitiesColumns}
+                        table-data={resourceAvailabilities} onrefreshevent={refreshData} sorted-by="availabilityURL"></c-pmt-gen-lwc-datatable>
+                </div>
+                <div if:true={noDataForAvailabilities}>
+                    <lightning-card title="No resources found for the selected criteria">
+                    </lightning-card>
+                </div>
+            </lightning-tab>
+            <lightning-tab label="Project Allocations">
+                <div if:false={noDataForAllocations}>
+                    <c-pmt-gen-lwc-datatable key-field="Id" columns={resourceAllocationsColumns}
+                        table-data={resourceAllocations} onrefreshevent={refreshData} sorted-by="availabilityURL"></c-pmt-gen-lwc-datatable>
+                </div>
+                <div if:true={noDataForAllocations}>
+                    <lightning-card title="No allocations found for the selected criteria">
+                    </lightning-card>
+                </div>
+            </lightning-tab>
+            <lightning-tab label="Remaining Availability">
+                <div if:false={noDataForAvailabilities}>
+                    <c-pmt-gen-lwc-datatable key-field="Id" columns={resourceRemainingAvailabilitesColumns}
+                        table-data={resourceAvailabilities} onrefreshevent={refreshData} sorted-by="availabilityURL"></c-pmt-gen-lwc-datatable>
+                </div>
+                <div if:true={noDataForAvailabilities}>
+                    <lightning-card title="No resources found for the selected criteria">
+                    </lightning-card>
+                </div>
+            </lightning-tab>
+        </lightning-tabset>
+    </div>
+</template>

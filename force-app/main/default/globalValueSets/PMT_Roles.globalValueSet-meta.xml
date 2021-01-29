@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Sponsor</fullName>
+        <default>false</default>
+        <label>Sponsor</label>
+    </customValue>
+    <customValue>
+        <fullName>Project Owner</fullName>
+        <default>false</default>
+        <label>Project Owner</label>
+    </customValue>
+    <customValue>
+        <fullName>PMO</fullName>
+        <default>false</default>
+        <label>PMO</label>
+    </customValue>
+    <customValue>
+        <fullName>SME</fullName>
+        <default>false</default>
+        <label>SME</label>
+    </customValue>
+    <customValue>
+        <fullName>IT</fullName>
+        <default>false</default>
+        <label>IT</label>
+    </customValue>
+    <customValue>
+        <fullName>Functional Business Owner</fullName>
+        <default>false</default>
+        <label>Functional Business Owner</label>
+    </customValue>
+    <customValue>
+        <fullName>Business Lead</fullName>
+        <default>false</default>
+        <label>Business Lead</label>
+    </customValue>
+    <customValue>
+        <fullName>Procurement Category Partner</fullName>
+        <default>false</default>
+        <label>Procurement Category Partner</label>
+    </customValue>
+    <customValue>
+        <fullName>Stakeholder</fullName>
+        <default>false</default>
+        <label>Stakeholder</label>
+    </customValue>
+    <customValue>
+        <fullName>Project Manager</fullName>
+        <default>false</default>
+        <label>Project Manager</label>
+    </customValue>
+    <customValue>
+        <fullName>Business Analyst</fullName>
+        <default>false</default>
+        <label>Business Analyst</label>
+    </customValue>
+    <customValue>
+        <fullName>GCTT</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>GCTT</label>
+    </customValue>
+    <customValue>
+        <fullName>Treasury</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Treasury</label>
+    </customValue>
+    <customValue>
+        <fullName>Treasury Top Management</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Treasury Top Management</label>
+    </customValue>
+    <customValue>
+        <fullName>P2P/Accounts Payable</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>P2P/Accounts Payable</label>
+    </customValue>
+    <customValue>
+        <fullName>P2P Top Management</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>P2P Top Management</label>
+    </customValue>
+    <customValue>
+        <fullName>Collections</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Collections</label>
+    </customValue>
+    <customValue>
+        <fullName>Entity Directors / EA&apos;s</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Entity Directors / EA&apos;s</label>
+    </customValue>
+    <customValue>
+        <fullName>SEC/Technical Accounting</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>SEC/Technical Accounting</label>
+    </customValue>
+    <customValue>
+        <fullName>Acquired business teams</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Acquired business teams</label>
+    </customValue>
+    <customValue>
+        <fullName>Tax team</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Tax team</label>
+    </customValue>
+    <customValue>
+        <fullName>M&amp;A team</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>M&amp;A team</label>
+    </customValue>
+    <customValue>
+        <fullName>Legal team</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Legal team</label>
+    </customValue>
+    <customValue>
+        <fullName>ES Ops</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>ES Ops</label>
+    </customValue>
+    <customValue>
+        <fullName>ES M&amp;A</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>ES M&amp;A</label>
+    </customValue>
+    <customValue>
+        <fullName>EBO</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>EBO</label>
+    </customValue>
+    <customValue>
+        <fullName>REWS</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>REWS</label>
+    </customValue>
+    <customValue>
+        <fullName>Compliance/SOX</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Compliance/SOX</label>
+    </customValue>
+    <customValue>
+        <fullName>ControllerOrg Top Management</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>ControllerOrg Top Management</label>
+    </customValue>
+    <customValue>
+        <fullName>ControllerOrg team</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>ControllerOrg team</label>
+    </customValue>
+    <customValue>
+        <fullName>Payroll Top Management</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Payroll Top Management</label>
+    </customValue>
+    <customValue>
+        <fullName>Payroll team</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Payroll team</label>
+    </customValue>
+    <customValue>
+        <fullName>Legal Top Management</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Legal Top Management</label>
+    </customValue>
+    <customValue>
+        <fullName>Tax Top Management</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Tax Top Management</label>
+    </customValue>
+    <masterLabel>PMT Roles</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Path_to_Green_should_be_blank</fullName>
+    <active>true</active>
+    <description>Path to Green field should be used only for Late, At Risk or On Hold projects. Please use Health Comment for On Track projects</description>
+    <errorConditionFormula>ISBLANK(Path_to_Green__c  ) &amp;&amp;( ISPICKVAL(Project_Health__c  , &apos;At Risk&apos;)|| ISPICKVAL(Project_Health__c  , &apos;On Hold&apos;) ||
+ ISPICKVAL(Project_Health__c  , &apos;Late&apos;))</errorConditionFormula>
+    <errorDisplayField>Path_to_Green__c</errorDisplayField>
+    <errorMessage>Path to Green field should be used only for Late, At Risk or On Hold projects. Please use Health Comment for On Track projects</errorMessage>
+</ValidationRule>

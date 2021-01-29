@@ -1,0 +1,156 @@
+<aura:component > 
+    <!--attributes--> 
+    <aura:attribute name="resourceAllocation" type="Object" description="The line item allocation"/>
+    <aura:attribute name="resourceAllocationBackup" type="Object" description="The line item allocation backup for original values"/>
+    <aura:attribute name="selUser" type="Id" description="The field selected in lookup"/>
+    <aura:attribute name="isAllocated" type="Boolean" description="Whether the resource has been allocated to the requirement"/>
+    <aura:attribute name="index" type="Integer" description="Identifies the row number"/> 
+    <aura:attribute name="roles" type="Object" description="The picklist values for the roles"/>
+    <aura:attribute name="months" type="Object" description="List of Months from parent component"/>
+    <aura:attribute name="dummyAvailability" type="Object" description="Dummy User Availability"/>
+    <aura:attribute name="masterResourceAvailabilities" type="Object" description="All User Availability"/>
+    <aura:attribute name="resourceAvailabilities" type="Object" description="Users Availability to select"/>
+    <aura:attribute name="recommendedAvailabilities" type="Object" description="Recommended User Availability to select"/>
+    <aura:attribute name="teamAvailabilities" type="Object" description="Recommended User Availability from direct reports to select"/>
+    <aura:attribute name="isPopoverVisible" type="Boolean" description="Whether to show popover" default="false"/>
+    <aura:attribute name="isDeleted" type="Boolean" description="Whether to show modal for confirmation" default="false"/>
+    <aura:attribute name="isReadOnly" type="Boolean" description="Whether the component is in read more or read/write mode"/>
+    <aura:attribute name="allocatedResourceName" type="String" description="Name of the allocated resource"/>
+    
+    <!-- handlers and events-->
+    <aura:registerEvent name="LineItemAction" type="c:PMT_MassResourceAllocationLIEvent"/>
+    <aura:handler name="change" value="{!v.selUser}" action="{!c.itemSelected}"/>
+    <aura:handler name="init" value="this" action="{!c.updateRecommendation}"/>
+    
+    <aura:if isTrue="{!v.isDeleted}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                        <lightning:buttonIcon iconName="utility:close"  variant="bare-inverse" title="close" onclick="{!c.cancelModal}" alternativeText="Close window"/>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete Allocation</h2>
+                </header>
+                <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-1">
+                    <p>Are you sure you want to delete?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="destructive" label="Delete" iconName="utility:delete" iconPosition="left" onclick="{!c.deleteRole}"/>
+                    <lightning:button variant="brand" label="Cancel" iconName="action:close" iconPosition="left" onclick="{!c.cancelModal}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+    <!-- Popover -->
+    <aura:if isTrue="{!v.isPopoverVisible}">
+        <section class="slds-popover slds-popover_warning slds-nubbin_right" style="position:absolute;margin-top:-20px;width:18rem;" role="dialog">
+            <button class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse" title="Close dialog">
+                <lightning:buttonIcon iconName="utility:close" variant="bare-inverse" title="close" onclick="{!c.hidePopup}" alternativeText="Close window"/>
+            </button>
+            <header class="slds-popover__header">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate ">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-utility-warning">
+                            <lightning:icon iconName="utility:warning" variant="bare" size="x-small"/>
+                        </span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-truncate slds-text-heading_medium" title="Over allocated">Over allocated</h2>
+                    </div>
+                </div>
+            </header>
+            <div class="slds-popover__body">
+                <p>This resource is over allocted. Click 
+                    <lightning:button variant="bare" label="here" onclick="{!c.showResourceAvailability}" class="buttonLineHeight"/> to 
+                    <br/> see all allocations for this resource. You can 
+                    <br/> still save the allocation with overallocation. </p>
+            </div>
+        </section>
+    </aura:if>
+    
+    <!-- table rows-->
+    <tr>
+        <td scope="row">
+            <aura:if isTrue="{!!v.isReadOnly}">
+                <lightning:select name="Role" value="{!v.resourceAllocation.Role}" class="{!((v.isAllocated==true)?'greenRole':'redRole') + ' NoLabel'}">
+                    <aura:iteration items="{!v.roles}" var="item">
+                        <option value="{!item}">{!item}</option>
+                    </aura:iteration>
+                </lightning:select>
+                <aura:set attribute="else">
+                    <!-- read only mode -->
+                    <span class="{!((v.isAllocated==true)?'':'redRole') + ' NoLabel'}">{!v.resourceAllocation.Role}</span>
+                </aura:set>
+            </aura:if>
+        </td>
+        <!-- Resoures section-->
+        <td>
+            <aura:if isTrue="{!!v.isReadOnly}">
+                <lightning:select class="NoLabel" name="Resource" value="{!v.selUser}">
+                    
+                    <option value="{!v.dummyAvailability.Id + '_DUM'}">--None--</option>
+                    <aura:if isTrue="{!v.recommendedAvailabilities.length>0}">
+                        <option value="recommendation" disabled="true" class="picklistSection">-------------Recommendation-----------</option>
+                        <aura:iteration items="{!v.recommendedAvailabilities}" var="resource">
+                            <option value="{!resource.Id + '_' + resource.User__r.Id}">{!resource.User__r.Name}</option>
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <option value="none" disabled="true" class="picklistSection">---No recommendations available---</option>
+                        </aura:set>
+                    </aura:if>
+                    
+                    <!-- team-->
+                    <aura:if isTrue="{!v.teamAvailabilities.length>0}">
+                        <option value="recommendation" disabled="true" class="picklistSection">---------------------Direct Reports---------------------</option>
+                        <aura:iteration items="{!v.teamAvailabilities}" var="resource">
+                            <option value="{!resource.Id + '_' + resource.User__r.Id}">{!resource.User__r.Name}</option>
+                        </aura:iteration>
+                    </aura:if>
+                    
+                    <!-- Rest of the resources -->
+                    <aura:if isTrue="{!v.resourceAvailabilities.length>0}">
+                        <option value="all" disabled="true" class="picklistSection">---------------------All Resources---------------------</option>
+                        <aura:iteration items="{!v.resourceAvailabilities}" var="resource">
+                            <option value="{!resource.Id + '_' + resource.User__r.Id}">{!resource.User__r.Name}</option>
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{!v.recommendedAvailabilities.length>0}">
+                                <aura:set attribute="else">
+                                    <option value="none" disabled="true" class="picklistSection">----Availabilities not setup----</option>
+                                </aura:set>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+                </lightning:select>
+                <aura:set attribute="else">
+                    <!-- Read only mode-->
+                    <lightning:button variant="bare" label="{!if(empty(v.allocatedResourceName),'Unallocated',v.allocatedResourceName)}" onclick="{!c.showResourceAvailability}" class="buttonLineHeight"/>
+                </aura:set>
+            </aura:if>
+        </td>
+        <!-- month cols with inputs-->
+        <aura:iteration items="{!v.resourceAllocation.months}" var="month" >
+            <aura:if isTrue="{!!v.isReadOnly}">
+                <td class="{!if(empty(v.allocatedResourceName), '', month.class)}">
+                    <lightning:input label="{!if(empty(v.allocatedResourceName), '', month.class)}" class="NoLabel" type="number" min="0" max="100" value="{!month.percentage}" formatter="number" step="1" onfocus="{!c.showPopup}" onchange="{!c.percentChange}"/>
+                </td>
+                <aura:set attribute="else">
+                    <td>{!month.percentage}</td>
+                </aura:set>
+            </aura:if>
+        </aura:iteration>
+        
+        <td>
+            <aura:if isTrue="{!!v.isReadOnly}">
+                <lightning:buttonMenu aura:id="menu" onselect="{! c.handleSelect }" alternativeText="Show menu" iconSize="x-small" menuAlignment="auto">
+                    <lightning:menuItem value="View" label="View" iconName="utility:preview"/>
+                    <lightning:menuItem value="Split" label="Split" iconName="utility:socialshare"/>
+                    <lightning:menuItem value="Copy" label="Copy" iconName="utility:copy"/>
+                    <lightning:menuItem value="Delete" label="Delete" iconName="utility:delete" class="redRole" />
+                </lightning:buttonMenu>
+            </aura:if>
+        </td>
+    </tr>
+</aura:component>

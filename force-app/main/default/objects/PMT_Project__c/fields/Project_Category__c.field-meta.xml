@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Project_Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Project Category</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>IT</fullName>
+                <default>false</default>
+                <label>IT</label>
+            </value>
+            <value>
+                <fullName>Non IT</fullName>
+                <default>false</default>
+                <label>Non IT</label>
+            </value>
+            <value>
+                <fullName>SteerCo</fullName>
+                <default>false</default>
+                <label>SteerCo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

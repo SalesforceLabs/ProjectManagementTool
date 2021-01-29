@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SOX_comment_not_null_when_SOX_checked</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(SOX_Impact__c = TRUE,SOX_Comment__c=&apos;&apos;)</errorConditionFormula>
+    <errorMessage>SOX Comment should not be blank if SOX Impact is checked</errorMessage>
+</ValidationRule>

@@ -1,0 +1,12 @@
+<aura:documentation>
+    <aura:description>PMT Case Data Table
+        
+        <h4>Description</h4>
+        <p>Component that display a list of project related cases to users in a dataTable. Including following features:
+        - Filter on case Type, Status and Priority	
+        - Columnns sort
+        - NO mass edit on this dataTable as Cases permission are carefully restricted.</p>
+        <br/>        
+        
+    </aura:description>   
+</aura:documentation>

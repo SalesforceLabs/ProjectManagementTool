@@ -1,0 +1,7 @@
+<aura:documentation>
+    <aura:description>
+        <p><code>c:PMT_MassResourceAllocationLineItem</code> is a child component created to show the allocation role line items within a fiscal year.</p>
+        
+    </aura:description>
+    
+</aura:documentation>

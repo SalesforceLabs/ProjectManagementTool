@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Not Started</fullName>
+        <default>false</default>
+        <label>Not Started</label>
+    </customValue>
+    <customValue>
+        <fullName>On Track</fullName>
+        <default>true</default>
+        <label>On Track</label>
+    </customValue>
+    <customValue>
+        <fullName>At Risk</fullName>
+        <default>false</default>
+        <label>At Risk</label>
+    </customValue>
+    <customValue>
+        <fullName>Late</fullName>
+        <default>false</default>
+        <label>Late</label>
+    </customValue>
+    <customValue>
+        <fullName>On Hold</fullName>
+        <default>false</default>
+        <label>On Hold</label>
+    </customValue>
+    <customValue>
+        <fullName>Completed</fullName>
+        <default>false</default>
+        <label>Completed</label>
+    </customValue>
+    <customValue>
+        <fullName>Closed, not Completed</fullName>
+        <default>false</default>
+        <label>Closed, not Completed</label>
+    </customValue>
+    <customValue>
+        <fullName>Complete</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Complete</label>
+    </customValue>
+    <description>PMT Status list for Project</description>
+    <masterLabel>PMT_Status</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

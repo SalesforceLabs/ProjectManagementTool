@@ -1,0 +1,24 @@
+<aura:documentation>
+    <aura:description>PMT Project Summary
+        
+        <h4>Description</h4>
+        <p>Component to display a summary of the project to users, including:
+         - Project highlights
+         - Phase and Task summary table showing:
+             - Phase name and status
+        	 - Tasks ending in current period
+        	 - Tasks ending in next period
+        	 - Tasks started in or before the current period but ending after next period.
+        Period can be set to Week, Month or Quarter (Fiscal).</p>
+        <br/>
+        
+        <h4>Required Dependencies</h4>
+        <p>Here is the list of components being used in this component</p>
+        <ul>
+        	<li><code>c:PMT_GenRecordRedirectionLink</code></li>
+            <li><code>c:PMT_ProjectSummaryPhaseTable</code></li>
+        </ul>
+        <br/>
+        
+    </aura:description>
+</aura:documentation>

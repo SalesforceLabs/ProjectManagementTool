@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>End_Date__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>IF($CustomMetadata.PMT_Setting__mdt.Default.Start_Month_of_Fiscal_Year__c==1,
+DATE(
+VALUE(MID(TEXT(YEAR(TODAY())),1,2)
++ MID( Fiscal_Year__c,3,4))+1,
+$CustomMetadata.PMT_Setting__mdt.Default.Start_Month_of_Fiscal_Year__c,1)-1
+,
+DATE(
+VALUE(MID(TEXT(YEAR(TODAY())),1,2)
++ MID( Fiscal_Year__c,3,4)),
+$CustomMetadata.PMT_Setting__mdt.Default.Start_Month_of_Fiscal_Year__c,1)-1
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>End Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

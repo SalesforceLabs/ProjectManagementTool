@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Qtr_of_Completion__c</fullName>
+    <description>Qtr of Completion</description>
+    <externalId>false</externalId>
+    <formula>&quot;FY&quot; + CASE(MONTH(Deadline_formula__c),
+1,TEXT(MOD(Year(Deadline_formula__c),100)),
+TEXT(MOD(Year(Deadline_formula__c),100)+1)) 
++ &quot;-&quot; + 
+CASE(MONTH(Deadline_formula__c), 
+1,&quot;Q4&quot;, 
+2,&quot;Q1&quot;, 
+3,&quot;Q1&quot;, 
+4,&quot;Q1&quot;, 
+5,&quot;Q2&quot;, 
+6,&quot;Q2&quot;, 
+7,&quot;Q2&quot;, 
+8,&quot;Q3&quot;, 
+9,&quot;Q3&quot;, 
+10,&quot;Q3&quot;, 
+11,&quot;Q4&quot;, 
+12,&quot;Q4&quot;, 
+&quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Qtr of Completion</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

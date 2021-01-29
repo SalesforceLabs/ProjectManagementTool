@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Phase_Completion_Image__c</fullName>
+    <externalId>false</externalId>
+    <formula>IMAGE(&quot;/resource/PMT_Status_Images/PMT_Percent_100.jpg&quot;, &quot;Completed&quot;, 10, ( Phase_Completion__c * 100 )/1.3) &amp; 
+IMAGE(&quot;/resource/PMT_Status_Images/PMT_Percent_0.jpg&quot;, &quot;Zero&quot;, 10, (100 - Phase_Completion__c * 100 )/1.3) &amp; 
+&apos; &apos; &amp; 
+TEXT(ROUND(Phase_Completion__c * 100,0))&amp;&quot;%&quot;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Phase Completion</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

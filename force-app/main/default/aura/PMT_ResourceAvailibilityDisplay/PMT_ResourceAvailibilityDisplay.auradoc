@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>PMT Resource Availability Display</aura:description>
+	<aura:example name="PMT Resource Availability Display" ref="PMT Resource Availability Display" label="PMT Resource Availability Display">
+		Display Resource capacity, availability and allocations on Resource availability record page as well as the list where the resource is allocated using PMT Resource Availability Datatable child component.
+	</aura:example>
+</aura:documentation>

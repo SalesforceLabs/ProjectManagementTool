@@ -1,0 +1,8 @@
+<aura:documentation>
+    
+    <aura:description>
+        <p><code>c:PMT_MassResourceAllocation</code> is a child component created to show the allocation for a fiscal year.</p>
+        <p>This component shows the resource allocation for the project and allows users to edit allocations.</p>  
+    </aura:description>
+
+</aura:documentation>

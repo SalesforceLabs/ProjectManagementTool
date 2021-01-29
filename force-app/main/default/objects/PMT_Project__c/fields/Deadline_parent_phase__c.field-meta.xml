@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deadline_parent_phase__c</fullName>
+    <externalId>false</externalId>
+    <label>End Date from parent phase</label>
+    <summarizedField>PMT_Phase__c.End_date_from_child__c</summarizedField>
+    <summaryForeignKey>PMT_Phase__c.Project__c</summaryForeignKey>
+    <summaryOperation>max</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

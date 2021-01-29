@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sum_Of_Task_Completion__c</fullName>
+    <externalId>false</externalId>
+    <label>Sum Of Task Completion</label>
+    <summarizedField>PMT_Task__c.Percentage_Completion__c</summarizedField>
+    <summaryForeignKey>PMT_Task__c.Phase__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

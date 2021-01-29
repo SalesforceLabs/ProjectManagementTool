@@ -1,0 +1,163 @@
+<aura:component controller="PMT_TaskandPhaseManagementCtrl" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global">
+    
+    <aura:attribute name="isLoading" type="boolean" default="false" description="spinner attribute"/>
+    <aura:attribute name="isError" type="boolean" default="false" description="Error message loading attribute"/>
+    <aura:attribute name="errorMessage" type="string" description="Error message text attribute"/>
+    <aura:attribute name="isCreated" type="boolean" default="false" description="Confirm message loading attribute"/>
+    
+    <aura:attribute name="recordId" type="Id" description="Record Id for project" />
+    <aura:attribute name="phaseList" type="PMT_Phase__c[]" description="Define Phase List attribute for Mass creation"/>
+    
+    <!--Define Attributes for Picklist values -->
+    <aura:attribute name="ObjectName" type="String" default="PMT_Phase__c" access="global" description="Object Name as String"/>
+    <aura:attribute name="Health" type="String" default="Phase_Health__c" access="global" description="Define Health as String"/>
+    <aura:attribute name="HealthPicklist" type="String[]" description="Define Picklist as String arra"/>
+    
+    <ltng:require styles="{!$Resource.PMT_StyleUtility}"/>
+    
+    <!--Display spinner when loading data to the database-->
+    <aura:if isTrue="{!v.isLoading}">
+        <Lightning:spinner alternativeText="Loading" size="medium"/>    	
+    </aura:if>
+    
+    <!--Display message for errors-->
+    <aura:if isTrue="{!v.isError}">
+        <ui:message title="Error" severity="error" closable="false">
+            {!v.errorMessage}
+        </ui:message>
+    </aura:if>
+    
+    <!--Display message for creation-->
+    <aura:if isTrue="{!v.isCreated}">
+        <ui:message title="Success" severity="confirm" closable="false">
+            Phase(s) successfully created.
+        </ui:message>
+    </aura:if>
+    
+    <!-- Actions on component load -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:if isTrue="{!$Browser.isPhone}">
+        <aura:iteration items="{!v.phaseList}" var="ph" indexVar="index">
+            <lightning:card>
+                <aura:set attribute="title">
+                    <lightning:icon iconName="custom:custom83" size="small"/>
+                    Phase {!index + 1}
+                </aura:set>
+                <aura:set attribute="actions">
+                    <a onclick="{!c.removeRow}" data-record="{!index}">
+                        <lightning:icon iconName="utility:delete" size="small" alternativeText="Delete"/>
+                        <span class="slds-assistive-text">Delete</span>
+                    </a>
+                </aura:set>
+                
+                <div class="slds-var-p-around_medium">
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <lightning:input name="phName" type="text" required="false" label="Phase Name" value="{!ph.Name}"/>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem size="12">
+                            <lightning:select name="phHealth" required="false" value="{!ph.Phase_Health__c}" label="Health" >
+                                <aura:iteration items="{!v.HealthPicklist}" var="val">
+                                    <option value="{!val}"> {!val}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem size="12">
+                            <lightning:input name="phDescription" type="text" required="false" maxlength="5000" label="Description" value="{!ph.Phase_Description__c}" />
+                        </lightning:layoutItem>
+                        
+                        
+                    </lightning:layout>
+                </div>
+            </lightning:card>
+        </aura:iteration>
+        <lightning:layout multipleRows="false" horizontalAlign="center">
+            <lightning:layoutItem size="5" flexibility="grow" padding="horizontal-small">
+                <lightning:button label="Add Row" iconName="utility:add" onclick="{!c.addRow}"/>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" flexibility="grow" padding="horizontal-small">
+                <lightning:button variant="brand" label="Submit" title="Save" onclick="{!c.save}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3" flexibility="grow" padding="horizontal-small">
+                <lightning:button variant="brand" label="Close" title="Close" onclick="{!c.closeQuickAction}" />
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- Mobile end-->
+        
+        <aura:set attribute="else">
+            <Lightning:card class="slds-card_boundary">
+                <!--Card Header -->
+                <aura:set attribute="title">
+                    <lightning:icon iconName="custom:custom48" size="small"/>
+                    Create Phases
+                </aura:set>
+                <aura:set attribute="actions">
+                    <lightning:button label="Add Row" iconName="utility:add" onclick="{!c.addRow}"/>
+                </aura:set>
+                
+                
+                <!--Card Body -->
+                <div class="slds-var-m-around_small">
+                    <div class="container-fluid">        
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                            <thead>
+                                <tr class="slds-text-heading_label">
+                                    <th scope="col"  width="2%">
+                                        <div class="slds-truncate">#</div>
+                                    </th>
+                                    <th scope="col"  width="30%">
+                                        <div class="slds-truncate" title="Name">Phase Name</div>
+                                    </th>
+                                    <th scope="col" width="18%">
+                                        <div class="slds-truncate" title="Health">Phase Health</div>
+                                    </th>
+                                    <th scope="col" width="46%">
+                                        <div class="slds-truncate" title="Description">Description</div>
+                                    </th>
+                                    <th scope="col" width="4%">
+                                        <div class="slds-truncate" title="Action"></div>
+                                    </th>
+                                </tr>
+                            </thead>   
+                            <tbody>      
+                                <aura:iteration items="{!v.phaseList}" var="ph" indexVar="index">
+                                    <tr>
+                                        <td> 
+                                            {!index + 1}
+                                        </td>
+                                        <td>
+                                            <lightning:input name="phName" type="text" required="false" maxlength="50" label="" value="{!ph.Name}" class="NoLabel"/>
+                                        </td>
+                                        <td>
+                                            <lightning:select name="phHealth" required="false" value="{!ph.Phase_Health__c}" class="NoLabel">
+                                                <aura:iteration items="{!v.HealthPicklist}" var="val">
+                                                    <option value="{!val}"> {!val}</option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </td>
+                                        <td>
+                                            <lightning:input name="phDescription" type="text" required="false" maxlength="5000" label="" value="{!ph.Description__c}" class="NoLabel"/>
+                                        </td>
+                                        <td>
+                                            <a onclick="{!c.removeRow}" data-record="{!index}">
+                                                <lightning:icon iconName="utility:delete" size="small" alternativeText="Delete"/>
+                                                <span class="slds-assistive-text">Delete</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                        <div class="slds-align_absolute-center slds-var-p-top_small">
+                            <lightning:button variant="brand" label="Submit" title="Brand action" onclick="{!c.save}" />
+                        </div>
+                    </div>
+                </div>
+            </Lightning:card>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

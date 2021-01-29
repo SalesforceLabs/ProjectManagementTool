@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Icon__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(AND(Days_Late__c &gt;0,TEXT(Status__c) &lt;&gt; &quot;On Hold&quot;),IMAGE(&quot;/resource/PMT_Status_Images/PMT_warning_60.png&quot;,&quot;Late&quot;,20,20), 
+IF( TEXT(Sign_off_status__c) = &quot;Approved&quot;, IMAGE(&quot;/resource/PMT_Status_Images/PMT_approval.png&quot;,&quot;Approved&quot;,20,20), 
+CASE( TEXT(Status__c) , 
+&quot;Not Started&quot;, IMAGE(&quot;/resource/PMT_Status_Images/PMT_routing_offline_60.png&quot;,&quot;Incomplete&quot;,20,20), 
+&quot;In Progress&quot;, IMAGE(&quot;/resource/PMT_Status_Images/PMT_Clock.png&quot;,&quot;In Progress&quot;,20,20), 
+&quot;On Hold&quot;,IMAGE(&quot;/resource/PMT_Status_Images/PMT_error_60.png&quot;,&quot;On Hold&quot;,20,20), 
+IMAGE(&quot;/resource/PMT_Status_Images/PMT_success_60.png&quot;,&quot;Closed&quot;,20,20))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Status Icon</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

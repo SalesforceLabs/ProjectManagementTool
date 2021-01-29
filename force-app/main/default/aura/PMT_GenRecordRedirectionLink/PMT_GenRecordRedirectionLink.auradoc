@@ -1,0 +1,6 @@
+<aura:documentation>
+    <aura:description>
+        <p><code>c:PMT_GenRecordRedirectionLink</code> is a reusable component created to handle navigation using recordId.</p>        
+    </aura:description>
+    
+</aura:documentation>

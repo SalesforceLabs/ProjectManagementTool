@@ -1,0 +1,293 @@
+<aura:component controller="PMT_ProjectSummaryCtrl"> 
+    
+    <aura:attribute name="recordId" type="Id" description="Project record id"/>	
+    <aura:attribute name="phases" type="Object" description="List of Phases related to the project"/>
+    <aura:attribute name="phaseRecordId" type="ID" description="Record ID of the row related Phase"/>
+    <aura:attribute name="lateTasks" type="Object" description="List of Late tasks of the project"/>
+    <aura:attribute name="tasks" type="Object[]" description="List of OnGoing tasks of the project"/>
+    <aura:attribute name="currentTasks" type="Object[]" description="List of OnGoing tasks of the project"/>
+    <aura:attribute name="nextTasks" type="Object" description="List of OnGoing tasks of the project"/>
+    <aura:attribute name="onGoingTasks" type="Object" description="List of OnGoing tasks of the project"/>
+    <aura:attribute name="milestoneTasks" type="Object" description="List of Milestone tasks of the project"/>
+    <aura:attribute name="isLoading" type="boolean" default="false" description="spinner when loading data"/>
+    <aura:attribute name="startCurrent" type="date" description="Reference date for columns: Current Period and Ongoing"/>
+    <aura:attribute name="endCurrent" type="date" description="Reference date for column Current Period"/>
+    <aura:attribute name="startNext" type="date" description="Reference date for column Next Period"/>
+    <aura:attribute name="endNext" type="date" description="Reference date for columns: Next Period and Ongoing"/>
+    
+    <aura:attribute name="selectedSpan" type="String" description="Timespan selected by the user for filter"/>
+    <aura:attribute name="showMilestones" type="Boolean" default="false" description="Modal status for Milestone list"/>
+    <aura:attribute name="fiscalYearOffset" type="Integer" default="2" description="Start month for the fiscal year"/>
+    
+    <aura:attribute name="TimeSpan" type="List" default="[
+                                                         {'label': 'Week', 'value': 'THIS_WEEK'},
+                                                         {'label': 'Month', 'value': 'THIS_MONTH'},
+                                                         {'label': 'Quarter', 'value': 'THIS_QUARTER'} 
+                                                         ]" description="Timespan available in the card action"/>
+    
+    <aura:method name="refreshTable" action="{!c.doInit}"/>
+    <aura:method name="openModal" action="{!c.openModal}"/>
+    
+    <!--Display spinner when loading data to the database-->
+    <aura:if isTrue="{!v.isLoading}">
+        <Lightning:spinner alternativeText="Loading" size="medium"/>    	
+    </aura:if>
+    
+    <aura:handler name="change" value="{!v.selectedSpan}" action="{!c.handleFilter}"/>
+    
+    <!--Initiate component-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:if isTrue="{!$Browser.isPhone}">
+        <!-- Phases-->
+        <lightning:tile label="Phases">
+            <aura:set attribute="media"> 
+                <lightning:icon iconName="custom:custom48"/>
+            </aura:set>
+            <aura:iteration items="{!v.phases}" var="phase">
+                <a href="{!'/' + phase.Id}">
+                    <lightning:layout class="slds-var-m-bottom_xxx-small slds-border_bottom">
+                        <lightning:layoutItem size="2"><lightning:formattedRichText value="{!phase.Health_Icon__c}"/></lightning:layoutItem>
+                        <lightning:layoutItem class="slds-truncate" size="7">{!phase.Name}</lightning:layoutItem>
+                        <lightning:layoutItem size="3">{!phase.Phase_Completion__c}%</lightning:layoutItem>
+                    </lightning:layout>
+                </a>
+            </aura:iteration>
+        </lightning:tile>
+        
+        <!-- Filters -->
+		
+        <lightning:radioGroup name="radioButtonGroup" 
+                                              options="{! v.TimeSpan }"
+                                              value="{! v.selectedSpan }"
+                                              type="button"/>
+        
+        <!-- Tasks -->                   
+        <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true">
+             
+            <lightning:accordionSection name="currentTasks" label="Current Period">
+                <aura:iteration items="{!v.lateTasks}" var="task">
+                    <lightning:tile label="{!task.Name}" href="{!'/' + task.Id}">
+                        <aura:set attribute="media">
+                            <lightning:formattedRichText value="{!task.Status_Icon__c}"/>
+                        </aura:set>
+                        <lightning:formattedDateTime value="{!task.Due_Date__c}" year="numeric" day="2-digit" month="short"/>
+                    </lightning:tile>
+                </aura:iteration>
+                <aura:iteration items="{!v.currentTasks}" var="task">
+                    <lightning:tile label="{!task.Name}" href="{!'/' + task.Id}">
+                        <aura:set attribute="media">
+                            <lightning:formattedRichText value="{!task.Status_Icon__c}"/>
+                        </aura:set>
+                        <lightning:formattedDateTime value="{!task.Due_Date__c}" year="numeric" day="2-digit" month="short"/>
+                    </lightning:tile>
+                </aura:iteration>
+            </lightning:accordionSection>
+            
+            
+            <lightning:accordionSection name="nextTasks" label="Next Period">
+                <aura:iteration items="{!v.nextTasks}" var="task">
+                    <lightning:tile label="{!task.Name}" href="{!'/' + task.Id}">
+                        <aura:set attribute="media">
+                            <lightning:formattedRichText value="{!task.Status_Icon__c}"/>
+                        </aura:set>
+                        <lightning:formattedDateTime value="{!task.Due_Date__c}" year="numeric" day="2-digit" month="short"/>
+                    </lightning:tile>
+                </aura:iteration>
+            </lightning:accordionSection>
+            
+            <lightning:accordionSection name="onGoingTasks" label="Ongoing">
+                <aura:iteration items="{!v.onGoingTasks}" var="task">
+                    <lightning:tile label="{!task.Name}" href="{!'/' + task.Id}">
+                        <aura:set attribute="media">
+                            <lightning:formattedRichText value="{!task.Status_Icon__c}"/>
+                        </aura:set>
+                        <lightning:formattedDateTime value="{!task.Due_Date__c}" year="numeric" day="2-digit" month="short"/>
+                    </lightning:tile>
+                </aura:iteration>
+            </lightning:accordionSection>
+            
+            <lightning:accordionSection name="Milestones" label="Milestones">
+                <aura:iteration items="{!v.milestoneTasks}" var="task">
+                    <lightning:tile label="{!task.Name}" href="{!'/' + task.Id}">
+                        <aura:set attribute="media">
+                            <lightning:formattedRichText value="{!task.Status_Icon__c}"/>
+                        </aura:set>
+                        <lightning:formattedDateTime value="{!task.Due_Date__c}" year="numeric" day="2-digit" month="short"/>
+                    </lightning:tile>
+                </aura:iteration>
+            </lightning:accordionSection>
+        </lightning:accordion>
+        
+        <aura:set attribute="else">
+            <!--START Modal-->
+            <aura:if isTrue="{!v.showMilestones}">
+                <!-- Modal/Popup Box starts here-->
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <!-- Modal/Popup Box Header Starts here-->
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                  onclick="{! c.closeModal }"
+                                                  alternativeText="close"
+                                                  variant="bare-inverse"
+                                                  class="slds-modal__close"/>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">List of Milestones</h2>
+                        </header>
+                        <!--Modal/Popup Box Body Starts here-->
+                        <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-1">
+                            <table class="slds-table slds-table--bordered slds-table_fixed-layout slds-var-m-top_x-small slds-card_boundary" role="grid">
+                                <thead>
+                                    <tr class="slds-text-heading_label">
+                                        <th class="active" width="80%">Name</th>
+                                        <th class="active" width="20%">Due Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <aura:iteration items="{!v.milestoneTasks}" var="task">
+                                        <tr>
+                                            <td>
+                                                <Lightning:Layout>
+                                                    <Lightning:LayoutItem flexibility="no-flex">
+                                                        <a id="{!task.Id}" onclick="{!c.editRecord}" >
+                                                            <lightning:formattedRichText value="{!task.Status_Icon__c}"></lightning:formattedRichText>
+                                                        </a>
+                                                    </Lightning:LayoutItem>
+                                                    <Lightning:LayoutItem padding="horizontal-small" class="slds-truncate">
+                                                        <a class="task" id="{!task.Id}" onclick="{!c.navigateToRecord}" title="{!task.Name}">{!task.Name}</a>
+                                                    </Lightning:LayoutItem>
+                                                </Lightning:Layout>
+                                            </td>
+                                            <td>
+                                                <lightning:formattedDateTime value="{!task.Due_Date__c}" year="numeric" day="2-digit" month="short"/>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--Modal/Popup Box Footer Starts here-->
+                        <footer class="slds-modal__footer">
+                            <lightning:button variant="neutral"
+                                              label="Close"
+                                              title="Close"
+                                              onclick="{! c.closeModal }"/>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </aura:if>	
+            <!--END Modal-->
+            
+            <!--START Table-->
+            <table class="slds-table slds-table--bordered slds-table_fixed-layout slds-var-m-top_x-small slds-card_boundary" role="grid">
+                <!--START Table headers-->
+                <thead>
+                    <tr class="slds-text-heading_label">            	
+                        <th class="active" width="20%">Phase</th>
+                        <th class="active" width="8%">Status</th>
+                        <th class="active" width="24%">
+                            Current Period (<lightning:formattedDateTime value="{!v.startCurrent}" day="2-digit" month="short"/>
+                            -
+                            <lightning:formattedDateTime value="{!v.endCurrent}" day="2-digit" month="short"/>)
+                        </th>
+                        <th class="active" width="24%">
+                            Next Period (<lightning:formattedDateTime value="{!v.startNext}" day="2-digit" month="short"/>
+                            -
+                            <lightning:formattedDateTime value="{!v.endNext}" day="2-digit" month="short"/>)
+                        </th>
+                        <th class="active" width="24%">
+                            Ongoing (Due after 
+                            <lightning:formattedDateTime value="{!v.endNext}" day="2-digit" month="short"/>)
+                        </th>
+                    </tr>        	 
+                </thead>
+                <!--END Table headers-->
+                <tbody>
+                    <aura:iteration items="{!v.phases}" var="phase">
+                        <tr>
+                            <td>
+                                <a class="phase" id="{!phase.Id}" onclick="{!c.navigateToRecord}" title="{!phase.Name}">{!phase.Name}</a>
+                            </td>
+                            <td>
+                                <Lightning:Layout>
+                                    <Lightning:LayoutItem flexibility="no-flex" class="slds-align_absolute-center">
+                                        <a id="{!phase.Id}" onclick="{!c.editRecord}">    
+                                            <lightning:formattedRichText value="{!phase.Health_Icon__c}"/>
+                                        </a>
+                                    </Lightning:LayoutItem>
+                                    <Lightning:LayoutItem class="slds-align_absolute-center completion">
+                                        {!phase.Phase_Completion__c}%
+                                    </Lightning:LayoutItem>
+                                </Lightning:Layout>
+                            </td>
+                            <td>
+                                <aura:iteration items="{!v.lateTasks}" var="task">
+                                    <aura:if isTrue="{!task.Phase__c == phase.Id}">
+                                        <Lightning:Layout>
+                                            <Lightning:LayoutItem flexibility="no-flex">
+                                                <a id="{!task.Id}" onclick="{!c.editRecord}" >
+                                                    <lightning:formattedRichText value="{!task.Status_Icon__c}"></lightning:formattedRichText>
+                                                </a>
+                                            </Lightning:LayoutItem>
+                                            <Lightning:LayoutItem padding="horizontal-small" class="slds-truncate">
+                                                <a class="{!task.Is_Milestone__c == true ? 'milestone' : 'task'}" id="{!task.Id}" onclick="{!c.navigateToRecord}" title="{!task.Name}">{!task.Name}</a>
+                                            </Lightning:LayoutItem>
+                                        </Lightning:Layout>
+                                    </aura:if>
+                                </aura:iteration>
+                                <aura:iteration items="{!v.currentTasks}" var="task">
+                                    <aura:if isTrue="{!task.Phase__c == phase.Id}">
+                                        <Lightning:Layout>
+                                            <Lightning:LayoutItem flexibility="no-flex">
+                                                <a id="{!task.Id}" onclick="{!c.editRecord}" >
+                                                    <lightning:formattedRichText value="{!task.Status_Icon__c}"></lightning:formattedRichText>
+                                                </a>
+                                            </Lightning:LayoutItem>
+                                            <Lightning:LayoutItem padding="horizontal-small" class="slds-truncate">
+                                                <a class="{!task.Is_Milestone__c == true ? 'milestone' : 'task'}" id="{!task.Id}" onclick="{!c.navigateToRecord}" title="{!task.Name}">{!task.Name}</a>
+                                            </Lightning:LayoutItem>
+                                        </Lightning:Layout>
+                                    </aura:if>
+                                </aura:iteration>
+                            </td>
+                            <td>
+                                <aura:iteration items="{!v.nextTasks}" var="task">
+                                    <aura:if isTrue="{!task.Phase__c == phase.Id}">
+                                        <Lightning:Layout>
+                                            <Lightning:LayoutItem flexibility="no-flex">
+                                                <a id="{!task.Id}" onclick="{!c.editRecord}" >
+                                                    <lightning:formattedRichText value="{!task.Status_Icon__c}"></lightning:formattedRichText>
+                                                </a>
+                                            </Lightning:LayoutItem>
+                                            <Lightning:LayoutItem padding="horizontal-small" class="slds-truncate">
+                                                <a class="{!task.Is_Milestone__c == true ? 'milestone' : 'task'}" id="{!task.Id}" onclick="{!c.navigateToRecord}" title="{!task.Name}">{!task.Name}</a>
+                                            </Lightning:LayoutItem>
+                                        </Lightning:Layout>
+                                    </aura:if>
+                                </aura:iteration>
+                            </td>
+                            <td>
+                                <aura:iteration items="{!v.onGoingTasks}" var="task">
+                                    <aura:if isTrue="{!task.Phase__c == phase.Id}">
+                                        <Lightning:Layout>
+                                            <Lightning:LayoutItem flexibility="no-flex">
+                                                <a id="{!task.Id}" onclick="{!c.editRecord}" >
+                                                    <lightning:formattedRichText value="{!task.Status_Icon__c}"></lightning:formattedRichText>
+                                                </a>
+                                            </Lightning:LayoutItem>
+                                            <Lightning:LayoutItem padding="horizontal-small" class="slds-truncate">
+                                                <a class="{!task.Is_Milestone__c == true ? 'milestone' : 'task'}" id="{!task.Id}" onclick="{!c.navigateToRecord}" title="{!task.Name}">{!task.Name}</a>
+                                            </Lightning:LayoutItem>
+                                        </Lightning:Layout>
+                                    </aura:if>
+                                </aura:iteration>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

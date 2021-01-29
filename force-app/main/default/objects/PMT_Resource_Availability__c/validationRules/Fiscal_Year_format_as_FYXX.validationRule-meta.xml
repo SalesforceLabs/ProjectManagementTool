@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fiscal_Year_format_as_FYXX</fullName>
+    <active>true</active>
+    <errorConditionFormula>!REGEX(Fiscal_Year__c ,&quot;^FY\\d{2}$&quot;)</errorConditionFormula>
+    <errorDisplayField>Fiscal_Year__c</errorDisplayField>
+    <errorMessage>Fiscal Year must be in the format of FYXX</errorMessage>
+</ValidationRule>

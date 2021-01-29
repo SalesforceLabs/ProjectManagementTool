@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Program_Health_Icon__c</fullName>
+    <externalId>false</externalId>
+    <formula>IMAGE(
+CASE(Program_Health__c,
+&quot;Not Started&quot;, &quot;/resource/PMT_Status_logos/Not_Started.png&quot;,
+&quot;On Track&quot;, &quot;/resource/PMT_Status_logos/On_Track.png&quot;,
+&quot;At risk&quot;, &quot;/resource/PMT_Status_logos/At_Risk.png&quot;,
+&quot;Late&quot;, &quot;/resource/PMT_Status_logos/Late.png&quot;,
+&quot;On Hold&quot;, &quot;/resource/PMT_Status_logos/On_Hold.png&quot;,
+&quot;Completed&quot;, &quot;/resource/PMT_Status_logos/Completed.png&quot;,
+&quot;Closed, not Completed&quot;, &quot;/resource/PMT_Status_logos/Closed_not_Completed.png&quot;,
+&quot;/resource/PMT_Status_logos/On_Track.png&quot;),
+&quot;status icon&quot;,25,25)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Program Health Icon</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

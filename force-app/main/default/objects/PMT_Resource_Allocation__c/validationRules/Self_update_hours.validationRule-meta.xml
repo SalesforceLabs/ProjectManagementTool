@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Self_update_hours</fullName>
+    <active>true</active>
+    <errorConditionFormula>$User.Id!= Resource_Availability__r.User__c  &amp;&amp;
+ (ISCHANGED(  Jan_Hours__c ) || ISCHANGED( Feb_Hours__c) || ISCHANGED( Mar_Hours__c) || ISCHANGED( Apr_Hours__c ) || ISCHANGED( May_Hours__c) || ISCHANGED( Jun_Hours__c) || ISCHANGED( Jul_Hours__c) || ISCHANGED( Aug_Hours__c) || ISCHANGED( Sep_Hours__c) || ISCHANGED( Oct_Hours__c) || ISCHANGED( Nov_Hours__c) || ISCHANGED( Dec_Hours__c))</errorConditionFormula>
+    <errorMessage>Hours can only be self updated</errorMessage>
+</ValidationRule>

@@ -1,0 +1,18 @@
+.THIS .greenRole{
+    color:green;
+}
+.THIS .redRole{
+    color:red;
+}
+.THIS .redCell{
+    border:red 2px solid;
+}
+.THIS .noBorder{
+    border:none;
+}
+.THIS .picklistSection{
+    font-weight:700;
+}
+.THIS .buttonLineHeight{
+    line-height: unset;
+}

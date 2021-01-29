@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Availability_cannot_be_more_than_100</fullName>
+    <active>true</active>
+    <description>Validation to ensure availability</description>
+    <errorConditionFormula>Jan__c&lt;0 || Jan__c&gt;1 ||
+Feb__c&lt;0 || Feb__c&gt;1 ||
+Mar__c&lt;0 || Mar__c&gt;1 ||
+Apr__c&lt;0 || Apr__c&gt;1 ||
+May__c&lt;0 || May__c&gt;1 ||
+Jun__c&lt;0 || Jun__c&gt;1 ||
+Jul__c&lt;0 || Jul__c&gt;1 ||
+Aug__c&lt;0 || Aug__c&gt;1 ||
+Sep__c&lt;0 || Sep__c&gt;1 ||
+Oct__c&lt;0 || Oct__c&gt;1 ||
+Nov__c&lt;0 || Nov__c&gt;1 ||
+Dec__c&lt;0 || Nov__c&gt;1</errorConditionFormula>
+    <errorMessage>Availability must be in between 0 and 100</errorMessage>
+</ValidationRule>

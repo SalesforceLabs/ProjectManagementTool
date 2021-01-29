@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Roadmap_Status__c</fullName>
+    <description>Indicates whether a project is approved.</description>
+    <externalId>false</externalId>
+    <label>Roadmap Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Committed</fullName>
+                <default>true</default>
+                <label>Committed</label>
+            </value>
+            <value>
+                <fullName>Deferred</fullName>
+                <default>false</default>
+                <label>Deferred</label>
+            </value>
+            <value>
+                <fullName>Incremental</fullName>
+                <default>false</default>
+                <label>Incremental</label>
+            </value>
+            <value>
+                <fullName>Funded</fullName>
+                <default>false</default>
+                <label>Funded</label>
+            </value>
+            <value>
+                <fullName>Non funded</fullName>
+                <default>false</default>
+                <label>Non funded</label>
+            </value>
+            <value>
+                <fullName>Internal</fullName>
+                <default>false</default>
+                <label>Internal</label>
+            </value>
+            <value>
+                <fullName>Runrate</fullName>
+                <default>false</default>
+                <label>Runrate</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

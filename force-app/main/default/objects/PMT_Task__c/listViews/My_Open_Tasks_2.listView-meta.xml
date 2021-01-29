@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Open_Tasks_2</fullName>
+    <columns>Project_Name__c</columns>
+    <columns>NAME</columns>
+    <columns>Percentage_Completion__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>My_Task__c</field>
+        <operation>equals</operation>
+        <value>me</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Not Started,In Progress,On Hold</value>
+    </filters>
+    <label>My Open Tasks</label>
+</ListView>

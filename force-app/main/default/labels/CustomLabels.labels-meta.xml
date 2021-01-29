@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>PMT_ActivateReourceAllocationTrigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Activate PMT Resource Allocation trigger</shortDescription>
+        <value>true</value>
+    </labels>
+    <labels>
+        <fullName>PMT_DefaultProgramSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT_DefaultProgramSelected</shortDescription>
+        <value>All</value>
+    </labels>
+    <labels>
+        <fullName>PMT_DefaultProjectProgressSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PMT_DefaultProjectProgressSelected</shortDescription>
+        <value>Execute</value>
+    </labels>
+    <labels>
+        <fullName>PMT_Default_Resource_Availability</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Default PMT resource availability</shortDescription>
+        <value>100</value>
+    </labels>
+    <labels>
+        <fullName>PMT_FiscalYearStartMonth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fiscal year starting month</shortDescription>
+        <value>2</value>
+    </labels>
+    <labels>
+        <fullName>PMT_NumberOfYearsAvailabilityToBeCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Number of year resource availability need be created</shortDescription>
+        <value>2</value>
+    </labels>
+    <labels>
+        <fullName>PMT_Project_Record_Type_on_Case</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PMT Project Record Type on Case</shortDescription>
+        <value>PMT_Project</value>
+    </labels>
+</CustomLabels>

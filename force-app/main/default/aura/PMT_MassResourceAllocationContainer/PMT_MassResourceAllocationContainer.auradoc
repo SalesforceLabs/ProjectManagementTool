@@ -1,0 +1,14 @@
+<aura:documentation>
+    <aura:description>
+        <p><code>c:PMT_MassResourceAllocationContainer</code> is available for project record pages only.</p>
+        <p>This component shows the resource allocation for the project and allows users to edit allocations.</p>
+        
+        <h4>Required Dependencies</h4>
+        <p>Here is the list of components being used in this component</p>
+        <ul>
+            <li>c:PMT_MassResourceAllocationLIEvent</li>
+            <li>c:PMT_MassResourceAllocation</li>
+        </ul>
+        <br/>
+    </aura:description>
+</aura:documentation>

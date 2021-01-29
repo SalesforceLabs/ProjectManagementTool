@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>is_Dummy_Availability__c</fullName>
+    <description>Checks if the user is present in the lookup, if not considers the availability as dummy</description>
+    <externalId>false</externalId>
+    <formula>IF(LEN(User__c)==0, true, false)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>is Dummy Availability?</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

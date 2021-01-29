@@ -1,0 +1,25 @@
+.THIS .greenBackground{
+    background-color: green;
+}
+
+.THIS .milestone{
+    font-weight: bold;
+    color: #006dcc;
+}
+
+.THIS .task{
+    color: black;
+}
+
+.THIS .phase{
+    color: black;
+}
+
+.THIS .completion{
+    margin-bottom: 14px;
+}
+
+.THIS .refreshButton{
+    height: 33px;
+    top: 4px;  
+}
