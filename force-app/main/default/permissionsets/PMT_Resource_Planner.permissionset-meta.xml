@@ -9,7 +9,23 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>PMT_ClonePhaseTaskCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PMT_ClonePhaseTaskCtrlTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PMT_CreateResourceAvailability</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PMT_GanttCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PMT_GanttCtrlTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -209,6 +225,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>PMT_Phase__c.Project_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>PMT_Phase__c.Start_Date_Rollup__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -335,6 +356,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>PMT_Project__c.Initial_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PMT_Project__c.IsTemplate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -968,8 +994,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>PMT_Task__c.Duration_In_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>PMT_Task__c.Duration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>PMT_Task__c.IsTemplate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -999,6 +1035,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>PMT_Task__c.Phase_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>PMT_Task__c.Project_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1015,6 +1056,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>PMT_Task__c.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PMT_Task__c.Start_Days_Out__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1150,6 +1196,10 @@
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>
+        <tab>PMT_Gantt_View</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>PMT_Home</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -1185,4 +1235,8 @@
         <tab>standard-Case</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>RunFlow</name>
+    </userPermissions>
 </PermissionSet>

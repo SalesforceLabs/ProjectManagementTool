@@ -51,6 +51,15 @@
         <aggregateTypes>Sum</aggregateTypes>
         <field>PMT_Project__c.Resource_Allocations__r$Resource_Availability__c.Jan_Remaining__c</field>
     </columns>
+    <filter>
+        <criteriaItems>
+            <column>PMT_Project__c$IsTemplate__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>

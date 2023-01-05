@@ -175,7 +175,7 @@
                 var state = response.getState();
                 
                 if(result) {
-                    component.set("v.selectedAllocations",response.getReturnValue());
+                    component.set("v.selectedAllocation",response.getReturnValue());
                     component.set("v.draftValues",null);
                     
                     

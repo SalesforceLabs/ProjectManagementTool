@@ -4,6 +4,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>pmtResourceManagementTab</componentName>
+                <identifier>pmtResourceManagementTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

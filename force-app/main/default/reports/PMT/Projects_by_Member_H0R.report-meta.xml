@@ -54,6 +54,15 @@
         <aggregateTypes>Sum</aggregateTypes>
         <field>PMT_Project__c.Project_Phases__r.Project_Tasks__r$Task_Level__c</field>
     </columns>
+    <filter>
+        <criteriaItems>
+            <column>PMT_Project__c$IsTemplate__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>

@@ -16,7 +16,7 @@ public with sharing class PMT_Utility {
         List<case> cases = new List<case>();
         //Calling util method to check CRUD
         List<String> lstOfCaseFields = new List<String>{'CaseNumber', 'Subject', 'PMT_Days_Open__c', 'Description', 'Type', 'Status', 'Priority', 'PMT_Project__c'};        
-        boolean hasAccess = validateCRUD('Case', lstOfCaseFields, 'isAccessible');
+            boolean hasAccess = validateCRUD('Case', lstOfCaseFields, 'isAccessible');
         
         if(hasAccess){  
             cases = [SELECT id,CaseNumber,Subject,PMT_Days_Open__c,Description,Type,Status,Priority,PMT_Project__c FROM Case 
@@ -29,13 +29,16 @@ public with sharing class PMT_Utility {
     }
     
     /*****************************************************************************************
-    * Method Name: validateCRUD
-    * Description: Generic method to check CRUD access on object and fields
-    * Parameters : sObject API name, list of fields, type of access to check
-    * Return Values: boolean
-    * *****************************************************************************************/  
+* Method Name: validateCRUD
+* Description: Generic method to check CRUD access on object and fields
+* Parameters : sObject API name, list of fields, type of access to check
+* Return Values: boolean
+* *****************************************************************************************/  
     public static boolean validateCRUD(String sObjectName, List<String> lstOfFieldAPIs, String accessCheck){    
         
+        
+            sObjectName = sObjectName;
+      
         Schema.DescribeSobjectResult[] result = Schema.describeSObjects(new String[]{sObjectName});
         
         Map<String, Schema.SObjectField> fieldMap = result[0].fields.getMap();
@@ -51,6 +54,8 @@ public with sharing class PMT_Utility {
                }
         } else if(lstOfFieldAPIs != null){// Check field level access 
             for (String field : lstOfFieldAPIs) {
+               
+                    field = field;
                 if (accessCheck.equalsIgnoreCase('isAccessible') && !fieldMap.get(field).getDescribe().isAccessible()) {
                     return false;
                 }else if (accessCheck.equalsIgnoreCase('isUpdateable') && !fieldMap.get(field).getDescribe().isUpdateable()) {
@@ -66,11 +71,11 @@ public with sharing class PMT_Utility {
     }
     
     /*****************************************************************************************
-    * Method Name: getPMTSettings
-    * Description: Get settings stored in mdt
-    * Parameters : settingName
-    * Return Values: PMT_Setting__mdt
-    * *****************************************************************************************/    
+* Method Name: getPMTSettings
+* Description: Get settings stored in mdt
+* Parameters : settingName
+* Return Values: PMT_Setting__mdt
+* *****************************************************************************************/    
     public static PMT_Setting__mdt getPMTSettings(String settingName){
         PMT_Setting__mdt settings;
         try{
@@ -92,5 +97,32 @@ public with sharing class PMT_Utility {
                 }
         }
         return settings;
+    }
+    
+    /*****************************************************************************************
+* Method Name: getPicklistValues
+* Description: Get the picklist values and labels 
+* Parameters : Object API name and field API name
+* Return Values: Map of picklist label and value
+* *****************************************************************************************/  
+    public static Map<String, String> getPicklistValues(String objectAPI, String fieldAPI){   
+        
+        
+            
+                objectAPI = objectAPI;
+            
+                fieldAPI =  fieldAPI;
+            
+        
+        Map<String, String> mapOfResult = new Map<String, String>();
+        Schema.SObjectType objMetadata = Schema.getGlobalDescribe().get(objectAPI) ;
+        Schema.DescribeSObjectResult result = objMetadata.getDescribe() ;
+        Map<String,Schema.SObjectField> fields = result.fields.getMap() ;
+        Schema.DescribeFieldResult fieldResult = fields.get(fieldAPI).getDescribe();
+        List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+        for( Schema.PicklistEntry pickListVal : ple){
+            mapOfResult.put(pickListVal.getLabel(), pickListVal.getValue());
+        }       
+        return mapOfResult;
     }
 }

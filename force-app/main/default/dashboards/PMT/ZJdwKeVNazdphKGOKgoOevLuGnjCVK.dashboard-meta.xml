@@ -3,10 +3,6 @@
     <backgroundEndColor>#FFFFFF</backgroundEndColor>
     <backgroundFadeDirection>Diagonal</backgroundFadeDirection>
     <backgroundStartColor>#FFFFFF</backgroundStartColor>
-    <chartTheme>light</chartTheme>
-    <colorPalette>unity</colorPalette>
-    <dashboardChartTheme>light</dashboardChartTheme>
-    <dashboardColorPalette>unity</dashboardColorPalette>
     <dashboardFilters>
         <dashboardFilterOptions>
             <operator>equals</operator>

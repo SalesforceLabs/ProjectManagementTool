@@ -118,7 +118,7 @@ public with sharing class PMT_ResourceAllocationTriggerHelper{
                 if(PMT_Utility.validateCRUD('PMT_Error_Log__c', lstOfLogFields, 'isCreatable')){
                     INSERT lstOfErrorLogs;
                 }
-        }			
+        }           
     }
     
     /**********************************************************************************************
@@ -145,7 +145,7 @@ public with sharing class PMT_ResourceAllocationTriggerHelper{
             for(PMT_Resource_Allocation__c allocationRec : lstOfResourcesToRemoveAccess){
                 PMT_Project__Share projShareObj = new PMT_Project__Share();
                 projShareObj.ParentId = allocationRec.Project__c;
-                projShareObj.UserOrGroupId = mapOfResourceAvailAndUser.get(mapOfResAllAndResAvail.get(allocationRec.Id));				
+                projShareObj.UserOrGroupId = mapOfResourceAvailAndUser.get(mapOfResAllAndResAvail.get(allocationRec.Id));               
                 projShareObj.AccessLevel = 'Edit';
                 projShareObj.RowCause = Schema.PMT_Project__Share.RowCause.Project_Member__c;
                 lsToInsert.add(projShareObj);
@@ -172,6 +172,6 @@ public with sharing class PMT_ResourceAllocationTriggerHelper{
                 if(PMT_Utility.validateCRUD('PMT_Error_Log__c', lstOfLogFields, 'isCreatable')){
                     INSERT lstOfErrorLogs;
                 }
-        }			
+        }           
     }
 }

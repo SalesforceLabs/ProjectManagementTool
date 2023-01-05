@@ -1,7 +1,7 @@
 /****************************************************************************************
 * Name: PMT_ResourceAllocationTriggerTest
 * Test Class For: PMT_ResourceAllocationTrigger (84%)
-				  PMT_ResourceAllocationTriggerHelper (90%)	
+                  PMT_ResourceAllocationTriggerHelper (90%) 
 ****************************************************************************************/
 @isTest 
 public class PMT_ResourceAllocationTriggerTest {
@@ -42,7 +42,7 @@ public class PMT_ResourceAllocationTriggerTest {
     }
     
     static testmethod void projectSharingTestCase(){        
- 		System.runAs(new User(Id = Userinfo.getUserId())) {  
+        System.runAs(new User(Id = Userinfo.getUserId())) {  
             User usr = [SELECT Id FROM User WHERE Email='pmtuser@testorg.com'];
             PMT_Project__c project = [SELECT Id FROM PMT_Project__c LIMIT 1];
             PMT_Resource_Availability__c resAvail = [SELECT Id FROM PMT_Resource_Availability__c LIMIT 1];
@@ -63,7 +63,7 @@ public class PMT_ResourceAllocationTriggerTest {
     }
     
     static testmethod void allocationWOTaskDeletionTestCase(){        
- 		System.runAs(new User(Id = Userinfo.getUserId())) {  
+        System.runAs(new User(Id = Userinfo.getUserId())) {  
             User usr = [SELECT Id FROM User WHERE Email='pmtuser@testorg.com'];
             PMT_Project__c project = [SELECT Id FROM PMT_Project__c LIMIT 1];
             PMT_Resource_Availability__c resAvail = [SELECT Id FROM PMT_Resource_Availability__c LIMIT 1];
@@ -77,14 +77,14 @@ public class PMT_ResourceAllocationTriggerTest {
                 Test.startTest();
                     DELETE resAllocation;
                     List<PMT_Project__Share> ls = [select Id from PMT_Project__Share where ParentId =: project.Id and UserOrGroupId =: UserInfo.getUserId()];                
-                	System.assertNotEquals(null, ls, 'Record founding for deletion');
+                    System.assertNotEquals(null, ls, 'Record founding for deletion');
                 Test.stopTest();
             }
         }
     }
     
      static testmethod void allocationWithTaskDeletionTestCase(){        
- 		System.runAs(new User(Id = Userinfo.getUserId())) {  
+        System.runAs(new User(Id = Userinfo.getUserId())) {  
             User usr = [SELECT Id FROM User WHERE Email='pmtuser@testorg.com'];
             PMT_Project__c project = [SELECT Id FROM PMT_Project__c LIMIT 1];
             
@@ -92,7 +92,7 @@ public class PMT_ResourceAllocationTriggerTest {
             INSERT phase;
             
             PMT_Task__c task = new PMT_Task__c(Phase__c = phase.Id, Assigned_To1__c = UserInfo.getUserId(), Start_Date__c = System.today(), Due_Date__c= System.today()+10);
-			INSERT task;
+            INSERT task;
             
             PMT_Resource_Availability__c resAvail = [SELECT Id FROM PMT_Resource_Availability__c LIMIT 1];
             //Allocation records
@@ -104,7 +104,7 @@ public class PMT_ResourceAllocationTriggerTest {
             System.runAs(usr) {
                 Test.startTest();
                 try{
-                	DELETE resAllocation;
+                    DELETE resAllocation;
                     List<PMT_Project__Share> ls = [select Id from PMT_Project__Share where ParentId =: project.Id and UserOrGroupId =: UserInfo.getUserId()];                
                 }catch(Exception e){
                   System.assertNotEquals(null, e.getMessage(),'error should be returned for negative test');  
@@ -116,7 +116,7 @@ public class PMT_ResourceAllocationTriggerTest {
     }
     
     static testmethod void projectUpdateTestCase(){        
- 		System.runAs(new User(Id = Userinfo.getUserId())) {  
+        System.runAs(new User(Id = Userinfo.getUserId())) {  
             Integer resourceAvailability = Integer.valueOf(PMT_Utility.getPMTSettings('Default').Default_Availability_for_Scheduler__c);
             
             Profile p = [SELECT Id FROM Profile WHERE Name='Standard User' limit 1]; 
@@ -153,8 +153,8 @@ public class PMT_ResourceAllocationTriggerTest {
             User usr = [SELECT Id FROM User WHERE Email='pmtuser@testorg.com'];
             System.runAs(usr) {                
                 Test.startTest();
-                	resAllocation.Resource_Availability__c = resAvailNew.Id;
-                	UPDATE resAllocation;
+                    resAllocation.Resource_Availability__c = resAvailNew.Id;
+                    UPDATE resAllocation;
                 
                 List<PMT_Project__Share> lsNew = [select Id from PMT_Project__Share where ParentId =: project.Id and UserOrGroupId =: pmtTempUser.Id];
                 List<PMT_Project__Share> lsOld = [select Id from PMT_Project__Share where ParentId =: project.Id and UserOrGroupId =: usr.Id];

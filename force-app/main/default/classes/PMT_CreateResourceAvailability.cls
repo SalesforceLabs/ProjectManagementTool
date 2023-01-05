@@ -61,7 +61,7 @@ public with sharing class PMT_CreateResourceAvailability{
             
             List<String> lstOfAvailabilityFields = new List<String>{'Fiscal_Year__c', 'Jan__c','Feb__c','Mar__c','Apr__c','May__c','Jun__c','Jul__c','Aug__c','Sep__c','Oct__c','Nov__c','Dec__c'};
             
-            if(!lstOfNewResourceAvailability.isEmpty() && PMT_Utility.validateCRUD('PMT_Resource_Availability__c', lstOfAvailabilityFields, 'isCreatable')){				
+            if(!lstOfNewResourceAvailability.isEmpty() && PMT_Utility.validateCRUD('PMT_Resource_Availability__c', lstOfAvailabilityFields, 'isCreatable')){                
                 Database.SaveResult[] srList = Database.INSERT(lstOfNewResourceAvailability,false);
                 for (Database.SaveResult sr : srList) {
                     if (!sr.isSuccess()){ 

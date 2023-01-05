@@ -102,26 +102,30 @@
         var fiscalMonthOffset = component.get("v.fiscalYearOffset") - 1; //JS starts count from 0
         var curr = new Date(); // get current date
         var year = curr.getFullYear(); //get current year
+        var month = curr.getMonth();
+        //Version 0.21.1 - Start - Updated fiscal year calculation
+        //Calculate start of the current fiscal year and subsequent calculations will be based on that
+        var fiscalYearStart = new Date(month<fiscalMonthOffset?year-1:year,fiscalMonthOffset,1);
 
         //Calculate Q1
-        var startQ1 = new Date(year, fiscalMonthOffset, 1)
+        var startQ1 = fiscalYearStart;
         var endQ1 = helper.add_months(startQ1, 3);
         endQ1.setDate(0);
 
         //Calculate Q2
-        var startQ2 = helper.add_months(new Date(year, fiscalMonthOffset, 1), 3);
+        var startQ2 = helper.add_months(fiscalYearStart, 3);
         var endQ2 = helper.add_months(startQ2, 3);
         endQ2.setDate(0);
 
 
         //Calculate Q3
-        var startQ3 = helper.add_months(new Date(year, fiscalMonthOffset, 1), 6);
+        var startQ3 = helper.add_months(fiscalYearStart, 6);
         var endQ3 = helper.add_months(startQ3, 3);
         endQ3.setDate(0);
 
 
         //Calculate Q4
-        var startQ4 = helper.add_months(new Date(year, fiscalMonthOffset, 1), 9);
+        var startQ4 = helper.add_months(fiscalYearStart, 9);
         var endQ4 = helper.add_months(startQ4, 3);
         endQ4.setDate(0);
 
@@ -151,13 +155,15 @@
             component.set("v.endCurrent", endQ4);
 
             //Calculate Q1 - Next Year
-            var startQ1Next = helper.add_months(new Date(year, fiscalMonthOffset, 1), 12);
+            var startQ1Next = helper.add_months(fiscalYearStart, 12);
             var endQ1Next = helper.add_months(startQ1Next, 3);
             endQ1Next.setDate(0);
-
+            
+            //Version 0.21.1 - End - Updated fiscal year calculation
             component.set("v.startNext", startQ1Next);
             component.set("v.endNext", endQ1Next);
         }
+        
         //Filter columns
         helper.filterTasks(component);
     },

@@ -1,0 +1,89 @@
+<template>
+    <div if:true={isLoading} style="height:200px; position:relative">
+        <lightning-spinner variant="base" size="medium"></lightning-spinner>
+    </div>
+    <div>
+        <div if:false={isLoading} style={headerStyle}>
+            <lightning-layout vertical-align="center">
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <div if:true={filtersToShow}>
+                        <lightning-input type="toggle" checked={projectCheck} name="projtgl" variant="label-hidden" onchange={handleValueChange} message-toggle-active="My Projects" message-toggle-inactive="My Projects"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <lightning-input type="toggle" name="tasktgl" checked={taskCheck} variant="label-hidden" onchange={handleValueChange} message-toggle-active="My Tasks" message-toggle-inactive="My Tasks"></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <div if:true={filtersToShow}>
+                        <lightning-input type="toggle" name="followtgl" checked={followProject} variant="label-hidden" onchange={handleValueChange} message-toggle-active="Following" message-toggle-inactive="Following"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <h1 class="slds-text-heading_medium slds-truncate slds-align_absolute-center">
+                        {formattedStartDate} - {formattedEndDate}
+                    </h1>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <lightning-button label="Expand All" onclick={handleonclick}></lightning-button>
+                    <lightning-button label="Collapse All" onclick={handleonclick}></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <lightning-button-icon icon-name="utility:left" variant="border-filled" onclick={navigateToPrevious}>
+                    </lightning-button-icon>
+                    <lightning-button label="Today" onclick={navigateToToday}></lightning-button>
+                    <lightning-button-icon icon-name="utility:right" variant="border-filled" onclick={navigateToNext}>
+                    </lightning-button-icon>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <lightning-combobox value={view.value} options={view.options} onchange={handleViewChange} variant="label-hidden"></lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <lightning-button label="" icon-name="utility:refresh" onclick={handleonclick}></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" flexibility="auto">
+                    <span style="color:#c8c8c8">Project</span><br/>
+                    <span style="color:#A3A3A3">Phase</span><br/>
+                    <span style="color:#3db9d3">Task</span>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout vertical-align="center" class="lwc-chart_container lwc-timeline" size="12">
+                <lightning-layout-item padding="around-small" size="2" class="slds-text-heading_medium slds-p-around_small">PMT Projects</lightning-layout-item>           
+                <lightning-layout-item flexibility="auto">
+                    <lightning-layout vertical-align="center">
+                        <template for:each={dates} for:item="date">
+                            <lightning-layout-item key={date} flexibility="auto"
+                                class="slds-col lwc-timeline_month-container" style={date.style}>
+                                <lightning-layout vertical-align="center">
+                                    <lightning-layout-item flexibility="auto" class="lwc-timeline_month slds-p-around_xx-small slds-theme_shade slds-text-align_center slds-text-color_weak slds-text-body_small slds-m-horizontal_x-small slds-truncate">                                
+                                        {date.name}
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                                <lightning-layout vertical-align="center">
+                                    <template for:each={date.days} for:item="day">
+                                        <lightning-layout-item flexibility="auto" key={day} class={day.class}>
+                                            <div if:true={day.dayName}>{day.dayName}</div>
+                                            <div>{day.label}</div>
+                                        </lightning-layout-item>
+                                    </template>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <div if:false={isLoading} class="slds-scrollable" style={dataStyle}>
+            <template if:true={dataToShow.length}>
+                <template for:each={dataToShow} for:item="record">
+                    <c-pmt-ganttdata key={record.id} class="lwc-resource-component" project={record}
+                        date-increment={view.slotSize} start-date={startDate} end-date={endDate}
+                        oncalleventhandler={eventhandler}>
+                    </c-pmt-ganttdata>
+                </template>
+            </template>
+        </div>
+        <div if:false={dataToShow.length} class="slds-text-align_center slds-p-around_medium">
+            <span class="slds-text-color_weak">No Data to Show</span>
+        </div>
+    </div>
+</template>

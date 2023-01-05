@@ -181,6 +181,6 @@
         <searchResultsAdditionalFields>Roadmap_Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Level_of_Effort__c</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

@@ -64,11 +64,11 @@
         var isValid = true;
         var taskList = component.get("v.taskList");
         for (var i = 0; i < taskList.length; i++) {
-            if (taskList[i].Name == '' || taskList[i].Start_Date__c == '' || taskList[i].Due_Date__c == '' || taskList[i].Phase__c == '') {
+            if (taskList[i].Name == '' || taskList[i].Phase__c == '') {
                 isValid = false;
                 component.set("v.errorMessage", 'PMT Task incomplete. Name, Start date, End date and Phase cannot be blank. Check line ' + (i + 1));
                 component.set("v.isError", true);
-            }else if(taskList[i].Start_Date__c > taskList[i].Due_Date__c){
+            }else if(taskList[i].Start_Date__c!='' && taskList[i].Due_Date__c!='' && taskList[i].Start_Date__c > taskList[i].Due_Date__c){
                 isValid = false;
                 component.set("v.errorMessage", 'Task error: Start date cannot be older than End Date, Check line ' + (i + 1));
                 component.set("v.isError", true);

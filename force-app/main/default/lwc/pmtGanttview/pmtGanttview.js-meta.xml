@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>PMT Gantt view</masterLabel>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+            <property name="height" label="Height" type="Integer" default="500"/>
+            <property name="withfilters" label="With Filters" type="Boolean" default="true"/>
+        </targetConfig>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="height" label="Height" type="Integer" default="500"/>
+            <property name="withfilters" label="With Filters" type="Boolean" default="true"/>
+            <objects>
+                <object>PMT_Project__c</object>
+            </objects>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

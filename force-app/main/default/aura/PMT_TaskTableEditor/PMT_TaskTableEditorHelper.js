@@ -317,7 +317,9 @@
         //checks if the two rows should switch places
         reverse = !reverse ? 1 : -1;
         return function (a, b) {
-            return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+            //Release 1.0
+        	//Bug Fix : Task table - Assigned to column sorting not working, blank skipping
+            return a = key(a) ? key(a) : '', b = key(b) ? key(b) : '', reverse * ((a > b) - (b > a));
         }
     },
     updateTable: function (component) {

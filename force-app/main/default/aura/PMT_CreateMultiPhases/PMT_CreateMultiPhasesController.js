@@ -17,8 +17,15 @@
         var selectedItem = event.currentTarget;
         //Get the selected item index
         var index = selectedItem.dataset.record;
-        phaseList.splice(index, 1);
-        component.set("v.phaseList", phaseList);
+        //Release 1.0
+        //Bug Fix : Create task, Phases button when nothing added still submit button shown and clickable with success message.
+        if(phaseList.length>1){
+            phaseList.splice(index, 1);
+        	component.set("v.phaseList", phaseList);
+        }
+        else{
+            helper.showToast("Warning", "Cannot remove the last row.");
+        }
     },
      
     save: function(component, event, helper) {

@@ -44,6 +44,13 @@
             <operator>lessOrEqual</operator>
             <value>THIS_WEEK</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>PMT_Project__c$IsTemplate__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>0</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
     <name>My Tasks of the Week</name>

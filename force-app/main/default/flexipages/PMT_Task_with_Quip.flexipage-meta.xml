@@ -4,6 +4,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-5d659612-518a-435a-8504-89e24dafbf62</name>
@@ -13,6 +14,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-231ef4e6-cf8f-4ab5-995d-a238e28deccd</name>
@@ -34,6 +36,7 @@
                     <value>Standard.Tab.collaborate</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>collaborateTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -47,6 +50,7 @@
                     <value>Standard.Tab.activity</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>activityTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-94bdf780-740c-44f7-8110-4a3a6a242169</name>
@@ -60,6 +64,10 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>enableActionsConfiguration</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>hideChatterActions</name>
                     <value>false</value>
                 </componentInstanceProperties>
@@ -68,6 +76,7 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -81,6 +90,7 @@
                     <value>linear</value>
                 </componentInstanceProperties>
                 <componentName>runtime_sales_pathassistant:pathAssistant</componentName>
+                <identifier>runtime_sales_pathassistant_pathAssistant</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -90,9 +100,220 @@
                     <value>Facet-94bdf780-740c-44f7-8110-4a3a6a242169</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-llizyt3nt49</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Name</fieldItem>
+                <identifier>RecordNameField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Start_Date__c</fieldItem>
+                <identifier>Recordinov8_Start_Date_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.IsTemplate__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Status__c</fieldItem>
+                <identifier>Recordinov8_Status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Description__c</fieldItem>
+                <identifier>Recordinov8_Description_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Topic__c</fieldItem>
+                <identifier>Recordinov8_Topic_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Phase__c</fieldItem>
+                <identifier>Recordinov8_Phase_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Start_Days_Out__c</fieldItem>
+                <identifier>Recordinov8_Start_Days_Out_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.IsTemplate__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>readonly</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Sign_off_status__c</fieldItem>
+                <identifier>Recordinov8_Sign_off_status_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-5952555b-c7cf-4f2d-855e-2fedf5f5ff66</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Assigned_To1__c</fieldItem>
+                <identifier>Recordinov8_Assigned_To1_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Due_Date__c</fieldItem>
+                <identifier>Recordinov8_Due_Date_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.IsTemplate__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Percentage_Completion__c</fieldItem>
+                <identifier>Recordinov8_Percentage_Completion_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.On_Hold_Reason__c</fieldItem>
+                <identifier>Recordinov8_On_Hold_Reason_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Milestone__c</fieldItem>
+                <identifier>Recordinov8_Is_Milestone_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Is_Recurring__c</fieldItem>
+                <identifier>Recordinov8_Is_Recurring_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Duration_In_Days__c</fieldItem>
+                <identifier>Recordinov8_End_Days_Out_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.IsTemplate__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-2e239642-3db9-4b53-9b96-f1d5bfa41d74</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-5952555b-c7cf-4f2d-855e-2fedf5f5ff66</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-2e239642-3db9-4b53-9b96-f1d5bfa41d74</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-589ab605-12e6-48e3-be6a-8298582bfe84</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -103,6 +324,10 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>enableActionsConfiguration</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>hideChatterActions</name>
                     <value>false</value>
                 </componentInstanceProperties>
@@ -111,6 +336,7 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -124,11 +350,27 @@
                     <value>linear</value>
                 </componentInstanceProperties>
                 <componentName>runtime_sales_pathassistant:pathAssistant</componentName>
+                <identifier>runtime_sales_pathassistant_pathAssistant2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>force:detailPanel</componentName>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-589ab605-12e6-48e3-be6a-8298582bfe84</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Status</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>force:recordDetailPanelMobile</componentName>
+                <identifier>force_recordDetailPanelMobile</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -138,6 +380,7 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListQuickLinksContainer</componentName>
+                <identifier>force_relatedListQuickLinksContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-64a5773e-fdb3-4756-927e-511f3d7d97d7</name>
@@ -155,6 +398,7 @@
                     <value>Chatter &amp; Activity</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -172,6 +416,7 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>detailTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-2e17476f-f819-4ea7-a915-eb7336b5f642</name>
@@ -185,6 +430,7 @@
                     <value>Facet-2e17476f-f819-4ea7-a915-eb7336b5f642</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset2</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

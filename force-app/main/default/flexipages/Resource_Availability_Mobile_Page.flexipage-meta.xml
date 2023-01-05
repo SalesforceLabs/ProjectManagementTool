@@ -17,6 +17,7 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -26,6 +27,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-adfbf527-52c2-444c-93db-71e0fa5d90db</name>
@@ -47,6 +49,7 @@
                     <value>Standard.Tab.collaborate</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>collaborateTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-b4542191-9432-4d34-b628-e08ba2907d36</name>
@@ -60,6 +63,7 @@
                     <value>Facet-b4542191-9432-4d34-b628-e08ba2907d36</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -85,11 +89,13 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

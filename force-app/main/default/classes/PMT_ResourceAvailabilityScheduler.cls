@@ -11,13 +11,13 @@ global with sharing class PMT_ResourceAvailabilityScheduler implements Schedulab
      * Description :  Find out users and Using insertResourceAvailability method creates resource availability for them
      * **************************************************************/
     global void execute(SchedulableContext SC) {        
-		Map<Id,Set<String>> mapOfResourceAndFiscalyearList = new Map<Id,Set<String>>();
-		
-        //Find out all Salesforce profile users present		
-		for(User userRec : [SELECT Id FROM User WHERE IsActive=true AND Is_PMT_User_consider_for_Availability__c = true limit :Limits.getLimitQueryRows()]){
-			mapOfResourceAndFiscalyearList.put(userRec.Id, new Set<String>());
-		}
-		
+        Map<Id,Set<String>> mapOfResourceAndFiscalyearList = new Map<Id,Set<String>>();
+        
+        //Find out all Salesforce profile users present     
+        for(User userRec : [SELECT Id FROM User WHERE IsActive=true AND Is_PMT_User_consider_for_Availability__c = true limit :Limits.getLimitQueryRows()]){
+            mapOfResourceAndFiscalyearList.put(userRec.Id, new Set<String>());
+        }
+        
         PMT_CreateResourceAvailability.insertResourceAvailability(JSON.serialize(mapOfResourceAndFiscalyearList));
     }
 }

@@ -5,6 +5,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-llizyt3nt49</name>
@@ -26,6 +27,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListContainer</componentName>
+                <identifier>force_relatedListContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-4c1d8f83-2b7d-4df3-9252-9db5dfffc992</name>
@@ -43,6 +45,7 @@
                     <value>Standard.Tab.collaborate</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>collaborateTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -56,6 +59,7 @@
                     <value>Other</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-2e17476f-f819-4ea7-a915-eb7336b5f642</name>
@@ -77,6 +81,7 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -86,11 +91,13 @@
                     <value>Facet-2e17476f-f819-4ea7-a915-eb7336b5f642</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

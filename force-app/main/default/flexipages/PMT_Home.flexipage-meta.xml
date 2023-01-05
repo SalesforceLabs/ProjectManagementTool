@@ -29,6 +29,7 @@
                     <value>5</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:filterListCard</componentName>
+                <identifier>flexipage_filterListCard</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -58,6 +59,7 @@
                     <value>5</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:filterListCard</componentName>
+                <identifier>flexipage_filterListCard2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -79,6 +81,7 @@
                     <value>10</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:recentItems</componentName>
+                <identifier>flexipage_recentItems</identifier>
             </componentInstance>
         </itemInstances>
         <name>region1</name>
@@ -112,6 +115,7 @@
                     <value>5</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:filterListCard</componentName>
+                <identifier>flexipage_filterListCard3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -133,6 +137,7 @@
                     <value>10</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:recentItems</componentName>
+                <identifier>flexipage_recentItems2</identifier>
             </componentInstance>
         </itemInstances>
         <name>region2</name>
@@ -166,6 +171,7 @@
                     <value>5</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:filterListCard</componentName>
+                <identifier>flexipage_filterListCard4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -187,6 +193,7 @@
                     <value>10</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:recentItems</componentName>
+                <identifier>flexipage_recentItems3</identifier>
             </componentInstance>
         </itemInstances>
         <name>region3</name>

@@ -14,7 +14,8 @@
     <aura:attribute name="sortedBy" type="String" description="Store filedName in datatable column sort"/>
     <aura:attribute name="sortedDirection" type="Boolean" default="true" description="Store sort direction in datatable column sort"/>
     <aura:attribute name="fiscalYearOffset" type="Integer" description="Fiscal year start month"/>
-    
+    <aura:attribute name="isRefresh" type="Boolean" default="true" description="To display the spinner"/>
+
     <aura:handler name="change" action="{!c.transformDataForFiscalYear}" value="{!v.fiscalYearOffset}"/>
     <!--Component initialization-->
     <aura:handler name="change" action="{!c.doInit}" value="{!v.fiscalYear}"/>

@@ -15,5 +15,10 @@
         <operation>equals</operation>
         <value>Not Started,On Track,At Risk,Late,On Hold</value>
     </filters>
+    <filters>
+        <field>IsTemplate__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
     <label>My Open Projects</label>
 </ListView>

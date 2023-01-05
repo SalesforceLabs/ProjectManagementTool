@@ -11,6 +11,10 @@
         <value xsi:type="xsd:double">100.0</value>
     </values>
     <values>
+        <field>Holidays__c</field>
+        <value xsi:type="xsd:string">Sat;Sun</value>
+    </values>
+    <values>
         <field>Resource_Planning_Years_in_Advance__c</field>
         <value xsi:type="xsd:double">2.0</value>
     </values>

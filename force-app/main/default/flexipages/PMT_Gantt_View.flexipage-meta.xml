@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>height</name>
+                    <value>500</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>withfilters</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>pmtGanttview</componentName>
+                <identifier>pmtGanttview</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>main</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>PMT Gantt View</masterLabel>
+    <template>
+        <name>flexipage:defaultAppHomeTemplate</name>
+    </template>
+    <type>AppPage</type>
+</FlexiPage>

@@ -1,7 +1,7 @@
 /*************************************************
 * Name: PMT_ResourceManagementCtrl
 * Description: Lightning component helper for resource allocation
-* Author : Salesforce.com
+* Author : Shekhar Gawali
 * Used By : pmtResourceManagementTab (LWC),
             PMT_MassResourceAllocationContainer.cmp, 
             PMT_MassResourceAllocation.cmp, 
@@ -306,7 +306,7 @@ public with sharing class PMT_ResourceManagementCtrl {
             //Aggregate query to get all the utilized values for regions, fiscal years and departments from availability
             for(AggregateResult ar : [select count(Id),Fiscal_Year__c year,User__r.Department dept from PMT_Resource_Availability__c group by Fiscal_Year__c, User__r.Department limit :limits.getLimitQueryRows()]){
                 fiscalYears.add((String)ar.get('year'));
-                picklistPMTDepartments.add((String)ar.get('dept'));
+                picklistPMTDepartments.add((String)ar.get('dept')==null?'':(String)ar.get('dept'));
             }
             filters.add(new List<string>(picklistPMTDepartments));
             filters.add(new List<string>(fiscalYears));

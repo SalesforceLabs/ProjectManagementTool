@@ -9,5 +9,10 @@
     <columns>Deadline_formula__c</columns>
     <columns>Kickoff_formula__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>IsTemplate__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
     <label>All Projects</label>
 </ListView>

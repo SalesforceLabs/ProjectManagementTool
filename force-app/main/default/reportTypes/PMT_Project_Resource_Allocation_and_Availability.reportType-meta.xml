@@ -335,6 +335,11 @@
             <field>SystemsImpacted__c</field>
             <table>PMT_Project__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>IsTemplate__c</field>
+            <table>PMT_Project__c</table>
+        </columns>
         <masterLabel>PMT Projects</masterLabel>
     </sections>
     <sections>
