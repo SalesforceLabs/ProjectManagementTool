@@ -3,6 +3,6 @@
     <enableCustomFiscalYear>false</enableCustomFiscalYear>
     <fiscalYear>
         <fiscalYearNameBasedOn>endingMonth</fiscalYearNameBasedOn>
-        <startMonth>February</startMonth>
+        <startMonth>January</startMonth>
     </fiscalYear>
 </CompanySettings>
