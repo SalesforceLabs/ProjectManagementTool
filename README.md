@@ -19,3 +19,8 @@ With PMT, you can easily structure your projects and track progress to
 *COLLABORATION*: Embedded collaboration moves projects along quickly, even when multiple teams and regions are involved. Post to Chatter if you need to swap a resource.
 
 *ISSUE MANAGEMENT*: Escalate business critical issues/risks/bugs with Cases. Focus on resolving late projects with path to green.
+
+<a href="https://githubsfdeploy.herokuapp.com">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
