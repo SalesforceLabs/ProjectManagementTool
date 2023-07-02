@@ -1,8 +1,5 @@
 
-<a href="https://githubsfdeploy.herokuapp.com?owner=SalesforceLabs&repo=https://github.com/SalesforceLabs/ProjectManagementTool&ref=Main">
-  <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
-</a># Project Management Tool - PMT
+
 
 Free end-to-end project management solution built by Salesforce
 
@@ -23,3 +20,8 @@ With PMT, you can easily structure your projects and track progress to
 *COLLABORATION*: Embedded collaboration moves projects along quickly, even when multiple teams and regions are involved. Post to Chatter if you need to swap a resource.
 
 *ISSUE MANAGEMENT*: Escalate business critical issues/risks/bugs with Cases. Focus on resolving late projects with path to green.
+
+<a href="https://githubsfdeploy.herokuapp.com">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
