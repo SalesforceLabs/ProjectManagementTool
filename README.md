@@ -1,4 +1,8 @@
-# Project Management Tool - PMT
+
+<a href="https://githubsfdeploy.herokuapp.com?owner=SalesforceLabs&repo=https://github.com/SalesforceLabs/ProjectManagementTool&ref=Main">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a># Project Management Tool - PMT
 
 Free end-to-end project management solution built by Salesforce
 

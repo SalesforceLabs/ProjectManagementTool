@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
-        <fullName>Sponsor</fullName>
+        <fullName>Project Sponsor</fullName>
         <default>false</default>
-        <label>Sponsor</label>
+        <label> Project Sponsor</label>
     </customValue>
     <customValue>
-        <fullName>Project Owner</fullName>
+        <fullName>Program Director</fullName>
         <default>false</default>
-        <label>Project Owner</label>
+        <label>Program Director</label>
     </customValue>
     <customValue>
-        <fullName>PMO</fullName>
+        <fullName>Program Manager</fullName>
         <default>false</default>
-        <label>PMO</label>
+        <label>Program Manager</label>
     </customValue>
     <customValue>
-        <fullName>SME</fullName>
+        <fullName>Monotoring and Evaluation</fullName>
         <default>false</default>
-        <label>SME</label>
+        <label>Monitoring and Evaluation</label>
     </customValue>
     <customValue>
         <fullName>IT</fullName>
