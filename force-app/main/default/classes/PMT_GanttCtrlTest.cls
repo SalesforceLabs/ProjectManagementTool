@@ -97,9 +97,13 @@ public with sharing class PMT_GanttCtrlTest {
         User testUser = [SELECT Id FROM User WHERE UserName = 'standarduser@pmtgantt.com'];
         System.runAs(testUser) {
             Test.startTest();
-            List<PMT_GanttCtrl.GanttDataWrapper> result = PMT_GanttCtrl.fetchGanttData(92, System.Today(), '', 'All', 'All', 'All', 'All', 'All');
-
-            system.assertEquals(true, result.size() > 0);
+            List<PMT_GanttCtrl.GanttDataWrapper> result1 = PMT_GanttCtrl.fetchGanttData(92, System.Today(), '', 'All', 'All', 'All','' ,'All', 'All' , 'Start_Date__c Asc');
+            List<PMT_GanttCtrl.GanttDataWrapper> result2 = PMT_GanttCtrl.fetchGanttData(31, System.Today(), '', 'All', 'All', 'All','project' ,'All', 'All' , 'Start_Date__c Desc');
+			List<PMT_GanttCtrl.GanttDataWrapper> result3 = PMT_GanttCtrl.fetchGanttData(31, System.Today(), '', 'All', 'All', 'All','project' ,'All', 'All' , 'Due_Date__c Asc');
+            
+            system.assertEquals(true, result1.size() > 0);
+            system.assertEquals(true, result2.size() > 0);
+            system.assertEquals(true, result3.size() > 0);
             Test.stopTest();
         }
     }
@@ -109,7 +113,7 @@ public with sharing class PMT_GanttCtrlTest {
         System.runAs(testUser) {
 
             Test.startTest();
-            List<PMT_GanttCtrl.GanttDataWrapper> result = PMT_GanttCtrl.fetchGanttData(10, System.Today(), '', 'Execute', 'On Track', 'Inov8', 'Non IT', 'All');
+            List<PMT_GanttCtrl.GanttDataWrapper> result = PMT_GanttCtrl.fetchGanttData(10, System.Today(), '', 'Execute', 'On Track', 'Inov8','' ,'Non IT', 'All','Due_Date__c Asc');
 
             system.assertEquals(true, result.size() == 0);
             Test.stopTest();
@@ -122,7 +126,7 @@ public with sharing class PMT_GanttCtrlTest {
             PMT_Program__c prg = [SELECT Id FROM PMT_Program__c WHERE Name = 'Test Program 1'];
 
             Test.startTest();
-            List<PMT_GanttCtrl.GanttDataWrapper> result = PMT_GanttCtrl.fetchGanttData(10, System.Today(), '', 'Execute', 'All', 'All', 'All', String.valueOf(prg.Id));
+            List<PMT_GanttCtrl.GanttDataWrapper> result = PMT_GanttCtrl.fetchGanttData(10, System.Today(), '', 'Execute', 'All', 'All', '', 'All', String.valueOf(prg.Id),'Due_Date__c Desc');
             system.assertEquals(true, result.size() > 0);
             Test.stopTest();
         }

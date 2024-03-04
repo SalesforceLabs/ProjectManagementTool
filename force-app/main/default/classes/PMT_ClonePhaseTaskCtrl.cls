@@ -92,7 +92,8 @@ global with sharing class PMT_ClonePhaseTaskCtrl {
                                             Roadmap_Status__c, Project_Status__c, Project_Initiator__c, Project_Health__c, Project_Category__c, Processes_Impacted__c, Issues_Risk__c,
                                             In_Scope__c, Goal_Statement__c, Business_Case__c, Assumptions__c, Problem_Statement__c, Out_of_Scope__c, Health_Comment__c, Release_Date__c, Go_Live_Date__c from PMT_Project__c where id =: phtask.projectId WITH SECURITY_ENFORCED limit:limits.getLimitQueryRows()];
                 
-                PMT_Project__c projectClone = proRecord.clone(false,false,false,false); 
+                PMT_Project__c projectClone = proRecord.clone(false,false,false,false);
+                projectClone.Initial_Start_Date__c = phtask.projectStartDate; 
                 projectClone.Name = phtask.projectName;
                 lstClonedProjects.add(projectClone);
                 

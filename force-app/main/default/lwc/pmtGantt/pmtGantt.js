@@ -19,6 +19,7 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
         @api systemImpacted;
         @api projectCategory;
         @api programSelected;
+        @api projectSelected;
         @api recordId;
         @api defaultView; // design attribute
         @api objectApiName;
@@ -56,29 +57,50 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
         selectedView = 'View by Week';
         dataStyle;
         headerStyle;
+        sortByValue = 'Start_Date__c Asc';
 
         //@track datePickerString; // Date Navigation
         @track view = {
                 // View Select
                 options: [{
-                                label: "View by Day",
-                                value: "1/20"
-                        },
-                        {
-                                label: "View by Week",
-                                value: "7/6"
-                        },
-                        {
-                                label: "View by Month",
-                                value: "7/20"
-                        },
-                        {
-                                label: "View by Year",
-                                value: "4/16"
-                        }
+                        label: "View by Day",
+                        value: "1/20"
+                },
+                {
+                        label: "View by Week",
+                        value: "7/6"
+                },
+                {
+                        label: "View by Month",
+                        value: "7/20"
+                },
+                {
+                        label: "View by Year",
+                        value: "4/16"
+                }
                 ],
                 slotSize: 1,
                 slots: 1
+        };
+
+        @track sortBy = {
+                // View Select
+                options: [{
+                        label: "Start Date Ascending",
+                        value: "Start_Date__c Asc"
+                },
+                {
+                        label: "Start Date Descending",
+                        value: "Start_Date__c Desc"
+                },
+                {
+                        label: "End Date Ascending",
+                        value: "Due_Date__c Asc"
+                },
+                {
+                        label: "End Date Descending",
+                        value: "Due_Date__c Desc"
+                }]
         };
 
         connectedCallback() {
@@ -192,7 +214,7 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
 
                                 let day = {
                                         class: "slds-col slds-p-vertical_x-small slds-m-top_x-small lwc-timeline_day",
-                                        label: date.format("M/D"),
+                                        label: date.format("MM/DD"),
                                         start: date.toDate()
                                 };
 
@@ -211,6 +233,60 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
                                         day.class += " lwc-is-today";
                                 }
 
+                                switch (this.view.value) {
+                                        case "1/20": {
+                                                //Day
+                                                this.viewType = "View by Day";
+                                                //Adding separator line after Sunday.
+                                                if (date.day() === 0) {
+                                                        day.class = day.class + " lwc-is-week-end";
+                                                }
+                                                break;
+                                        }
+                                        case "7/6": {
+                                                //Week
+                                                this.viewType = "View by Week";
+                                                //Adding separator line after 2 weeks.
+                                                let year = new Date(day.end.getFullYear(), 0, 1);
+                                                let days = Math.floor((day.end - year) / (24 * 60 * 60 * 1000));
+                                                if (Math.ceil((day.end.getDay() + 1 + days) / 7) % 2 === 0) {
+                                                        day.class = day.class + " lwc-is-week-end";
+                                                }
+                                                break;
+                                        }
+                                        case "7/20": {
+                                                //Month
+                                                this.viewType = "View by Month";
+                                                //Adding separator line if date month is not same as (date + 8) date.
+                                                if (
+                                                        date.month() !==
+                                                        moment(date)
+                                                                .add(slotEndDateCalc + 1, incrementType)
+                                                                .toDate()
+                                                                .getMonth()
+                                                ) {
+                                                        day.class = day.class + " lwc-is-week-end";
+                                                }
+                                                break;
+                                        }
+                                        case "4/16": {
+                                                //Year
+                                                this.viewType = "View by Year";
+                                                //Adding separator line if date's year is not same as next incremental date's year.
+                                                if (
+                                                        date.year() !==
+                                                        moment(date)
+                                                                .add(slotEndDateCalc + 1, incrementType)
+                                                                .toDate()
+                                                                .getFullYear()
+                                                ) {
+                                                        day.class = day.class + " lwc-is-week-end";
+                                                }
+                                                break;
+                                        }
+                                        default:
+                                                break;
+                                }
                                 dates[index].days.push(day);
                                 dates[index].style = "width: calc(" + dates[index].days.length + "/" + this.view.slots + "*100%)";
                         }
@@ -281,6 +357,14 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
                 this.view.slots = parseInt(values[1], 10);
         }
 
+        handlesortByChange(event) {
+                console.log('event.detail.value ' + event.detail.value);
+                this.sortByValue = event.detail.value;
+                refreshApex(this.wiredGanttResult).then(() => {
+                        this.isLoading = false;
+                });
+        }
+
         //function to set startdate based on scale selected
         handleViewChange(event) {
                 this.isLoading = true;
@@ -305,8 +389,10 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
                 projectProgress: '$projectProgress',
                 projectHealth: '$projectHealth',
                 systemImpacted: '$systemImpacted',
+                projectSelected: '$projectSelected',
                 projectCategory: '$projectCategory',
                 program: '$programSelected',
+                sortBy: '$sortByValue'
         })
         wiredGanttData(result) {
                 this.isLoading = true;
@@ -315,14 +401,8 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
                         this.dataToShow = [];
                         this.processData(result.data);
 
-                        if (result.data.length == 30 && this.toastCheck == false) {
-                                this.toastCheck = true;
-                                const evt = new ShowToastEvent({
-                                        title: 'Search Results',
-                                        message: 'Only first 30 results are displayed ordered by name, please use additional filters to optimize the search',
-                                        variant: 'warning',
-                                });
-                                this.dispatchEvent(evt);
+                        if (result.data.length === 30) {
+                                this.showProjLMTMessage = true;
                         }
                 } else if (result.error) {
                         this.showToastMessage('Error', result.error, 'error');
@@ -335,9 +415,7 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
                 this.dataToShow = [];
                 if (data.length != 0) {
                         data.forEach(wrapper => {
-                                var projectRec = {
-                                        ...wrapper
-                                };
+                                var projectRec = { ...wrapper };
                                 projectRec.isExpanded = false;
                                 projectRec.isDraggable = false;
                                 projectRec.titleClass = "slds-media "; //slds-media_center
@@ -425,7 +503,7 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
                         var clonedData = [...this.dataToShow];
                         //Filter when My Project is selected
                         if (this.myprojflag == true) {
-                                clonedData = clonedData.filter(function(element) {
+                                clonedData = clonedData.filter(function (element) {
                                         return element.isMyProject == true;
                                 }, this);
                         }
@@ -433,7 +511,7 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
                         //Filter when Follow Projects is selected
                         if (this.followprojflag == true) {
                                 this.filtersCheck = true;
-                                clonedData = clonedData.filter(function(element) {
+                                clonedData = clonedData.filter(function (element) {
                                         return element.isFollow == true;
                                 }, this);
                         }
@@ -475,7 +553,7 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
         //function to filter Projects without Phases 
         filterProjectsWithoutPhases(newclonedData) {
                 var tempData = newclonedData;
-                var filteredProjects = tempData.filter(function(element) {
+                var filteredProjects = tempData.filter(function (element) {
                         return (typeof element.lstOfChilds != 'undefined' && element.lstOfChilds.length != 0);
                 }, this);
                 return filteredProjects;
@@ -519,42 +597,28 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
                                 break;
 
                         case 'Expand All':
-                                new Promise(
-                                        (resolve, reject) => {
-                                                setTimeout(() => {
-                                                        this.isExpandAll = true;
-                                                        var cloneDataToExpand = [...this.dataToShow];
-                                                        cloneDataToExpand = this.filteredView(cloneDataToExpand);
-                                                        cloneDataToExpand = this.expandAll(cloneDataToExpand);
-                                                        this.dataToShow = [];
-                                                        this.dataToShow = cloneDataToExpand;
-                                                        this.isExpandAll = false;
-                                                        resolve();
-                                                }, 0);
-                                        }).then(
-                                        () => this.isLoading = false
-                                );
+                                this.isExpandAll = true;
+                                var cloneDataToExpand = [...this.dataToShow];
+                                cloneDataToExpand = this.filteredView(cloneDataToExpand);
+                                cloneDataToExpand = this.expandAll(cloneDataToExpand);
+                                this.dataToShow = [];
+                                this.dataToShow = cloneDataToExpand;
+                                this.isExpandAll = false;
+                                this.isLoading = false;
                                 break;
 
                         case 'Collapse All':
-                                new Promise(
-                                        (resolve, reject) => {
-                                                setTimeout(() => {
-                                                        var cloneDataToCollapse = [];
-                                                        cloneDataToCollapse = [...this.dataToShow];
-                                                        for (var counter = 0; counter < cloneDataToCollapse.length; counter++) {
-                                                                var index = this.findIndexById(cloneDataToCollapse[counter].id, cloneDataToCollapse);
-                                                                cloneDataToCollapse = this.closeAllChilds(cloneDataToCollapse[index], cloneDataToCollapse);
-                                                        }
-                                                        this.expandedData.length = 0;
-                                                        this.dataToShow = [];
-                                                        this.dataToShow = cloneDataToCollapse;
-                                                        this.isExpandedCheck = false;
-                                                        resolve();
-                                                }, 0);
-                                        }).then(
-                                        () => this.isLoading = false
-                                );
+                                var cloneDataToCollapse = [];
+                                cloneDataToCollapse = [...this.dataToShow];
+                                for (var counter = 0; counter < cloneDataToCollapse.length; counter++) {
+                                        var index = this.findIndexById(cloneDataToCollapse[counter].id, cloneDataToCollapse);
+                                        cloneDataToCollapse = this.closeAllChilds(cloneDataToCollapse[index], cloneDataToCollapse);
+                                }
+                                this.expandedData.length = 0;
+                                this.dataToShow = [];
+                                this.dataToShow = cloneDataToCollapse;
+                                this.isExpandedCheck = false;
+                                this.isLoading = false;
                                 break;
 
                         default:

@@ -2,5 +2,5 @@
 <StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
     <cacheControl>Private</cacheControl>
     <contentType>text/javascript</contentType>
-    <description>Case 00020481 : W-000547 : E-00832 : PMT Gantt Chart</description>
+    <description>PMT Gantt Chart</description>
 </StaticResource>

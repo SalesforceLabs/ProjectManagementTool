@@ -26,7 +26,6 @@
         else{
             helper.showToast("Warning", "Cannot remove the last row.");
         }
-        
     },
      
     save: function(component, event, helper) {

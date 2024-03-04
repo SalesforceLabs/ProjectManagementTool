@@ -45,7 +45,6 @@
     <tabs>standard-Case</tabs>
     <tabs>PMT_Phase__c</tabs>
     <tabs>PMT_Task__c</tabs>
-    <tabs>PMT_Gantt_View</tabs>
     <tabs>Resource_Management</tabs>
     <tabs>PMT_Resource_Availability__c</tabs>
     <tabs>PMT_Resource_Allocation__c</tabs>

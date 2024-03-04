@@ -246,19 +246,40 @@
         resultsToast.fire();
     },
     
-    changeStatus: function(component, tasksSelected) {
+    changeStatus: function (component, tasksSelected) {
         component.set("v.showflowChangeStatus", true);
-        // Find the component whose aura:id is "flowChangeStatus"
-        var flow = component.find("flowChangeStatus");
-        var inputVariables = [
-            {
-                name : "PMTTaskListIds",
-                type : "SObject",
-                value : component.get("v.selectedIds")
+        var action = component.get("c.getTasksList");
+        action.setParams({
+            taskIds: component.get("v.selectedIds")
+        });
+        action.setCallback(this, function (response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                var listOfTasks = response.getReturnValue();
+                component.set("v.tasksToUpdate", listOfTasks);
+                // Find the component whose aura:id is "flowChangeStatus"
+                var flow = component.find("flowChangeStatus");
+                var inputVariables = [
+                    {
+                        name: "LsPMTTasksSelected",
+                        type: "SObject",
+                        value: component.get("v.tasksToUpdate")
+                    }
+                ];
+                // In that component, start your flow. Reference the flow's API Name.
+                flow.startFlow("PMT_Mass_update_Task_Status", inputVariables);
+            } else if (state === 'ERROR') {
+                var errors = response.getError();
+                var message = '';
+                if (errors && Array.isArray(errors) && errors.length > 0) {
+                    message += errors[0].message;
+                }
+                helper.showToast("Error", message);
+            } else {
+                helper.showToast("Error", "Something went wrong, please contact system administrator.");
             }
-        ];
-        // In that component, start your flow. Reference the flow's API Name.
-        flow.startFlow("PMT_Mass_update_Task_Status", inputVariables);
+        });
+        $A.enqueueAction(action);
     },
     
     changeAssignee: function(component, tasksSelected) {
@@ -318,7 +339,7 @@
         reverse = !reverse ? 1 : -1;
         return function (a, b) {
             //Release 1.0
-        	//Bug Fix : Task table - Assigned to column sorting not working, blank skipping
+            //Bug Fix : Task table - Assigned to column sorting not working, blank skipping
             return a = key(a) ? key(a) : '', b = key(b) ? key(b) : '', reverse * ((a > b) - (b > a));
         }
     },

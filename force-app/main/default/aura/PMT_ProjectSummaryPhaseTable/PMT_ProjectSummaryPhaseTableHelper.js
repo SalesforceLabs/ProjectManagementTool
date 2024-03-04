@@ -158,12 +158,11 @@
             var startQ1Next = helper.add_months(fiscalYearStart, 12);
             var endQ1Next = helper.add_months(startQ1Next, 3);
             endQ1Next.setDate(0);
-            
+
             //Version 0.21.1 - End - Updated fiscal year calculation
             component.set("v.startNext", startQ1Next);
             component.set("v.endNext", endQ1Next);
         }
-        
         //Filter columns
         helper.filterTasks(component);
     },

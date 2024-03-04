@@ -37,8 +37,6 @@ public with sharing class PMT_Utility {
     public static boolean validateCRUD(String sObjectName, List<String> lstOfFieldAPIs, String accessCheck){    
         
         
-            sObjectName = sObjectName;
-      
         Schema.DescribeSobjectResult[] result = Schema.describeSObjects(new String[]{sObjectName});
         
         Map<String, Schema.SObjectField> fieldMap = result[0].fields.getMap();
@@ -55,7 +53,6 @@ public with sharing class PMT_Utility {
         } else if(lstOfFieldAPIs != null){// Check field level access 
             for (String field : lstOfFieldAPIs) {
                
-                    field = field;
                 if (accessCheck.equalsIgnoreCase('isAccessible') && !fieldMap.get(field).getDescribe().isAccessible()) {
                     return false;
                 }else if (accessCheck.equalsIgnoreCase('isUpdateable') && !fieldMap.get(field).getDescribe().isUpdateable()) {
@@ -108,11 +105,6 @@ public with sharing class PMT_Utility {
     public static Map<String, String> getPicklistValues(String objectAPI, String fieldAPI){   
         
         
-            
-                objectAPI = objectAPI;
-            
-                fieldAPI =  fieldAPI;
-            
         
         Map<String, String> mapOfResult = new Map<String, String>();
         Schema.SObjectType objMetadata = Schema.getGlobalDescribe().get(objectAPI) ;

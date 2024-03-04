@@ -7,7 +7,6 @@
                 var fiscalStartMonth = response.getReturnValue().Start_Month_of_Fiscal_Year__c;
                 component.set("v.fiscalYearOffset", fiscalStartMonth);
 
-                var namespacePrefix = '';
                 const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
                 ];
@@ -30,13 +29,13 @@
                 var transformedResourceAvail = { allocations: [], capacities: [], availabilities: [] };
 
                 for (var j = 0; j < fiscalMonths.length; j++) {
-                    var fieldName = namespacePrefix + fiscalMonths[j] + '_Allocation__c';
+                    var fieldName =  fiscalMonths[j] + '_Allocation__c';
                     allocations.push(resAvail[fieldName]);
 
-                    fieldName = namespacePrefix + fiscalMonths[j] + '__c';
+                    fieldName = fiscalMonths[j] + '__c';
                     capacities.push(resAvail[fieldName]);
 
-                    fieldName = namespacePrefix + fiscalMonths[j] + '_Remaining__c';
+                    fieldName = fiscalMonths[j] + '_Remaining__c';
                     availabilities.push(resAvail[fieldName]);
                 }
                 transformedResourceAvail.allocations = allocations;

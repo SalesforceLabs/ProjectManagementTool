@@ -3,6 +3,7 @@
     <backgroundEndColor>#FFFFFF</backgroundEndColor>
     <backgroundFadeDirection>Diagonal</backgroundFadeDirection>
     <backgroundStartColor>#FFFFFF</backgroundStartColor>
+    
     <dashboardFilters>
         <dashboardFilterOptions>
             <operator>equals</operator>
@@ -289,7 +290,7 @@
     </dashboardGridLayout>
     <dashboardType>SpecifiedUser</dashboardType>
     <isGridLayout>true</isGridLayout>
-    <runningUser>pmt@sf.com.dev</runningUser>
+    <runningUser>sgawali@df15.com</runningUser>
     <textColor>#000000</textColor>
     <title>Project Portfolio</title>
     <titleColor>#000000</titleColor>

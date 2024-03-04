@@ -3,7 +3,7 @@
 * Description: It creates Resource availability for users for future years in advance when scheduler runs.
 * Test class: PMT_scheduerResourceAvailabilityTest (86%)
 *******************************************************************************************/
-public with sharing class PMT_CreateResourceAvailability{
+global with sharing class PMT_CreateResourceAvailability{
     /*****************************************************************
     * Method Name : insertResourceAvailability
     * Params : String of JSON consist of Map of UserId's and respective fiscal year list 
@@ -11,7 +11,7 @@ public with sharing class PMT_CreateResourceAvailability{
     * Description : Creates resource availability for all mentioned users for next n fiscal years.
     * **************************************************************/
     @future
-    public static void insertResourceAvailability(String jsonOfResourceAndFiscalyearList){
+    global static void insertResourceAvailability(String jsonOfResourceAndFiscalyearList){
         Map<Id,Set<String>> mapOfResourceAndFiscalyearList = (Map<Id,Set<String>>) JSON.deserialize(String.escapeSingleQuotes(jsonOfResourceAndFiscalyearList), Map<Id,Set<String>>.class);
         Set<String> setOfFutureYRAvailabilityRequired;
         List<PMT_Resource_Availability__c> lstOfNewResourceAvailability = new List<PMT_Resource_Availability__c>();
@@ -61,7 +61,7 @@ public with sharing class PMT_CreateResourceAvailability{
             
             List<String> lstOfAvailabilityFields = new List<String>{'Fiscal_Year__c', 'Jan__c','Feb__c','Mar__c','Apr__c','May__c','Jun__c','Jul__c','Aug__c','Sep__c','Oct__c','Nov__c','Dec__c'};
             
-            if(!lstOfNewResourceAvailability.isEmpty() && PMT_Utility.validateCRUD('PMT_Resource_Availability__c', lstOfAvailabilityFields, 'isCreatable')){                
+            if(!lstOfNewResourceAvailability.isEmpty() && PMT_Utility.validateCRUD('PMT_Resource_Availability__c', lstOfAvailabilityFields, 'isCreatable')){				
                 Database.SaveResult[] srList = Database.INSERT(lstOfNewResourceAvailability,false);
                 for (Database.SaveResult sr : srList) {
                     if (!sr.isSuccess()){ 
@@ -89,7 +89,7 @@ public with sharing class PMT_CreateResourceAvailability{
     * Params : map of resource and fiscal year
     * Return : returns the set of years to setup the availability
     * **************************************************************/
-    public static Set<String> getFutureAvailabilityYears(Map<Id,Set<String>> mapOfResourceAndFiscalyearList){
+    global static Set<String> getFutureAvailabilityYears(Map<Id,Set<String>> mapOfResourceAndFiscalyearList){
         Set<String> setOfFutureYRAvailabilityRequired = new Set<String>();
         Integer fiscalYearStartMonth =  Integer.valueOf(PMT_Utility.getPMTSettings('Default').Start_Month_of_Fiscal_Year__c);
         Integer futureAvailabilityRequired = Integer.valueOf(PMT_Utility.getPMTSettings('Default').Resource_Planning_Years_in_Advance__c);
@@ -127,8 +127,8 @@ public with sharing class PMT_CreateResourceAvailability{
     * Return : NA
     * Description : Using insertResourceAvailability method creates resource availability for mentioned users
     * **************************************************************/
-    @InvocableMethod(label='Create PMT Resource Availability on User creation')
-    public static void createRAOnUserInsert(List<Id> lstOfUserIds){
+    @InvocableMethod(label='DEPRECATED: Create PMT Resource Availability on User creation')
+    global static void createRAOnUserInsert(List<Id> lstOfUserIds){
         Map<Id,Set<String>> mapOfResourceAndFiscalyearList = new Map<Id,Set<String>>();
         
         for(Id userId : lstOfUserIds){

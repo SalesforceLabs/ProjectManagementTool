@@ -339,11 +339,6 @@
             <field>Sum_of_tasks_count__c</field>
             <table>PMT_Project__c</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>IsTemplate__c</field>
-            <table>PMT_Project__c</table>
-        </columns>
         <masterLabel>PMT Projects</masterLabel>
     </sections>
     <sections>
@@ -495,11 +490,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Phases_with_completed_tasks__c</field>
-            <table>PMT_Project__c.Project_Phases__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Project_Name__c</field>
             <table>PMT_Project__c.Project_Phases__r</table>
         </columns>
         <masterLabel>PMT Phases</masterLabel>
@@ -658,26 +648,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Weighted_percentage__c</field>
-            <table>PMT_Project__c.Project_Phases__r.Project_Tasks__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Phase_Name__c</field>
-            <table>PMT_Project__c.Project_Phases__r.Project_Tasks__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Start_Days_Out__c</field>
-            <table>PMT_Project__c.Project_Phases__r.Project_Tasks__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Duration_In_Days__c</field>
-            <table>PMT_Project__c.Project_Phases__r.Project_Tasks__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>IsTemplate__c</field>
             <table>PMT_Project__c.Project_Phases__r.Project_Tasks__r</table>
         </columns>
         <masterLabel>PMT Tasks</masterLabel>

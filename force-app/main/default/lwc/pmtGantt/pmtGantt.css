@@ -55,3 +55,27 @@
 .filter-modal .slds-dropdown[role="listbox"] {
     max-height: 150px;
 }
+
+.project-icon {
+    --sds-c-icon-color-foreground-default: #c8c8c8;
+    --sds-c-icon-color-background: #c8c8c8;
+    margin-right: 5px;
+  }
+  
+  .phase-icon {
+    --sds-c-icon-color-foreground-default: #a3a3a3;
+    --sds-c-icon-color-background: #a3a3a3;
+    margin-right: 5px;
+  }
+  
+  .task-icon {
+    --sds-c-icon-color-foreground-default: #3db9d3;
+    --sds-c-icon-color-background: #3db9d3;
+    margin-right: 5px;
+  }
+  .milestone-icon {
+    --sds-c-icon-color-foreground-default: #d3b33d;
+    --sds-c-icon-color-background: #d3b33d;
+    margin-right: 5px;
+  }
+  

@@ -1,28 +1,50 @@
 <template>
-    <lightning-card if:true={withfilters}>
-           <lightning-layout vertical-align="center">
-                  <lightning-layout-item padding="around-small" flexibility="auto">
-                         <c-pmt-gen-lwc-custom-lookup field-label="Program" child-object-api-name='PMT_Project__c' target-field-api-name='Program__c' onvalueselected={handleProgramSelection}></c-pmt-gen-lwc-custom-lookup>
-                  </lightning-layout-item>
-                  <lightning-layout-item padding="around-small" flexibility="auto">
-                         <lightning-combobox class="custom_css" name="projprogress" label="Project Progress" value={progressSelected} placeholder="Select Progress" options={progressoptions} onchange={handleChange}></lightning-combobox>
-                  </lightning-layout-item>
-                  <lightning-layout-item padding="around-small" flexibility="auto">
-                         <lightning-combobox class="custom_css" name="projhealth" label="Project Health" value={healthSelected} placeholder="Select Health" options={healthoptions} onchange={handleChange}></lightning-combobox>
-                  </lightning-layout-item>
-                  <lightning-layout-item padding="around-small" flexibility="auto">
-                         <lightning-combobox class="custom_css" name="projcategory" label="Project Category" value={categorySelected} placeholder="Select Category" options={categoryoptions} onchange={handleChange}></lightning-combobox>
-                  </lightning-layout-item>
-                  <lightning-layout-item padding="around-small" flexibility="auto">
-                         <lightning-combobox class="custom_css" name="sysimpacted" label="System(s) Impacted" value={systemSelected} placeholder="Select System" options={systemoptions} onchange={handleChange}></lightning-combobox>
-                  </lightning-layout-item>
-                  <lightning-button style="padding-top: 22px; padding-right: 10px;" variant="brand" label="Search Projects" title="Primary action" onclick={handleSearch}></lightning-button>
-           </lightning-layout>
-           <template if:true={searchProjects}>
-                  <c-pmt-gantt project-id={recordId} project-progress={progressSelected} project-health={healthSelected} system-impacted={systemSelected} project-category={categorySelected} program-selected={programSelected} myprojflag={showMyProj} mytaskflag={showTskAssignedToMe} followprojflag={showFollowing}></c-pmt-gantt>
-           </template>
-    </lightning-card>
-    <lightning-card if:false={withfilters}>
-           <c-pmt-gantt project-id={recordId} project-progress={progressSelected} project-health={healthSelected} system-impacted={systemSelected} project-category={categorySelected} program-selected={programSelected} myprojflag={showMyProj} mytaskflag={showTskAssignedToMe} followprojflag={showFollowing}></c-pmt-gantt>
-    </lightning-card>
+       <lightning-card if:true={withfilters}>
+              <lightning-layout vertical-align="center">
+                     <lightning-layout-item padding="around-small" flexibility="auto">
+                            <c-pmt-gen-lwc-custom-lookup field-label="Program" child-object-api-name="PMT_Project__c"
+                                   target-field-api-name="Program__c"
+                                   onvalueselected={handleProgramSelection}></c-pmt-gen-lwc-custom-lookup>
+                     </lightning-layout-item>
+                     <lightning-layout-item padding="around-small" flexibility="auto">
+                            <lightning-combobox class="custom_css" name="projprogress" label="Project Progress"
+                                   value={progressSelected} placeholder="Select Progress" options={progressoptions}
+                                   onchange={handleChange}></lightning-combobox>
+                     </lightning-layout-item>
+                     <lightning-layout-item padding="around-small" flexibility="auto">
+                            <lightning-combobox class="custom_css" name="projhealth" label="Project Health"
+                                   value={healthSelected} placeholder="Select Health" options={healthoptions}
+                                   onchange={handleChange}></lightning-combobox>
+                     </lightning-layout-item>
+                     <lightning-layout-item padding="around-small" flexibility="auto">
+                            <lightning-combobox class="custom_css" name="projcategory" label="Project Category"
+                                   value={categorySelected} placeholder="Select Category" options={categoryoptions}
+                                   onchange={handleChange}></lightning-combobox>
+                     </lightning-layout-item>
+                     <lightning-layout-item padding="around-small" flexibility="auto">
+                            <lightning-combobox class="custom_css" name="sysimpacted" label="System(s) Impacted"
+                                   value={systemSelected} placeholder="Select System" options={systemoptions}
+                                   onchange={handleChange}></lightning-combobox>
+                     </lightning-layout-item>
+                     <lightning-layout-item padding="around-small" flexibility="auto">
+                            <lightning-input type="text" label="Project Name" name="prjname" value={projectSelected}
+                                   placeholder="Search Projects..." onchange={handleChange}></lightning-input>
+                     </lightning-layout-item>
+                     <lightning-button style="padding-top: 22px; padding-right: 10px" variant="brand" label="Search"
+                            title="Primary action" onclick={handleSearch}></lightning-button>
+              </lightning-layout>
+              <template if:true={searchProjects}>
+                     <c-pmt-gantt project-id={recordId} project-progress={progressSelected}
+                            project-health={healthSelected} system-impacted={systemSelected}
+                            project-category={categorySelected} program-selected={programSelected}
+                            project-selected={projectSelected} myprojflag={showMyProj} mytaskflag={showTskAssignedToMe}
+                            followprojflag={showFollowing}></c-pmt-gantt>
+              </template>
+       </lightning-card>
+       <lightning-card if:false={withfilters}>
+              <c-pmt-gantt project-id={recordId} project-progress={progressSelected} project-health={healthSelected}
+                     system-impacted={systemSelected} project-category={categorySelected}
+                     program-selected={programSelected} project-selected={projectSelected} myprojflag={showMyProj}
+                     mytaskflag={showTskAssignedToMe} followprojflag={showFollowing}></c-pmt-gantt>
+       </lightning-card>
 </template>

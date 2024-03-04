@@ -148,3 +148,11 @@
 .custom_icon_margin{
     margin:5px !important;
   }
+
+  .inline-block {
+    display: inline-block;
+    width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }

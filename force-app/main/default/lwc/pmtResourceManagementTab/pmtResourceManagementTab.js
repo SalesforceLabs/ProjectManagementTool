@@ -19,7 +19,6 @@ import { refreshApex } from '@salesforce/apex';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import ALLOCATION_OBJECT from '@salesforce/schema/PMT_Resource_Allocation__c';
 
-
 /*************************************** Constants ***************************************/
 const BLANK_STRING = '';
 const FY_STRING = 'FY';
@@ -109,14 +108,8 @@ export default class PmtResourceManagementTab extends LightningElement {
         if(data){
             //PMT Departments
             var tempList = [];
-            console.log(data);
             data[0].forEach(dept => {
-                if(dept==BLANK_STRING){
-                    tempList.push({label : '--BLANK--', value: BLANK_STRING});
-                }
-                else{
-                    tempList.push({label : dept, value: dept});
-                }
+                tempList.push({label : dept, value: dept});
             });
             if(tempList.length==0){
                 tempList.push({label : '--BLANK--', value: BLANK_STRING});
@@ -159,11 +152,11 @@ export default class PmtResourceManagementTab extends LightningElement {
                     label: 'User', initialWidth: TEXT_COL_WIDTH, fieldName: 'availabilityURL', type: 'url', editable: false, sortable: true,
                     typeAttributes: {
                         label: {
-                            fieldName: 'User_Name__c'
+                            fieldName:  'User_Name__c'
                         }, target: '_self'
                     }
                 },
-                { label: 'Department', initialWidth: TEXT_COL_WIDTH, fieldName:'User_Department__c', type: 'text', editable: false, sortable: true }
+                { label: 'Department', initialWidth: TEXT_COL_WIDTH, fieldName:  'User_Department__c', type: 'text', editable: false, sortable: true }
             ];
             //Columns for the allocations datatable
             this.resourceAllocationsColumns = [
@@ -171,7 +164,7 @@ export default class PmtResourceManagementTab extends LightningElement {
                     label: 'User', initialWidth: TEXT_COL_WIDTH, fieldName: 'availabilityURL', type: 'url', editable: false, sortable: true,
                     typeAttributes: {
                         label: {
-                            fieldName:  'User_Name__c'
+                            fieldName: 'User_Name__c'
                         }, target: '_self'
                     }
                 },
@@ -218,7 +211,7 @@ export default class PmtResourceManagementTab extends LightningElement {
             //Loop through months for creating additional columns
             fiscalMonths.forEach(month => {
                 this.summaryColumns.push({ label: month, fieldName: month, type: 'number', editable: false });
-                this.resourceAvailabilitiesColumns.push({ label: month, fieldName: month + MONTH_API_SUFFIX, type: 'number', editable: this.isEditable, sortable: true, cellAttributes: { alignment: 'center' }  });
+                this.resourceAvailabilitiesColumns.push({ label: month, fieldName:  month + MONTH_API_SUFFIX, type: 'number', editable: this.isEditable, sortable: true, cellAttributes: { alignment: 'center' }  });
                 this.resourceAllocationsColumns.push({ label: month, fieldName: month + MONTH_API_SUFFIX, type: 'number', editable: this.isEditable, sortable: true });
                 this.resourceRemainingAvailabilitesColumns.push({ label: month, fieldName: month + MONTH_REMAINING_SUFFIX, type: 'number', editable: false, sortable: true, cellAttributes: { class: { fieldName: month + CELLSTYLE_FIELD }, alignment: 'center' } });
             });
@@ -310,10 +303,10 @@ export default class PmtResourceManagementTab extends LightningElement {
             result.data.resourceAvailabilities.forEach(element => {
                 //IMP : Hardcoded indexes to generate the data needed in the format for lwc datatable
                 MONTHS.forEach(month => {
-                    summaryVar[0][month] += element[month + MONTH_API_SUFFIX];
-                    summaryVar[1][month] += element[month + MONTH_ALLOCATION_SUFFIX];
-                    summaryVar[2][month] += element[month + MONTH_REMAINING_SUFFIX];
-                    summaryVar[3][month] += element[month + MONTH_REMAINING_SUFFIX]>0?element[month + MONTH_REMAINING_SUFFIX]:0;
+                    summaryVar[0][month] += element[ month + MONTH_API_SUFFIX];
+                    summaryVar[1][month] += element[ month + MONTH_ALLOCATION_SUFFIX];
+                    summaryVar[2][month] += element[ month + MONTH_REMAINING_SUFFIX];
+                    summaryVar[3][month] += element[ month + MONTH_REMAINING_SUFFIX]>0?element[month + MONTH_REMAINING_SUFFIX]:0;
                 });
             });
 

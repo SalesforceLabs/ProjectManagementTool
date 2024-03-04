@@ -4,8 +4,8 @@
     <assignments>
         <name>Add_single_task_in_collection</name>
         <label>Add single task in collection</label>
-        <locationX>550</locationX>
-        <locationY>212</locationY>
+        <locationX>264</locationX>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>TasksListToUpdate</assignToReference>
             <operator>Add</operator>
@@ -20,8 +20,8 @@
     <assignments>
         <name>Assign_Assigned_To_value</name>
         <label>Assign Assigned To value</label>
-        <locationX>547</locationX>
-        <locationY>54</locationY>
+        <locationX>264</locationX>
+        <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>TaskToUpdate.Assigned_To1__c</assignToReference>
             <operator>Assign</operator>
@@ -40,7 +40,42 @@
             <targetReference>Add_single_task_in_collection</targetReference>
         </connector>
     </assignments>
+    <choices>
+        <name>FromActiveUser</name>
+        <choiceText>From Active User</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>From Active User</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>FromResourceAllocation</name>
+        <choiceText>From Resource Allocation</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>From Resource Allocation</stringValue>
+        </value>
+    </choices>
     <description>Flow active on Project to mass update PMT Task assignee in Task Datatable component due to component limitations on lookup edits.</description>
+    <dynamicChoiceSets>
+        <name>ActiveUserChoiceSet</name>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>User</object>
+        <outputAssignments>
+            <assignToReference>PMTProjectMemberId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>ProjectResourceChoice</name>
         <dataType>String</dataType>
@@ -67,13 +102,14 @@
         </outputAssignments>
         <valueField>Resource_Name__c</valueField>
     </dynamicChoiceSets>
+    <environments>Default</environments>
     <interviewLabel>Mass update PMT Assignee {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PMT Mass update Task Assignee</label>
     <loops>
         <name>Iterate_each_input_task</name>
         <label>Iterate each input task</label>
-        <locationX>327</locationX>
-        <locationY>49</locationY>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
         <assignNextValueToReference>SingleTask</assignNextValueToReference>
         <collectionReference>LsPMTTasksSelected</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -91,6 +127,12 @@
         </value>
     </processMetadataValues>
     <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
         <name>OriginBuilderType</name>
         <value>
             <stringValue>LightningFlowBuilder</stringValue>
@@ -100,8 +142,8 @@
     <recordUpdates>
         <name>Update_tasks</name>
         <label>Update tasks</label>
-        <locationX>321</locationX>
-        <locationY>229</locationY>
+        <locationX>176</locationX>
+        <locationY>650</locationY>
         <connector>
             <targetReference>Finish</targetReference>
         </connector>
@@ -110,8 +152,8 @@
     <screens>
         <name>Finish</name>
         <label>Finish</label>
-        <locationX>306</locationX>
-        <locationY>358</locationY>
+        <locationX>176</locationX>
+        <locationY>758</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -126,8 +168,8 @@
     <screens>
         <name>Update_Assignee</name>
         <label>Update Assignee</label>
-        <locationX>205</locationX>
-        <locationY>56</locationY>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -138,7 +180,7 @@
             <name>New_Assignee</name>
             <choiceReferences>ProjectResourceChoice</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>New Assignee</fieldText>
+            <fieldText>New Assignee from Resource Allocation</fieldText>
             <fieldType>DropdownBox</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -147,7 +189,7 @@
     </screens>
     <start>
         <locationX>50</locationX>
-        <locationY>61</locationY>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Update_Assignee</targetReference>
         </connector>

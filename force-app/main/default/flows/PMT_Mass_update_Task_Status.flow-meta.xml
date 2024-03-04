@@ -2,22 +2,38 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <apiVersion>49.0</apiVersion>
     <assignments>
-        <name>Update_value_in_record</name>
-        <label>Update value in record</label>
-        <locationX>702</locationX>
-        <locationY>47</locationY>
+        <name>Add_Tasks_To_Collection</name>
+        <label>Add Tasks To Collection</label>
+        <locationX>264</locationX>
+        <locationY>458</locationY>
         <assignmentItems>
-            <assignToReference>SingleTaskToUpdate.Status__c</assignToReference>
+            <assignToReference>TaskListToUpdate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>PMT_Tasks_Loop</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>PMT_Tasks_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_PMT_Task_Status</name>
+        <label>Assign PMT Task Status</label>
+        <locationX>264</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>PMT_Tasks_Loop.Status__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>Status</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_Tasks_with_status_selected</targetReference>
+            <targetReference>Add_Tasks_To_Collection</targetReference>
         </connector>
     </assignments>
-    <description>Flow on Project to update PMT Task status in Task Datatable component due to limitations on component picklist field edit.</description>
+    <description>Flow on Project to update PMT Task status in Task Data table component due to limitations on component picklist field edit.</description>
     <dynamicChoiceSets>
         <name>PMTTaskStatusValues</name>
         <dataType>Picklist</dataType>
@@ -26,21 +42,21 @@
         <picklistField>Status__c</picklistField>
         <picklistObject>PMT_Task__c</picklistObject>
     </dynamicChoiceSets>
-    <interviewLabel>PMT Mass update Task Status {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>PMT Mass update Task Status</label>
+    <environments>Default</environments>
+    <interviewLabel>PMT Mass Update Task Status {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMT Mass Update Task Status</label>
     <loops>
-        <name>Iterate_task_list</name>
-        <label>Iterate task list</label>
-        <locationX>346</locationX>
-        <locationY>48</locationY>
-        <assignNextValueToReference>IndividualTaskId</assignNextValueToReference>
-        <collectionReference>PMTTaskListIds</collectionReference>
+        <name>PMT_Tasks_Loop</name>
+        <label>PMT Tasks Loop</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <collectionReference>LsPMTTasksSelected</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Get_Task_Record</targetReference>
+            <targetReference>Assign_PMT_Task_Status</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Finished</targetReference>
+            <targetReference>Update_PMT_Tasks</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -50,69 +66,59 @@
         </value>
     </processMetadataValues>
     <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
         <name>OriginBuilderType</name>
         <value>
             <stringValue>LightningFlowBuilder</stringValue>
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
-    <recordLookups>
-        <name>Get_Task_Record</name>
-        <label>Get Task Record</label>
-        <locationX>521</locationX>
-        <locationY>16</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Update_value_in_record</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>IndividualTaskId</elementReference>
-            </value>
-        </filters>
-        <object>PMT_Task__c</object>
-        <outputReference>SingleTaskToUpdate</outputReference>
-        <queriedFields>Id</queriedFields>
-        <queriedFields>Status__c</queriedFields>
-    </recordLookups>
     <recordUpdates>
-        <name>Update_Tasks_with_status_selected</name>
-        <label>Update Tasks with status selected</label>
-        <locationX>542</locationX>
-        <locationY>239</locationY>
+        <name>Update_PMT_Tasks</name>
+        <label>Update PMT Tasks</label>
+        <locationX>176</locationX>
+        <locationY>650</locationY>
         <connector>
-            <targetReference>Iterate_task_list</targetReference>
+            <targetReference>Finished</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>IndividualTaskId</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Status__c</field>
-            <value>
-                <elementReference>Status</elementReference>
-            </value>
-        </inputAssignments>
-        <object>PMT_Task__c</object>
+        <faultConnector>
+            <targetReference>Error_Screen</targetReference>
+        </faultConnector>
+        <inputReference>TaskListToUpdate</inputReference>
     </recordUpdates>
+    <screens>
+        <name>Error_Screen</name>
+        <label>Error_Screen</label>
+        <locationX>440</locationX>
+        <locationY>758</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Error_Message</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0,
+                0);&quot;&gt;{!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
     <screens>
         <name>Finished</name>
         <label>Finished</label>
-        <locationX>341</locationX>
-        <locationY>345</locationY>
+        <locationX>176</locationX>
+        <locationY>758</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
             <name>RecordsUpdatedSuccessfully</name>
-            <fieldText>Records updated successfully</fieldText>
+            <fieldText>&lt;p&gt;Records updated successfully.&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -120,14 +126,14 @@
     </screens>
     <screens>
         <name>Mass_update_Task_Status</name>
-        <label>Mass update Task Status</label>
-        <locationX>166</locationX>
-        <locationY>61</locationY>
+        <label>Mass Update Task Status</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Iterate_task_list</targetReference>
+            <targetReference>PMT_Tasks_Loop</targetReference>
         </connector>
         <fields>
             <name>Status</name>
@@ -140,7 +146,13 @@
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
-    <startElementReference>Mass_update_Task_Status</startElementReference>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Mass_update_Task_Status</targetReference>
+        </connector>
+    </start>
     <status>Active</status>
     <variables>
         <name>IndividualTaskId</name>
@@ -148,6 +160,14 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>LsPMTTasksSelected</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>PMT_Task__c</objectType>
     </variables>
     <variables>
         <name>ModifiedSinglePMTTask</name>

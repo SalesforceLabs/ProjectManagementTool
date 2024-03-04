@@ -15,7 +15,7 @@ public with sharing class PMT_GanttCtrl {
      * Returns : String
      ***********************************************************************************************************************************************************************************************************************************/
      @AuraEnabled(cacheable = true)
-    public static List<GanttDataWrapper> fetchGanttData(Integer slotSize, Date startTime, String projectId, String projectProgress, String projectHealth, String systemImpacted, String projectCategory, String program) {
+     public static List<GanttDataWrapper> fetchGanttData(Integer slotSize, Date startTime, String projectId, String projectProgress, String projectHealth, String systemImpacted, String projectSelected, String projectCategory, String program, String sortBy) {
         List<GanttDataWrapper> lstOfGanttDataWrapper = new List<GanttDataWrapper>();
         List<Id> projIds = new List<Id>();
         Id loginUserId = UserInfo.getUserId();
@@ -34,7 +34,7 @@ public with sharing class PMT_GanttCtrl {
 
         if (PMT_Utility.validateCRUD('PMT_Project__c', lstOfprojectFields, 'isAccessible')) {
 
-            List<PMT_Project__c> projects = getProjects(projectId, projectProgress, projectHealth, systemImpacted, projectCategory, program);
+            List<PMT_Project__c> projects = getProjects(projectId, projectProgress, projectHealth, systemImpacted, projectSelected,projectCategory, program);
 
             if (projects != null && projects.size() != 0) {
                 List < PMT_Project__c > projects_clone = projects.clone();
@@ -57,16 +57,16 @@ public with sharing class PMT_GanttCtrl {
                 }
 
                 // fetching PMT Phases
-                List<String> lstOfPhaseFields = new List<String> {'Id', 'Name', 'Kickoff_formula__c', 'Duration__c', 'Deadline_formula__c', 'Health_Icon__c', 'Project__c'};
+                List<String> lstOfPhaseFields = new List<String> {'Id', 'Name', 'Kickoff_formula__c', 'Duration__c', 'Deadline_formula__c', 'Health_Icon__c', 'Phase_Health__c', 'Project__c'};
 
                 if (PMT_Utility.validateCRUD('PMT_Phase__c', lstOfPhaseFields, 'isAccessible')) {
-                    Map<Id, PMT_Phase__c> mapOfPhases = getPhases(projIds);
+                    Map<Id, PMT_Phase__c> mapOfPhases = getPhases(projIds, sortBy);
 
                     // fetching PMT Tasks
                     List<String> lstOfTaskFields = new List<String> {'Name', 'Start_Date__c', 'Due_Date__c', 'Duration__c', 'Percentage_Completion__c', 'Assigned_To1__c', 'Status__c', 'Phase__c', 'Is_Milestone__c'};
 
                     if (PMT_Utility.validateCRUD('PMT_Task__c', lstOfTaskFields, 'isAccessible')) {
-                        Map<Id, PMT_Task__c> mapOfTasks = getTasks(mapOfPhases.keySet());
+                        Map<Id, PMT_Task__c> mapOfTasks = getTasks(mapOfPhases.keySet(), sortBy);
                         //Boolean isAssignedToMe = false;
                         for (PMT_Task__c tsk: mapOfTasks.values()) {
                             if (tsk.Assigned_To1__c == loginUserId) {
@@ -102,19 +102,19 @@ public with sharing class PMT_GanttCtrl {
 
                 for (PMT_Project__c prj: projects) {
 
-                    GanttDataWrapper pmtProject = getGanttDataWrapper(slotSize, startDate, prj.Id, prj.Name, prj.Kickoff_formula__c, prj.Deadline_formula__c, prj.Duration__c, '', 'PMT_Project__c', prj.Health_Icon__c, (followIds.contains(prj.Id)) ? true : false, (setOfTasksAssignedToMe.contains(prj.Id)) ? true : false, (prj.OwnerId==loginUserId) ? true : false, formatDate(prj.Deadline_formula__c, 'dd-MM-yyyy'), false);
+                    GanttDataWrapper pmtProject = getGanttDataWrapper(slotSize, startDate, prj.Id, prj.Name, prj.Kickoff_formula__c, prj.Deadline_formula__c, prj.Duration__c, '', 'PMT_Project__c', prj.Health_Icon__c, prj.Project_Health__c, (followIds.contains(prj.Id)) ? true : false, (setOfTasksAssignedToMe.contains(prj.Id)) ? true : false, (prj.OwnerId==loginUserId) ? true : false, formatDate(prj.Deadline_formula__c, 'dd-MM-yyyy'), false);
 
                     if (mapOfMilestoneToPhases.containsKey(prj.Id)) {
                         List<GanttDataWrapper> lstOfPhases = new List<GanttDataWrapper>();
 
                         for (PMT_Phase__c phs: mapOfMilestoneToPhases.get(prj.Id)) {
-                            GanttDataWrapper pmtPhase = getGanttDataWrapper(slotSize, startDate, phs.Id, phs.Name, phs.Kickoff_formula__c, phs.Deadline_formula__c, phs.Duration__c, phs.Project__c, 'PMT_Phase__c', phs.Health_Icon__c, (followIds.contains(phs.Project__r.Id)) ? true : false, (setOfTasksAssignedToMe.contains(phs.Id)) ? true : false, (setOfProjOwners.contains(loginUserId)) ? true : false, null, false);
+                            GanttDataWrapper pmtPhase = getGanttDataWrapper(slotSize, startDate, phs.Id, phs.Name, phs.Kickoff_formula__c, phs.Deadline_formula__c, phs.Duration__c, phs.Project__c, 'PMT_Phase__c', phs.Health_Icon__c, phs.Phase_Health__c, (followIds.contains(phs.Project__r.Id)) ? true : false, (setOfTasksAssignedToMe.contains(phs.Id)) ? true : false, (setOfProjOwners.contains(loginUserId)) ? true : false, null, false);
 
                             if (mapOfPhaseToTasks.containsKey(phs.Id)) {
                                 List<GanttDataWrapper> lstOfTasks = new List<GanttDataWrapper>();
 
                                 for (PMT_Task__c tsk: mapOfPhaseToTasks.get(phs.Id)) {
-                                    GanttDataWrapper pmtTask = getGanttDataWrapper(slotSize, startDate, tsk.Id, tsk.Name, tsk.Start_Date__c, tsk.Due_Date__c, tsk.Duration__c, tsk.Phase__c, 'PMT_Task__c', tsk.Status_Icon__c, (followIds.contains(tsk.Phase__r.Project__r.Id)) ? true : false, (setOfTasksAssignedToMe.contains(tsk.Id)) ? true : false, (setOfProjOwners.contains(loginUserId)) ? true : false, null, tsk.Is_Milestone__c);
+                                    GanttDataWrapper pmtTask = getGanttDataWrapper(slotSize, startDate, tsk.Id, tsk.Name, tsk.Start_Date__c, tsk.Due_Date__c, tsk.Duration__c, tsk.Phase__c, 'PMT_Task__c', tsk.Status_Icon__c, tsk.Status__c, (followIds.contains(tsk.Phase__r.Project__r.Id)) ? true : false, (setOfTasksAssignedToMe.contains(tsk.Id)) ? true : false, (setOfProjOwners.contains(loginUserId)) ? true : false, null, tsk.Is_Milestone__c);
                                     pmtTask.lstOfChilds = new List<GanttDataWrapper>();
                                     lstOfTasks.add(pmtTask);
                                 }
@@ -163,6 +163,9 @@ public with sharing class PMT_GanttCtrl {
         public String statusIcon {get;set;}
 
         @AuraEnabled
+        public String status { get; set; }
+
+        @AuraEnabled
         public Boolean isFollow {get;set;}
             
         @AuraEnabled
@@ -193,7 +196,7 @@ public with sharing class PMT_GanttCtrl {
      * Parameter : Mutilple parameters
      * Returns : GanttDataWrapper
      **********************************************************************************************************************************************/
-    public static GanttDataWrapper getGanttDataWrapper(Integer slotSize, Date sDate, Id recId, String name, Date startDate, Date endDate, Decimal duration, String parentId, String objAPIName, String statusIcon, Boolean isFollow, Boolean isAssignedToMe, Boolean isMyProject, String prjDeadline, Boolean isMilestone) {
+    public static GanttDataWrapper getGanttDataWrapper(Integer slotSize, Date sDate, Id recId, String name, Date startDate, Date endDate, Decimal duration, String parentId, String objAPIName, String statusIcon, String status, Boolean isFollow, Boolean isAssignedToMe, Boolean isMyProject, String prjDeadline, Boolean isMilestone) {
         try{
         GanttDataWrapper wrapperRecord = new GanttDataWrapper();
         wrapperRecord.id = recId;
@@ -203,68 +206,115 @@ public with sharing class PMT_GanttCtrl {
         wrapperRecord.duration = duration;
         wrapperRecord.parent = parentId;
         wrapperRecord.objAPIName = objAPIName;
-        wrapperRecord.statusIcon = statusIcon; 
+        wrapperRecord.statusIcon = statusIcon;
+        wrapperRecord.status = status; 
         wrapperRecord.isFollow = isFollow;
         wrapperRecord.isAssignedToMe = isAssignedToMe;
         wrapperRecord.isMyProject = isMyProject;
         wrapperRecord.deadline = prjDeadline;
         wrapperRecord.isMilestone = isMilestone;
 
-        Decimal leftW = slotSize;
-        Decimal rightW = slotSize;
-
-        if (slotSize == 92) {
-            Date newStartDate;
-            Date newEndDate;
+            Decimal leftW = slotSize;
+            Decimal rightW = slotSize;
             Decimal leftQtrs = 0;
             Decimal rightQtrs = 0;
-            Date tempStart = sDate;
-            tempStart = tempStart.addDays(1);
-            sDate = sDate.addDays(1);
 
-            for (Date tDate = tempStart.addMonths(3); tDate <= endDate; tDate = tDate.addMonths(3)) {
-                if (tDate <= startDate) {
-                    leftQtrs = leftQtrs + 1;
+            if (slotSize == 92 || slotSize == 31) {
+                Date newStartDate;
+                Date newEndDate;
 
-                    if (tDate == startDate) {
-                        newStartDate = tDate.addDays(-1);
+                Date tempStart = sDate;
+                sDate = sDate.addDays(1);
+
+                if (slotSize == 92) {
+                    if (tempStart.addMonths(3) <= endDate) {
+                        for (Date tDate = tempStart.addMonths(3); tDate <= endDate; tDate = tDate.addMonths(3)) {
+                            if (
+                                Date.newInstance(
+                                    tDate.year(),
+                                    tDate.month(),
+                                    date.daysInMonth(tDate.year(), tDate.month())
+                                ) < startDate
+                            ) {
+                                leftQtrs = leftQtrs + 1;
+                            }
+                            if (
+                                Date.newInstance(
+                                    tDate.year(),
+                                    tDate.month(),
+                                    date.daysInMonth(tDate.year(), tDate.month())
+                                ) < endDate
+                            ) {
+                                rightQtrs = rightQtrs + 1;
+                            }
+                        }
                     } else {
-                        newStartDate = tDate;
+                        for (Date tDate = endDate; tempStart.addMonths(3) >= tDate; tDate = tDate.addMonths(3)) {
+                            if (
+                                Date.newInstance(
+                                    tDate.year(),
+                                    tDate.month(),
+                                    date.daysInMonth(tDate.year(), tDate.month())
+                                ) > startDate
+                            ) {
+                                leftQtrs = leftQtrs - 1;
+                            }
+                            if (
+                                Date.newInstance(
+                                    tDate.year(),
+                                    tDate.month(),
+                                    date.daysInMonth(tDate.year(), tDate.month())
+                                ) > endDate
+                            ) {
+                                rightQtrs = rightQtrs - 1;
+                            }
+                        }
                     }
                 }
-                rightQtrs = rightQtrs + 1;
-                if (tDate == endDate) {
-                    newEndDate = tDate.addDays(-1);
-                } else {
-                    newEndDate = tDate;
+
+                if (slotSize == 31) {
+                    if (tempStart.addDays(1) <= endDate) {
+                        for (Date tDate = tempStart.addDays(1); tDate <= endDate; tDate) {
+                            Date checkDate = tDate.addDays(Date.daysInMonth(tDate.year(), tDate.month()));
+                            if (Date.newInstance(checkDate.year(), checkDate.month(), checkDate.day()) <= startDate) {
+                                leftQtrs = leftQtrs + 1;
+                            }
+                            if (Date.newInstance(checkDate.year(), checkDate.month(), checkDate.day()) <= endDate) {
+                                rightQtrs = rightQtrs + 1;
+                            }
+                            tDate = tDate.addDays(Date.daysInMonth(tDate.year(), tDate.month()));
+                        }
+                    } else {
+                        //Negative values for left and right.
+                        for (Date tDate = endDate; tempStart.addDays(1) >= tDate; tDate) {
+                            Date checkDate = tDate.addDays(Date.daysInMonth(tDate.year(), tDate.month()));
+                            if (Date.newInstance(checkDate.year(), checkDate.month(), checkDate.day()) >= startDate) {
+                                leftQtrs = leftQtrs - 1;
+                            }
+                            if (Date.newInstance(checkDate.year(), checkDate.month(), checkDate.day()) >= endDate) {
+                                rightQtrs = rightQtrs - 1;
+                            }
+                            tDate = tDate.addDays(Date.daysInMonth(tDate.year(), tDate.month()));
+                        }
+                    }
                 }
             }
-            
-            if (newStartDate != null) {
-                Decimal leftTotalDays = sDate.daysBetween(newStartDate);
-                Decimal leftAvg = leftTotalDays / leftQtrs;
-                leftW = leftAvg;
-            } else {
-                leftW = 91.4;
-            }
 
-            if (newEndDate != null) {
-                Decimal rightTotalDays = sDate.daysBetween(newEndDate);
-                Decimal rightAvg = rightTotalDays / rightQtrs;
-                rightW = rightAvg;
-            } else {
-                rightW = 91.4;
+            if (slotSize != null) {
+                if (slotSize == 31 || slotSize == 92) {
+                    wrapperRecord.left = leftQtrs;
+                    wrapperRecord.right = rightQtrs;
+                } else {
+                    if (startDate != null) {
+                        Decimal leftV = Decimal.valueOf(sDate.daysBetween(startDate)) / leftW;
+                        wrapperRecord.left = leftV.round(System.RoundingMode.FLOOR);
+                    }
+                    if (endDate != null) {
+                        Decimal rightV = Decimal.valueOf(sDate.daysBetween(endDate)) / rightW;
+                        wrapperRecord.right = rightV.round(System.RoundingMode.FLOOR);
+                    }
+                }
             }
-        }
-        if(startDate!=null){
-            Decimal leftV = Decimal.valueOf(sDate.daysBetween(startDate)) / leftW;
-            wrapperRecord.left = leftV.round(System.RoundingMode.FLOOR);
-        }
-        if(endDate!=null){
-            Decimal rightV = Decimal.valueOf(sDate.daysBetween(endDate)) / rightW;
-            wrapperRecord.right = rightV.round(System.RoundingMode.FLOOR);
-        }  
-
         return wrapperRecord;
         }catch (Exception e) {
             List<String> lstOfLogFields = new List<String> {'Apex_Class__c', 'Error_Message__c', 'Method_Name__c'};
@@ -297,7 +347,7 @@ public with sharing class PMT_GanttCtrl {
      * Parameter : Project Id, project Progress, project Health, systems Impacted, project Category and program to filter records
      * Returns : List of projects
      * ******************************************************************************************************************************************/
-    private static List < PMT_Project__c > getProjects(String projectId, String projectProgress, String projectHealth, String systemImpacted, String projectCategory, String program) {
+    private static List < PMT_Project__c > getProjects(String projectId, String projectProgress, String projectHealth, String systemImpacted, String projectName,  String projectCategory, String program) {
         
         String selectStr = '';
         selectStr = 'SELECT Id,OwnerId, Name, Kickoff_formula__c, Duration__c, Deadline_formula__c,' +
@@ -329,6 +379,15 @@ public with sharing class PMT_GanttCtrl {
             whereStr = whereStr + ' AND SystemsImpacted__c includes (\'' + string.escapeSingleQuotes(systemImpacted) + '\')';
             
         }
+
+        if (projectName != null && projectName != '') {
+            if (isWhere)
+                whereStr = whereStr + ' AND NAME LIKE \'%' + projectName + '%\'';
+            else {
+                isWhere = true;
+                whereStr = ' WHERE NAME LIKE \'%' + projectName + '%\'';
+            }
+        }
         
         if (projectCategory != null && projectCategory != '' && projectCategory != 'All') {
             
@@ -353,10 +412,28 @@ public with sharing class PMT_GanttCtrl {
      * Parameter : List of projects Id's
      * Returns : List of PMT Phases
      * ***************************************************************************************************************/
-    private static Map<Id, PMT_Phase__c> getPhases(List<Id> lstOfProjIds) {
+    private static Map<Id, PMT_Phase__c> getPhases(List<Id> lstOfProjIds, String sortBy) {
         Map<Id, PMT_Phase__c> mapOfPhases = new Map<Id, PMT_Phase__c>();
+        
 
-        for (PMT_Phase__c phaseRec: [SELECT Id, Name, Kickoff_formula__c, Duration__c, Project__c, Deadline_formula__c, Health_Icon__c, Project__r.Id FROM PMT_Phase__c WHERE Project__c IN: lstOfProjIds limit: limits.getLimitQueryRows()]) {
+        switch on sortBy {
+            when 'Start_Date__c Asc' {
+                sortBy = 'Start_Date_Rollup__c Asc';
+            }
+            when 'Start_Date__c Desc' {
+                sortBy = 'Start_Date_Rollup__c Desc';
+            }
+            when 'Due_Date__c Asc' {
+                sortBy = 'End_Date_Rollup__c Asc';
+            }
+            when 'Due_Date__c Desc' {
+                sortBy = 'End_Date_Rollup__c Desc';
+            }
+        }
+
+        String query = 'SELECT Id, Name, Kickoff_formula__c, Duration__c, Project__c, Deadline_formula__c, Health_Icon__c, Phase_Health__c, Project__r.Id FROM PMT_Phase__c WHERE Project__c IN: lstOfProjIds Order By ' + sortBy + ', Name Asc';
+
+        for (PMT_Phase__c phaseRec: Database.query(query)) {
             mapOfPhases.put(phaseRec.Id, phaseRec);
         }
 
@@ -369,10 +446,12 @@ public with sharing class PMT_GanttCtrl {
      * Parameter : Set of phase Id's
      * Returns : List of PMT tasks
      * *******************************************************************************************************/
-    private static Map<Id, PMT_Task__c> getTasks(Set<Id> setOfPhaseIds) {
+    private static Map<Id, PMT_Task__c> getTasks(Set<Id> setOfPhaseIds, String sortBy) {
         Map<Id, PMT_Task__c> mapOftasks = new Map<Id, PMT_Task__c>();
 
-        for (PMT_Task__c taskRec: [SELECT Id, Name, Start_Date__c, Duration__c, Phase__c, Due_Date__c, Status_Icon__c, Phase__r.Project__r.Id, Assigned_To1__c, Phase__r.Id, Is_Milestone__c FROM PMT_Task__c WHERE Phase__c IN: setOfPhaseIds limit: limits.getLimitQueryRows()]) {
+        String query = 'SELECT Id, Name, Start_Date__c, Duration__c, Phase__c, Due_Date__c, Status_Icon__c, Status__c, Phase__r.Project__r.Id, Assigned_To1__c, Phase__r.Id, Is_Milestone__c FROM PMT_Task__c WHERE Phase__c IN:  setOfPhaseIds  ORDER BY ' + sortBy + ', Name ASC';
+
+        for (PMT_Task__c taskRec: Database.query(query)) {
             mapOftasks.put(taskRec.Id, taskRec);
         }
 

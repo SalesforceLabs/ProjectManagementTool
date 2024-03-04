@@ -1,86 +1,80 @@
-/***************************************************************************************************************************************************************************************
+/******************************************************************************
 * Name: PMT_Testcoverage
 * Test class for: PMT_ProjectSummaryCtrl (85%)
-                  PMT_Utility (96%)
-                  PMT_ResourceManagementCtrl (93%)  
-* Release 1.0 - Fixed the getResourceDetailsWrapperTestCase() test method failure due to Fiscal Year mismatch between Project(FY23) & Availability Records(FY23)
-****************************************************************************************************************************************************************************************/
+				  PMT_Utility (96%)
+				  PMT_ResourceManagementCtrl (93%)	
+******************************************************************************/
 @isTest
 public class PMT_Testcoverage {
  
     @testSetup static void setup(){
-        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_User'});
-        User testRPUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_Resource_Planner'});
-        User adminUser = PMT_Testcoverage.createUser('System Administrator', new List<String>{'PMT_User'});
-        system.runAs(adminUser){
-        List<PMT_Phase__c> lstOfPhases = new List<PMT_Phase__c>();
-        List<PMT_Task__c> lstOfTasks = new List<PMT_Task__c>();
-        Integer resourceAvailability = Integer.valueOf(PMT_Utility.getPMTSettings('Default').Default_Availability_for_Scheduler__c);
+		List<PMT_Phase__c> lstOfPhases = new List<PMT_Phase__c>();
+		List<PMT_Task__c> lstOfTasks = new List<PMT_Task__c>();
+		Integer resourceAvailability = Integer.valueOf(PMT_Utility.getPMTSettings('Default').Default_Availability_for_Scheduler__c);
         
     //Create Project
         PMT_Project__c project = new PMT_Project__c(
-                                                    Name = 'Project Controller Test', 
-                                                    Portfolio__c = 'R2R',
-                                                    Initial_End_Date__c = System.today()+30,
-                                                    Initial_Start_Date__c = System.today(),
-                                                    ownerId = testRPUser.Id,
-                                                    Level_of_Effort__c = 'Small');
-                                                    
+													Name = 'Project Controller Test', 
+													Portfolio__c = 'R2R',
+													Initial_End_Date__c = System.today()+30,
+													Initial_Start_Date__c = System.today(),
+        											Level_of_Effort__c = 'Small');
+													
         INSERT project;
         
     //Create Phases
         PMT_Phase__c phase1 = new PMT_Phase__c( Name = 'Phase 1',
-                                                Project__c = project.Id);
+											    Project__c = project.Id);
         
-        lstOfPhases.add(phase1);
+		lstOfPhases.add(phase1);
        
         PMT_Phase__c phase2 = new PMT_Phase__c( Name = 'Phase 2',
-                                                Project__c = project.Id);
+											    Project__c = project.Id);
         
-        lstOfPhases.add(phase2);
-        INSERT lstOfPhases;
+		lstOfPhases.add(phase2);
+		INSERT lstOfPhases;
         
     //Create Tasks
         PMT_Task__c task1 = new PMT_Task__c(
-                                            Name = 'Late Task 1', 
-                                            Status__c = 'In Progress',
-                                            Start_Date__c = System.today()-40, 
-                                            Due_Date__c = System.today()-10, 
-                                            Is_Milestone__c = true,
-                                            Phase__c = lstOfPhases[0].Id); 
+											Name = 'Late Task 1', 
+											Status__c = 'In Progress',
+											Start_Date__c = System.today()-40, 
+											Due_Date__c = System.today()-10, 
+											Is_Milestone__c = true,
+											Phase__c = lstOfPhases[0].Id); 
         lstOfTasks.add(task1);
         
         PMT_Task__c task2 = new PMT_Task__c(
-                                        Name ='Late Task 2', 
-                                        Status__c = 'In Progress',
-                                        Start_Date__c = System.today()-40, 
-                                        Due_Date__c = System.today()-10, 
-                                        Is_Milestone__c = false,
-                                        Phase__c = lstOfPhases[1].Id); 
+										Name ='Late Task 2', 
+										Status__c = 'In Progress',
+										Start_Date__c = System.today()-40, 
+										Due_Date__c = System.today()-10, 
+										Is_Milestone__c = false,
+										Phase__c = lstOfPhases[1].Id); 
         lstOfTasks.add(task2);
 
         PMT_Task__c task3 = new PMT_Task__c(
-                                        Name = 'Current Task 1', 
-                                        Status__c = 'Completed',
-                                        Start_Date__c = System.today()-15, 
-                                        Due_Date__c = System.today(), 
-                                        Is_Milestone__c = false, 
-                                        Phase__c = lstOfPhases[0].Id);
+										Name = 'Current Task 1', 
+										Status__c = 'Completed',
+										Start_Date__c = System.today()-15, 
+										Due_Date__c = System.today(), 
+										Is_Milestone__c = false, 
+										Phase__c = lstOfPhases[0].Id);
         lstOfTasks.add(task3);
         
         PMT_Task__c task4 = new PMT_Task__c(
-                                        Name = 'Current Task 2', 
-                                        Status__c = 'Completed',
-                                        Start_Date__c = System.today(), 
-                                        Due_Date__c = System.today()+10, 
-                                        Is_Milestone__c = false, 
-                                        Phase__c = lstOfPhases[1].Id);
+										Name = 'Current Task 2', 
+										Status__c = 'Completed',
+										Start_Date__c = System.today(), 
+										Due_Date__c = System.today()+10, 
+										Is_Milestone__c = false, 
+										Phase__c = lstOfPhases[1].Id);
         lstOfTasks.add(task4);
-        INSERT lstOfTasks;
+		INSERT lstOfTasks;
         
         //Availability record
-            PMT_Resource_Availability__c resAvailwithUser = new PMT_Resource_Availability__c( User__c = testUser.Id,
-                                                                                     Fiscal_Year__c = 'FY22',
+            PMT_Resource_Availability__c resAvailwithUser = new PMT_Resource_Availability__c( User__c = UserInfo.getUserId(),
+                                                                                     Fiscal_Year__c = 'FY21',
                                                                                      Jan__c = resourceAvailability, Feb__c = resourceAvailability, 
                                                                                      Mar__c = resourceAvailability, Apr__c = resourceAvailability, 
                                                                                      May__c = resourceAvailability, Jun__c = resourceAvailability, 
@@ -89,7 +83,7 @@ public class PMT_Testcoverage {
                                                                                      Nov__c = resourceAvailability, Dec__c = resourceAvailability);
             INSERT resAvailwithUser;
         
-            PMT_Resource_Availability__c resAvailWOUSer = new PMT_Resource_Availability__c(Fiscal_Year__c = 'FY22',
+       		PMT_Resource_Availability__c resAvailWOUSer = new PMT_Resource_Availability__c(Fiscal_Year__c = 'FY21',
                                                                                      Jan__c = resourceAvailability, Feb__c = resourceAvailability, 
                                                                                      Mar__c = resourceAvailability, Apr__c = resourceAvailability, 
                                                                                      May__c = resourceAvailability, Jun__c = resourceAvailability, 
@@ -109,20 +103,19 @@ public class PMT_Testcoverage {
             List<case> lstOfCases = new List<Case>();
             Id caseRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get(System.Label.PMT_Project_Record_Type_on_Case).getRecordTypeId();
             for(Integer i=0; i<10; i++){
-                lstOfCases.add(new Case(ownerId = testUser.Id,Subject='test case', RecordTypeId = caseRecordTypeId, PMT_Project__c = project.Id));            
+                lstOfCases.add(new Case(Subject='test case', RecordTypeId = caseRecordTypeId, PMT_Project__c = project.Id));            
             }
             INSERT lstOfCases;
-        }
         
     }
     
-    /*****************************************************************************************
+ 	/*****************************************************************************************
     * Method Name: getSummaryWrapperTestCase
     * Class : PMT_ProjectSummaryCtrl
     * Description: Test method for getSummaryWrapper apex method which return wrapper of related phases and tasks
     * *****************************************************************************************/  
     static testmethod void getSummaryWrapperTestCase(){  
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTUser' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_User'});
         System.runAs(testUser){
             PMT_Project__c projectRec = [SELECT Id FROM PMT_Project__c LIMIT 1];
             
@@ -142,7 +135,7 @@ public class PMT_Testcoverage {
     * Description: Test method for getCasesForProject apex method which Search for cases related to project
     * *****************************************************************************************/   
     static testmethod void getCasesForProjectTestCase(){    
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTUser' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_User'});
         System.runAs(testUser){
             PMT_Project__c projectRec = [SELECT Id FROM PMT_Project__c LIMIT 1];
             Test.startTest();
@@ -158,7 +151,7 @@ public class PMT_Testcoverage {
     * Description: Test method for getPMTSettings apex method which Search for cases related to project
     * *****************************************************************************************/   
     static testmethod void getPMTSettingsTest(){    
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTUser' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_User'});
         System.runAs(testUser){
             PMT_Project__c projectRec = [SELECT Id FROM PMT_Project__c LIMIT 1];
             Test.startTest();
@@ -175,12 +168,12 @@ public class PMT_Testcoverage {
     * Description: Test method for getAllocationsForResource apex method which Search for resource availability on allocations
     * *****************************************************************************************/    
     static testmethod void getAllocationsForResourceTestCase(){
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTUser' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_User'});
         System.runAs(testUser){
             PMT_Resource_Availability__c resource = [SELECT Id FROM PMT_Resource_Availability__c WHERE User__c !=''];
             
             Test.startTest();
-            PMT_ResourceManagementCtrl.AvailabilityWrapper wrapper = PMT_ResourceManagementCtrl.getAllocationsForResource(resource.Id, 'FY22');
+            PMT_ResourceManagementCtrl.AvailabilityWrapper wrapper = PMT_ResourceManagementCtrl.getAllocationsForResource(resource.Id, 'FY21');
             Test.stopTest();
             system.assertEquals(1, wrapper.resourceAvailabilities.size(), 'There should be 1 availability present.');
         }
@@ -192,7 +185,7 @@ public class PMT_Testcoverage {
     * Description: Test method for updateAllocations apex method which updates resource allocation record
     * *****************************************************************************************/    
     static testmethod void updateAllocationsTestCase(){
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTRPUsr' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_Resource_Planner'});
         System.runAs(testUser){
             PMT_Resource_Allocation__c resource = [SELECT Id, Jan__c FROM PMT_Resource_Allocation__c WHERE UserId__c != ''];
             resource.Jan__c = 50;
@@ -211,7 +204,7 @@ public class PMT_Testcoverage {
     * Description: Test method for deleteRecord apex method which deletes sObject record
     * *****************************************************************************************/    
     static testmethod void deleteRecordTestCase(){
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTRPUsr' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_Resource_Planner'});
         System.runAs(testUser){
             PMT_Resource_Allocation__c resource = [SELECT Id, Jan__c FROM PMT_Resource_Allocation__c WHERE UserId__c != ''];
             
@@ -228,7 +221,7 @@ public class PMT_Testcoverage {
     * Description: Negative Test method for deleteRecord apex method which deletes sObject record
     * *****************************************************************************************/    
     static testmethod void deleteRecordNegTestCase(){
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTRPUsr' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_Resource_Planner'});
         System.runAs(testUser){
             PMT_Project__c project = [SELECT Id FROM PMT_Project__c LIMIT 1];
             PMT_Resource_Availability__c resAvail = [SELECT Id FROM PMT_Resource_Availability__c LIMIT 1]; 
@@ -251,7 +244,7 @@ public class PMT_Testcoverage {
     * Description: Test method for upsertDeleteAllocation apex method which deletes and upserts new allocations
     * *****************************************************************************************/    
     static testmethod void upsertDeleteAllocationTestCase(){
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTRPUsr' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_Resource_Planner'});
         System.runAs(testUser){
             PMT_Project__c project = [SELECT Id FROM PMT_Project__c LIMIT 1];
             PMT_Resource_Availability__c resAvail = [SELECT Id FROM PMT_Resource_Availability__c LIMIT 1]; 
@@ -276,23 +269,12 @@ public class PMT_Testcoverage {
     * Description: Test method for getResourceDetailsWrapper apex method which search for availabilities, allocations
     * *****************************************************************************************/    
     static testmethod void getResourceDetailsWrapperTestCase(){
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTUser' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_User'});
         System.runAs(testUser){
             PMT_Project__c project = [SELECT Id,Start_Fiscal_Year__c,End_Fiscal_Year__c FROM PMT_Project__c LIMIT 1];
             system.debug(project);
             system.debug([select id, project__r.name from PMT_Resource_Allocation__c]);
             system.debug([select id, User__r.name from PMT_Resource_Availability__c]);
-            system.debug([select id, User__r.name from PMT_Resource_Availability__c]);
-            
-            //Release 1.0 Start - Fixed this test method failure due to fiscal year of availability records are in FY22 but Project fiscal year is in FY23 
-            PMT_Resource_Availability__c availability = [select id, User__r.name from PMT_Resource_Availability__c where User_Name__c!='' AND User_IsActive__c=true];
-            availability.fiscal_year__c = project.Start_Fiscal_Year__c;
-            update availability;
-            
-            PMT_Resource_Availability__c dummyAvailability = [select id, User__r.name from PMT_Resource_Availability__c where User__c=''];
-            dummyAvailability.fiscal_year__c = project.Start_Fiscal_Year__c;
-            update dummyAvailability;
-            //Release 1.0 End //
             
             Test.startTest();
             PMT_ResourceManagementCtrl.ResourceDetail resDetails = PMT_ResourceManagementCtrl.getResourceDetailsWrapper(project);
@@ -310,10 +292,10 @@ public class PMT_Testcoverage {
     * Description: Test method for getFilters apex method which returns picklist filters
     * *****************************************************************************************/    
     static testmethod void getFiltersTest(){
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTUser' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_User'});
         System.runAs(testUser){
             Test.startTest();
-            List<List<String>> filters= PMT_ResourceManagementCtrl.getFilters();
+        	List<List<String>> filters= PMT_ResourceManagementCtrl.getFilters();
             system.assertEquals(3, filters.size(), '2 filters departments and years + fiscal year offset should be found');
             system.assert(filters[0].size()>0, 'More than 1 dept filter should be found');
             system.assertEquals(1, filters[1].size(), '1 year should be found');
@@ -327,12 +309,12 @@ public class PMT_Testcoverage {
     * Description: Test method for getResourceAllocations apex method which returns picklist filters
     * *****************************************************************************************/    
     static testmethod void getResourceAllocationsTest1(){
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTUser' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_User'});
         String department = [select Department from User where id = :userInfo.getUserId() limit 1].Department;
         System.runAs(testUser){
             Test.startTest();
             PMT_Project__c project = [SELECT Id,Start_Fiscal_Year__c,End_Fiscal_Year__c FROM PMT_Project__c LIMIT 1];
-            PMT_ResourceManagementCtrl.ResourceDataWrapper wrapper = PMT_ResourceManagementCtrl.getResourceAllocations('FY22',department , null, null, project.Id);
+        	PMT_ResourceManagementCtrl.ResourceDataWrapper wrapper = PMT_ResourceManagementCtrl.getResourceAllocations('FY21',department , null, null, project.Id);
             system.assertEquals(1, wrapper.resourceAvailabilities.size(), '1 availability should be found');
             system.assertEquals(1, wrapper.resourceAllocations.size(), '1 resourceAllocations should be found');
             Test.stopTest();
@@ -345,10 +327,10 @@ public class PMT_Testcoverage {
     * Description: Test method for getResourceAllocations apex method which returns picklist filters
     * *****************************************************************************************/    
     static testmethod void getResourceAllocationsTest2(){
-        User testUser = [select id from user where profile.Name='Standard User' and alias = 'PMTUser' and LastName='Last' limit 1];
+        User testUser = PMT_Testcoverage.createUser('Standard User', new List<String>{'PMT_User'});
         System.runAs(testUser){
             Test.startTest();
-            PMT_ResourceManagementCtrl.ResourceDataWrapper wrapper = PMT_ResourceManagementCtrl.getResourceAllocations('FY22', 'A'+System.currentTimeMillis() , null, null, null);
+        	PMT_ResourceManagementCtrl.ResourceDataWrapper wrapper = PMT_ResourceManagementCtrl.getResourceAllocations('FY21', 'A'+System.currentTimeMillis() , null, null, null);
             system.assertEquals(0, wrapper.resourceAvailabilities.size(), 'No availabilities should be found');
             system.assertEquals(0, wrapper.resourceAllocations.size(), 'No resourceAllocations should be found');
             Test.stopTest();
@@ -388,7 +370,7 @@ public class PMT_Testcoverage {
      * **************************************************************************/
     public static User createUser(String profileName, List<String> lstOfPermissionSets){
         List<PermissionSetAssignment> lstOfPSA = new List<PermissionSetAssignment>();
-        String userName = lstOfPermissionSets.contains('PMT_Resource_Planner')?'PMTRPUsr':'PMTUser';
+        String userName = 'testUser';
         String userEmail = userName + Math.random()+'@test.com.invalid';        
         User userRecord;       
         

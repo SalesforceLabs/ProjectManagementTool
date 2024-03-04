@@ -20,6 +20,7 @@ export default class Pmt_GanttView extends LightningElement {
     programSelected = ALL_CONST;
     systemSelected = ALL_CONST;
     progressSelected = ALL_CONST;
+    projectSelected = null;
 
     //Options array for filters 
     healthoptions = [];
@@ -105,6 +106,10 @@ export default class Pmt_GanttView extends LightningElement {
             case 'projprogress':
                 this.progressSelected = event.detail.value;
                 break;
+            case "prjname":
+                this.projectSelected = event.detail.value;
+                break;
+    
         }
     }
 

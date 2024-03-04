@@ -1,48 +1,144 @@
 <template>
     <div class="slds-grid">
-        <div class="slds-col slds-size_1-of-6 slds-p-around_small slds-truncate lwc-resource">
-            <div class="slds-media slds-media_center">
-                <div class="slds-media__body slds-truncate" style={record.padding}>
-                    <lightning-button-icon variant="bare" icon-name={record.actionIcon} name="showdata" id={record.id} onclick={handleOnClick}></lightning-button-icon>&nbsp; <a href={recordurl} name="view" onclick={handleOnClick}>{record.text}</a>&nbsp; <lightning-button-icon if:false={isPMTTask} variant="bare" icon-name="utility:add" name="add" id={record.id} onclick={handleOnClick}></lightning-button-icon>&nbsp; <lightning-button-icon icon-name="utility:edit" variant="bare" name="edit" id={record.id} onclick={handleOnClick}></lightning-button-icon>&nbsp; <lightning-button-icon if:false={isPMTProject} variant="bare" icon-name="utility:delete" name="delete" id={record.id} onclick={handleOnClick}></lightning-button-icon>
-                </div>
+      <div
+        class="slds-col slds-size_1-of-6 slds-p-around_small slds-truncate lwc-resource"
+      >
+        <div class="slds-media slds-media_center">
+          <div class="slds-media__body slds-truncate" style={record.padding}>
+            <div class="inline-block">
+              <lightning-button-icon
+                variant="bare"
+                icon-name={record.actionIcon}
+                name="showdata"
+                id={record.id}
+                onclick={handleOnClick}
+              ></lightning-button-icon
+              >&nbsp;
+  
+              <lightning-formatted-rich-text
+                value={record.statusIcon}
+                title={record.status}
+              ></lightning-formatted-rich-text
+              >&nbsp;
+  
+              <a
+                title={record.text}
+                href={recordurl}
+                name="view"
+                onclick={handleOnClick}
+                >{record.text}</a
+              >&nbsp;
             </div>
+          </div>
+  
+          <div>
+            <lightning-button-icon
+              if:false={isPMTTask}
+              variant="bare"
+              icon-name="utility:add"
+              name="add"
+              id={record.id}
+              onclick={handleOnClick}
+            ></lightning-button-icon
+            >&nbsp;
+            <lightning-button-icon
+              icon-name="utility:edit"
+              variant="bare"
+              name="edit"
+              id={record.id}
+              onclick={handleOnClick}
+            ></lightning-button-icon
+            >&nbsp;
+            <lightning-button-icon
+              if:false={isPMTProject}
+              variant="bare"
+              icon-name="utility:delete"
+              name="delete"
+              id={record.id}
+              onclick={handleOnClick}
+            ></lightning-button-icon>
+          </div>
         </div>
-        <div class="slds-col slds-is-relative">
-            <!-- Time Slots -->
-            <div class="slds-grid slds-is-absolute lwc-timeslots-container">
-                <template for:each={times} for:item="time" for:index="index">
-                    <div key={time.start} class={time.class} data-index={index} data-start={time.start} data-end={time.end} onclick={handleTimeslotClick} ondragenter={handleDragEnter}></div>
-                </template>
-            </div>
-            <!-- /Time Slots -->
-            <div class="lwc-allocations-container">
-                <div class="slds-is-relative project-container slds-p-around_xx-small">
-                    <div title={record.text} data-val={record.id} data-id={record.id} data-project={projectIndex} class={record.class} style={record.style} data-allocation={allocationIndex} draggable={record.isDraggable} ondragstart={handleDragStart} ondragend={handleDragEnd}>
-                        <div class="slds-grid slds-grid_vertical-align-center">
-                            <!-- Timeline Left Handle -->
-                            <div class="slds-col slds-grow-none slds-col_bump-right lwc-allocation_handle handle_left" draggable={record.isDraggable} ondragstart={handleLeftDragStart} data-id={record.id}>
-                                <template if:true={record.isDraggable}>
-                                    <lightning-icon icon-name="utility:drag_and_drop" variant="inverse" size="x-small"></lightning-icon>
-                                </template>
-                                <template if:false={record.isDraggable}>
-                                    <lightning-icon variant="inverse" size="x-small"></lightning-icon>
-                                </template>
-                            </div>
-                            <!-- /Timeline Left Handle -->
-                            <!-- Timeline Right Handle -->
-                            <div class="slds-col slds-grow-none lwc-allocation_handle handle_right" draggable={record.isDraggable} ondragstart={handleRightDragStart} data-id={record.id}>
-                                <template if:true={record.isDraggable}>
-                                    <lightning-icon icon-name="utility:drag_and_drop" variant="inverse" size="x-small"></lightning-icon>
-                                </template>
-                            </div>
-                            <!-- /Timeline Right Handle -->
-                        </div>
-                    </div>
-                </div>
-                <!-- Extra Space -->
-                <div class="slds-is-relative project-container slds-p-around_xx-small"> &nbsp; </div>
-                <!-- /Extra Space -->
-            </div>
+      </div>
+      <div class="slds-col slds-is-relative">
+        <!-- Time Slots -->
+        <div class="slds-grid slds-is-absolute lwc-timeslots-container">
+          <template for:each={times} for:item="time" for:index="index">
+            <div
+              key={time.start}
+              class={time.class}
+              data-index={index}
+              data-start={time.start}
+              data-end={time.end}
+              onclick={handleTimeslotClick}
+              ondragenter={handleDragEnter}
+            ></div>
+          </template>
         </div>
+        <!-- /Time Slots -->
+        <div class="lwc-allocations-container">
+          <div class="slds-is-relative project-container slds-p-around_xx-small">
+            <div
+              title={record.text}
+              data-val={record.id}
+              data-id={record.id}
+              data-project={projectIndex}
+              class={record.class}
+              style={record.style}
+              data-allocation={allocationIndex}
+              draggable={record.isDraggable}
+              ondragstart={handleDragStart}
+              ondragend={handleDragEnd}
+            >
+              <div class="slds-grid slds-grid_vertical-align-center">
+                <!-- Timeline Left Handle -->
+                <div
+                  class="slds-col slds-grow-none slds-col_bump-right lwc-allocation_handle handle_left"
+                  draggable={record.isDraggable}
+                  ondragstart={handleLeftDragStart}
+                  data-id={record.id}
+                >
+                  <template if:true={record.isDraggable}>
+                    <lightning-icon
+                      icon-name="utility:drag_and_drop"
+                      variant="inverse"
+                      size="x-small"
+                    ></lightning-icon>
+                  </template>
+                  <template if:false={record.isDraggable}>
+                    <lightning-icon
+                      variant="inverse"
+                      size="x-small"
+                    ></lightning-icon>
+                  </template>
+                </div>
+                <!-- /Timeline Left Handle -->
+                <!-- Timeline Right Handle -->
+                <div
+                  class="slds-col slds-grow-none lwc-allocation_handle handle_right"
+                  draggable={record.isDraggable}
+                  ondragstart={handleRightDragStart}
+                  data-id={record.id}
+                >
+                  <template if:true={record.isDraggable}>
+                    <lightning-icon
+                      icon-name="utility:drag_and_drop"
+                      variant="inverse"
+                      size="x-small"
+                    ></lightning-icon>
+                  </template>
+                </div>
+                <!-- /Timeline Right Handle -->
+              </div>
+            </div>
+          </div>
+          <!-- Extra Space -->
+          <div class="slds-is-relative project-container slds-p-around_xx-small">
+            &nbsp;
+          </div>
+          <!-- /Extra Space -->
+        </div>
+      </div>
     </div>
-</template>
+  </template>
+  

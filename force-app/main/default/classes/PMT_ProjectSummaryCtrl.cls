@@ -30,30 +30,30 @@ public with sharing class PMT_ProjectSummaryCtrl {
     @AuraEnabled
     public static CreateSummaryWrapper getSummaryWrapper(Id recordId)
     {
-        CreateSummaryWrapper summaryWrapper = new CreateSummaryWrapper();
+		CreateSummaryWrapper summaryWrapper = new CreateSummaryWrapper();
         //Calling util method to check CRUD
-        List<String> lstOfPhaseFields = new List<String>{'Name', 'Health_Icon__c', 'Phase_Completion__c', 'Phase_Completion_Image__c', 'Project__c','Kickoff_formula__c'};
-        if (PMT_Utility.validateCRUD('PMT_Phase__c', lstOfPhaseFields, 'isAccessible') ){ 
-            summaryWrapper.phasesList = getPhasesForProject(recordId);
-        }else{
-            throw new AuraHandledException('You don\'t have access to PMT Phases. Please contact system administrator.');
-        }
-        
+		List<String> lstOfPhaseFields = new List<String>{'Name', 'Health_Icon__c', 'Phase_Completion__c', 'Phase_Completion_Image__c', 'Project__c','Kickoff_formula__c'};
+		if (PMT_Utility.validateCRUD('PMT_Phase__c', lstOfPhaseFields, 'isAccessible') ){ 
+			summaryWrapper.phasesList = getPhasesForProject(recordId);
+		}else{
+			throw new AuraHandledException('You don\'t have access to PMT Phases. Please contact system administrator.');
+		}
+		
         //Calling util method to check CRUD
-        List<String> lstOfTaskFields = new List<String>{'Name', 'Status_Icon__c', 'Start_Date__c', 'Due_Date__c', 'Is_Milestone__c', 'Phase__c', 'Days_Late__c', 'Project_Id__c'};
-        if (PMT_Utility.validateCRUD('PMT_Task__c', lstOfTaskFields, 'isAccessible') ){ 
-            summaryWrapper.lateTaskList = getLateTasksForProject(recordId);
-            
-            summaryWrapper.onGoingTaskList = getOnGoingTasksForProject(recordId);
-            
-            summaryWrapper.milestoneTaskList = getMilestoneTasksForProject(recordId);
-        }else{
-            throw new AuraHandledException('You don\'t have access to PMT Task. Please contact system administrator.');
-        }       
-        
+		List<String> lstOfTaskFields = new List<String>{'Name', 'Status_Icon__c', 'Start_Date__c', 'Due_Date__c', 'Is_Milestone__c', 'Phase__c', 'Days_Late__c', 'Project_Id__c'};
+		if (PMT_Utility.validateCRUD('PMT_Task__c', lstOfTaskFields, 'isAccessible') ){ 
+			summaryWrapper.lateTaskList = getLateTasksForProject(recordId);
+			
+			summaryWrapper.onGoingTaskList = getOnGoingTasksForProject(recordId);
+			
+			summaryWrapper.milestoneTaskList = getMilestoneTasksForProject(recordId);
+		}else{
+			throw new AuraHandledException('You don\'t have access to PMT Task. Please contact system administrator.');
+		}		
+		
         //Get PMT Settings
         summaryWrapper.fiscalMonthOffset = Integer.valueOf(PMT_Utility.getPMTSettings('Default').Start_Month_of_Fiscal_Year__c);
-        return summaryWrapper;      
+		return summaryWrapper;      
     }
     
     /*************************************************
@@ -64,9 +64,9 @@ public with sharing class PMT_ProjectSummaryCtrl {
     * ***********************************************/  
     private static List<PMT_Phase__c> getPhasesForProject(Id recordId)
     {
-        return [SELECT id,Name,Health_Icon__c,Phase_Completion__c, Phase_Completion_Image__c,Kickoff_formula__c FROM PMT_Phase__c 
+		return [SELECT id,Name,Health_Icon__c,Phase_Completion__c, Phase_Completion_Image__c,Kickoff_formula__c FROM PMT_Phase__c 
                 WHERE Project__c=:recordId ORDER BY Kickoff_formula__c ASC limit: limits.getLimitQueryRows()];                    
-    }
+	}
 
     /*************************************************
     * Method Name: getLateTasksForProject
@@ -76,8 +76,8 @@ public with sharing class PMT_ProjectSummaryCtrl {
     * ***********************************************/  
     private static List<PMT_Task__c> getLateTasksForProject(Id recordId)
     {
-        return [SELECT id,Name,Status_Icon__c,Start_Date__c,Due_Date__c,Is_Milestone__c,Phase__c,Days_Late__c FROM PMT_Task__c 
-                WHERE Project_Id__c=:recordId AND Days_Late__C > 0 order by Due_Date__c ASC, Name ASC limit: limits.getLimitQueryRows()];
+		return [SELECT id,Name,Status_Icon__c,Start_Date__c,Due_Date__c,Is_Milestone__c,Phase__c,Days_Late__c FROM PMT_Task__c 
+				WHERE Project_Id__c=:recordId AND Days_Late__C > 0 order by Due_Date__c ASC, Name ASC limit: limits.getLimitQueryRows()];
     }
 
     /*************************************************
@@ -88,8 +88,8 @@ public with sharing class PMT_ProjectSummaryCtrl {
     * ***********************************************/  
     private static List<PMT_Task__c> getOnGoingTasksForProject(Id recordId)
     {
-        return [SELECT id,Name,Status_Icon__c,Start_Date__c,Due_Date__c,Is_Milestone__c,Phase__c,Phase__r.Name,    Days_Late__c FROM PMT_Task__c 
-                WHERE Project_Id__c=:recordId AND Days_Late__C <= 0 order by Due_Date__c ASC, Name ASC limit: limits.getLimitQueryRows()];                        
+		return [SELECT id,Name,Status_Icon__c,Start_Date__c,Due_Date__c,Is_Milestone__c,Phase__c,Phase__r.Name,    Days_Late__c FROM PMT_Task__c 
+				WHERE Project_Id__c=:recordId AND Days_Late__C <= 0 order by Due_Date__c ASC, Name ASC limit: limits.getLimitQueryRows()];					      
     }
 
     /*************************************************
@@ -100,9 +100,9 @@ public with sharing class PMT_ProjectSummaryCtrl {
     * ***********************************************/  
     private static List<PMT_Task__c> getMilestoneTasksForProject(Id recordId)
     {
-        return [SELECT id,Name,Status_Icon__c,Due_Date__c FROM PMT_Task__c 
-                WHERE Project_Id__c=:recordId AND Is_Milestone__c=true order by Due_Date__c ASC, Name ASC limit: limits.getLimitQueryRows()];                   
-         
+		return [SELECT id,Name,Status_Icon__c,Due_Date__c FROM PMT_Task__c 
+				WHERE Project_Id__c=:recordId AND Is_Milestone__c=true order by Due_Date__c ASC, Name ASC limit: limits.getLimitQueryRows()];					
+		 
     }
     
 }
