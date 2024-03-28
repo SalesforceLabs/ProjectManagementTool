@@ -7,7 +7,7 @@
     <fieldManageability>SubscriberControlled</fieldManageability>
     <inlineHelpText>This indicates the start of the fiscal year. For example, if value is 2 which means year starts from Feb, 3 for Mar, and so on</inlineHelpText>
     <label>Start Month of Fiscal Year</label>
-    <precision>2</precision>
+    <precision>1</precision>
     <required>true</required>
     <scale>0</scale>
     <type>Number</type>
