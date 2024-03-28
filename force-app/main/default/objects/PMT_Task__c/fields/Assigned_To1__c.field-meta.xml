@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Assigned To</label>
-    <referenceTo>Flair_Employee__C</referenceTo>
+    <referenceTo>Employee</referenceTo>
     <relationshipName>PMT_Tasks</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
