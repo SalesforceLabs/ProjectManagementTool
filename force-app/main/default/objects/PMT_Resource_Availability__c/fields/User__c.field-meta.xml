@@ -5,7 +5,7 @@
     <description>User for which availability is defined</description>
     <externalId>false</externalId>
     <label>User</label>
-    <referenceTo>flair__Employee__c</referenceTo>
+    <referenceTo></referenceTo>
     <relationshipName>Resource_Availability</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
