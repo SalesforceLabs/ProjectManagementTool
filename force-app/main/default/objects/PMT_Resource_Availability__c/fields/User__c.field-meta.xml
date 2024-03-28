@@ -5,7 +5,7 @@
     <description>User for which availability is defined</description>
     <externalId>false</externalId>
     <label>User</label>
-    <referenceTo></referenceTo>
+    <referenceTo>Employee</referenceTo>
     <relationshipName>Resource_Availability</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
