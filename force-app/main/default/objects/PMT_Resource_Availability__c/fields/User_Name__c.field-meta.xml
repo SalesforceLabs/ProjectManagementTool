@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>User_Name__c</fullName>
     <externalId>false</externalId>
-    <formula>IF(is_Dummy_Availability__c,&apos;&apos;, User__r.FirstName + &apos; &apos; +  User__r.LastName)</formula>
+    <formula>IF(is_Dummy_Availability__c,&apos;&apos;,Flair_Employee__r.Name)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>User Name</label>
     <required>false</required>

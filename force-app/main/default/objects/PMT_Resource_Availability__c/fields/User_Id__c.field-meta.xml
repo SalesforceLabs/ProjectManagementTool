@@ -3,7 +3,7 @@
     <fullName>User_Id__c</fullName>
     <description>This formula field is used by the resource allocation functionality</description>
     <externalId>false</externalId>
-    <formula>IF(is_Dummy_Availability__c,&apos;DUM&apos;, CASESAFEID(User__r.Id))</formula>
+    <formula>IF(is_Dummy_Availability__c,&apos;DUM&apos;, CASESAFEID(Flair_Employee__r.Id))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>User Id</label>
     <required>false</required>

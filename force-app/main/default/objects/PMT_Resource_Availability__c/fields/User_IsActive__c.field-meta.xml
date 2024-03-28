@@ -3,7 +3,7 @@
     <fullName>User_IsActive__c</fullName>
     <description>Shows user is active or not</description>
     <externalId>false</externalId>
-    <formula>User__r.IsActive</formula>
+    <formula>Flair_Employee__r.flair__Active__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>User IsActive</label>
     <trackHistory>false</trackHistory>

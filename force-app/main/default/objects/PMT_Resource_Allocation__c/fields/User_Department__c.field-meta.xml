@@ -3,7 +3,7 @@
     <fullName>User_Department__c</fullName>
     <description>Shows Users department name</description>
     <externalId>false</externalId>
-    <formula>Resource_Availability__r.User__r.Department</formula>
+    <formula>Resource_Availability__r.Flair_Employee__r.flair__Department__r.Name</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>User Department</label>
     <required>false</required>

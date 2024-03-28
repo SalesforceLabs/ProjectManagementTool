@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Resource_Name__c</fullName>
     <externalId>false</externalId>
-    <formula>Resource_Availability__r.User__r.FirstName + &quot; &quot; + Resource_Availability__r.User__r.LastName</formula>
+    <formula>Resource_Availability__r.Flair_Employee__r.Name</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Resource Name</label>
     <required>false</required>
