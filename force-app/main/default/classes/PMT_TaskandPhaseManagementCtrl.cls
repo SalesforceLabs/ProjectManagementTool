@@ -7,7 +7,7 @@
 * Test class: PMT_TaskandPhaseManagementCtrlTest (84%)
 * ***********************************************/
 
-public with Sharing class PMT_TaskandPhaseManagementCtrl{
+public without Sharing class PMT_TaskandPhaseManagementCtrl{
     
     /*************************************************
 * Name: CreateTasksWrapper

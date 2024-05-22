@@ -43,8 +43,8 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
         dataBkp = [];
         expandedData = [];
         scaleType = false;
-        isExpandedCheck = false;
-        isExpandAll = false;
+        isExpandedCheck = true;
+        isExpandAll = true;
         isLoading = false;
         taskCheck = false;
         followProject = false;
@@ -87,19 +87,19 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
                 // View Select
                 options: [{
                         label: "Start Date Ascending",
-                        value: "Start_Date__c Asc"
-                },
-                {
-                        label: "Start Date Descending",
                         value: "Start_Date__c Desc"
                 },
                 {
+                        label: "Start Date Descending",
+                        value: "Start_Date__c Asc"
+                },
+                {
                         label: "End Date Ascending",
-                        value: "Due_Date__c Asc"
+                        value: "Due_Date__c Desc"
                 },
                 {
                         label: "End Date Descending",
-                        value: "Due_Date__c Desc"
+                        value: "Due_Date__c Asc"
                 }]
         };
 
@@ -358,7 +358,6 @@ export default class pmtGantt extends NavigationMixin(LightningElement) {
         }
 
         handlesortByChange(event) {
-                console.log('event.detail.value ' + event.detail.value);
                 this.sortByValue = event.detail.value;
                 refreshApex(this.wiredGanttResult).then(() => {
                         this.isLoading = false;

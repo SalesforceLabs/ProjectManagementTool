@@ -4,7 +4,7 @@
         <name>Clone_Phases_Tasks</name>
         <label>Clone Phases Tasks</label>
         <locationX>50</locationX>
-        <locationY>1910</locationY>
+        <locationY>1706</locationY>
         <actionName>PMT_ClonePhaseTaskCtrl</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -13,6 +13,7 @@
         <faultConnector>
             <targetReference>FaultError</targetReference>
         </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>phaseCheck</name>
             <value>
@@ -55,15 +56,17 @@
         <name>Get_Tasks</name>
         <label>Get Tasks</label>
         <locationX>50</locationX>
-        <locationY>1670</locationY>
+        <locationY>1490</locationY>
         <actionName>PMT_ClonePhaseTaskCtrl</actionName>
         <actionType>apex</actionType>
         <connector>
             <targetReference>Tasks_Table</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>FaultError</targetReference>
         </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>phaseCheck</name>
             <value>
@@ -92,7 +95,7 @@
         <name>AssignCurrentRecordId</name>
         <label>AssignCurrentRecordId</label>
         <locationX>644</locationX>
-        <locationY>638</locationY>
+        <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>SelectedProjectId</assignToReference>
             <operator>Assign</operator>
@@ -108,7 +111,7 @@
         <name>Selected_Phase</name>
         <label>Selected Phase</label>
         <locationX>534</locationX>
-        <locationY>1334</locationY>
+        <locationY>1190</locationY>
         <assignmentItems>
             <assignToReference>PhaseCheck</assignToReference>
             <operator>Assign</operator>
@@ -124,7 +127,7 @@
         <name>TemplateProject</name>
         <label>TemplateProject</label>
         <locationX>644</locationX>
-        <locationY>398</locationY>
+        <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>ProjectType</assignToReference>
             <operator>Assign</operator>
@@ -156,7 +159,7 @@
         <name>Get_Phases_Check</name>
         <label>Get Phases Check</label>
         <locationX>776</locationX>
-        <locationY>974</locationY>
+        <locationY>866</locationY>
         <defaultConnector>
             <targetReference>No_Phases_Warning</targetReference>
         </defaultConnector>
@@ -181,7 +184,7 @@
         <name>Phase_Selection_Check</name>
         <label>Phase Selection Check</label>
         <locationX>446</locationX>
-        <locationY>1550</locationY>
+        <locationY>1382</locationY>
         <defaultConnector>
             <targetReference>Phase_Warning_Screen</targetReference>
         </defaultConnector>
@@ -206,7 +209,7 @@
         <name>ProjectTypeCheck</name>
         <label>ProjectTypeCheck</label>
         <locationX>776</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <defaultConnector>
             <targetReference>Project_Search</targetReference>
         </defaultConnector>
@@ -228,13 +231,14 @@
         </rules>
     </decisions>
     <description>Flow to clone Projects/Phases/Tasks using &quot;Use This Template&quot; or &quot;Clone Phases/Tasks&quot; action on Project record</description>
+    <environments>Default</environments>
     <interviewLabel>PMT Project Templates {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PMT Project Templates</label>
     <loops>
         <name>Phases_Selection_Loop</name>
         <label>Phases Selection Loop</label>
         <locationX>446</locationX>
-        <locationY>1214</locationY>
+        <locationY>1082</locationY>
         <collectionReference>PhasesCollection</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -267,12 +271,13 @@
         <name>Get_Phases</name>
         <label>Get Phases</label>
         <locationX>776</locationX>
-        <locationY>854</locationY>
+        <locationY>758</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Phases_Check</targetReference>
         </connector>
         <faultConnector>
+            <isGoTo>true</isGoTo>
             <targetReference>FaultError</targetReference>
         </faultConnector>
         <filterLogic>and</filterLogic>
@@ -291,7 +296,7 @@
         <name>GetProjectType</name>
         <label>GetProjectType</label>
         <locationX>776</locationX>
-        <locationY>158</locationY>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>ProjectTypeCheck</targetReference>
@@ -319,7 +324,7 @@
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
         <locationX>50</locationX>
-        <locationY>2030</locationY>
+        <locationY>1814</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -334,8 +339,8 @@
     <screens>
         <name>FaultError</name>
         <label>FaultError</label>
-        <locationX>578</locationX>
-        <locationY>1790</locationY>
+        <locationX>314</locationX>
+        <locationY>1814</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -351,7 +356,7 @@
         <name>No_Phases_Warning</name>
         <label>No Phases Warning</label>
         <locationX>1106</locationX>
-        <locationY>1094</locationY>
+        <locationY>974</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -367,7 +372,7 @@
         <name>Phase_Warning_Screen</name>
         <label>Phase Warning Screen</label>
         <locationX>842</locationX>
-        <locationY>1670</locationY>
+        <locationY>1490</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -383,7 +388,7 @@
         <name>Phases_Table</name>
         <label>Phases Table</label>
         <locationX>446</locationX>
-        <locationY>1094</locationY>
+        <locationY>974</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -434,6 +439,7 @@
                     <stringValue>[{&quot;apiName&quot;:&quot;Name&quot;,&quot;guid&quot;:&quot;column-2883&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:0,&quot;label&quot;:&quot;Phase Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;apiName&quot;:&quot;Project_Name__c&quot;,&quot;guid&quot;:&quot;column-a5eb&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:1,&quot;label&quot;:&quot;Project Name&quot;,&quot;type&quot;:&quot;customRichText&quot;}]</stringValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>PhasesCollection</assignToReference>
@@ -447,7 +453,7 @@
         <name>Project_Search</name>
         <label>Project Search</label>
         <locationX>908</locationX>
-        <locationY>398</locationY>
+        <locationY>350</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -487,6 +493,7 @@
                     <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>SelectedProjectId</assignToReference>
@@ -500,7 +507,7 @@
         <name>ProjectNameSelection</name>
         <label>ProjectNameSelection</label>
         <locationX>644</locationX>
-        <locationY>518</locationY>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -533,7 +540,7 @@
         <name>Tasks_Table</name>
         <label>Tasks Table</label>
         <locationX>50</locationX>
-        <locationY>1790</locationY>
+        <locationY>1598</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -584,8 +591,12 @@
                     <booleanValue>true</booleanValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <outputParameters>
+                <assignToReference>TasksFromApex</assignToReference>
+                <name>selectedRows</name>
+            </outputParameters>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -641,8 +652,12 @@
                     <stringValue>[{&quot;apiName&quot;:&quot;Name&quot;,&quot;guid&quot;:&quot;column-07cb&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:0,&quot;label&quot;:&quot;Task Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;apiName&quot;:&quot;Status__c&quot;,&quot;guid&quot;:&quot;column-f981&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:1,&quot;label&quot;:&quot;Task Status&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;apiName&quot;:&quot;Phase_Name__c&quot;,&quot;guid&quot;:&quot;column-2a60&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:2,&quot;label&quot;:&quot;Phase Name&quot;,&quot;type&quot;:&quot;customRichText&quot;}]</stringValue>
                 </value>
             </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
-            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <outputParameters>
+                <assignToReference>TasksFromApex</assignToReference>
+                <name>selectedRows</name>
+            </outputParameters>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>

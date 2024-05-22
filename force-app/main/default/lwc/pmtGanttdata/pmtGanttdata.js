@@ -366,13 +366,8 @@ export default class PmtGanttdata extends NavigationMixin(LightningElement) {
             event.preventDefault();
             const allocation = this.dragInfo.newAllocation;
             if (typeof allocation != 'undefined') {
-                //console.log('here...'+allocation);
                 let startDate = new Date(allocation.start_date);
                 let endDate = new Date(allocation.end_date);
-
-                console.log('start update...' + startDate);
-                console.log('end update...' + endDate);
-
 
                 if (this.record.objAPIName == 'PMT_Task__c') {
                     this._saveTask({
@@ -440,8 +435,6 @@ export default class PmtGanttdata extends NavigationMixin(LightningElement) {
                     allocation.start_date = this.getYYYYMMDD(startDate);
                     allocation.end_date = this.getYYYYMMDD(endDate);
             }
-            console.log('allocation.start_date...' + allocation.start_date);
-            console.log('allocation.start_date...' + allocation.end_date);
             this.dragInfo.newAllocation = allocation;
             this.template.querySelector("." + allocation.id).style = this.calcStyle(allocation);
         } catch (Exception) {
