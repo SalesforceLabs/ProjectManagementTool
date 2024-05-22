@@ -22,15 +22,6 @@
         <aggregateTypes>Sum</aggregateTypes>
         <field>AGE</field>
     </columns>
-    <filter>
-        <criteriaItems>
-            <column>STATUS</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value>Closed,Future</value>
-        </criteriaItems>
-    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>

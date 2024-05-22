@@ -3,7 +3,7 @@
     <fullName>PMT</fullName>
     <isActive>true</isActive>
     <values>
-        <fullName>Closed</fullName>
+        <fullName>Complete</fullName>
         <default>false</default>
     </values>
     <values>
