@@ -23,6 +23,12 @@ global with sharing class PMT_ClonePhaseTaskCtrl {
         
         @InvocableVariable
         public Date projectStartDate;
+
+        @InvocableVariable
+        public String accountId;
+
+        @InvocableVariable
+        public String gatewayAccountId;
     }
     
     public class FlowOutputs {
@@ -56,6 +62,8 @@ global with sharing class PMT_ClonePhaseTaskCtrl {
             phtask.tasks = req.tasks;
             phtask.phaseCheck = req.phaseCheck;
             phtask.projectId = req.projectId;
+            phtask.accountId = req.accountId;
+            phtask.gatewayAccountId = req.gatewayAccountId;
         }
         
         //Get tasks for selected phases
@@ -95,6 +103,8 @@ global with sharing class PMT_ClonePhaseTaskCtrl {
                 PMT_Project__c projectClone = proRecord.clone(false,false,false,false);
                 projectClone.Initial_Start_Date__c = phtask.projectStartDate; 
                 projectClone.Name = phtask.projectName;
+                projectClone.Account__c = phTask.accountId;
+                projectClone.Gateway_Account__c = phTask.gatewayAccountId;
                 lstClonedProjects.add(projectClone);
                 
                 if (lstClonedProjects.size() > 0) {
