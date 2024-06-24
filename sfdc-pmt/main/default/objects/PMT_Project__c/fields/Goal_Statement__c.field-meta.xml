@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Goal_Statement__c</fullName>
     <description>objective, issue being addressed, target, how will the project be measured.</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>objective, issue being addressed, target, how will the project be measured.</inlineHelpText>
     <label>Goal Statement</label>

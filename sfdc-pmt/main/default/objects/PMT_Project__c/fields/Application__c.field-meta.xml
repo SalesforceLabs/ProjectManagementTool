@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Contract object lookup filtered to the Application record type.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Contract object lookup filtered to the Application record type.</inlineHelpText>
+    <label>Application</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Must be a Payroll Application record type Contract.</errorMessage>
+        <filterItems>
+            <field>Contract.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Payroll Application</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Contract</referenceTo>
+    <relationshipLabel>PMT Projects</relationshipLabel>
+    <relationshipName>PMT_Projects</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -558,6 +558,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>PMT_Project__c.Type_of_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>PMT_Resource_Allocation__c.Allocated_Resource_Id__c</field>
         <readable>true</readable>

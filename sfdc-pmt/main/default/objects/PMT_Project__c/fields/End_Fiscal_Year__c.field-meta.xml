@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>End_Fiscal_Year__c</fullName>
-    <deprecated>false</deprecated>
     <externalId>false</externalId>
     <formula>IF($CustomMetadata.PMT_Setting__mdt.Default.Start_Month_of_Fiscal_Year__c!=1 &amp;&amp; Month(Deadline_formula__c ) &gt;= $CustomMetadata.PMT_Setting__mdt.Default.Start_Month_of_Fiscal_Year__c,
 &apos;FY&apos;&amp;RIGHT(TEXT(YEAR(Deadline_formula__c ) +1),2),

@@ -161,13 +161,14 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>PMT Program</label>
     <nameField>
+        <encryptionScheme>None</encryptionScheme>
         <label>Program Name</label>
         <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>PMT Programs</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts></searchLayouts>
     <sharingModel>Read</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

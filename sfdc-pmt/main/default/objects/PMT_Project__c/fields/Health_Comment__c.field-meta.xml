@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Health_Comment__c</fullName>
     <description>Comment to explain the reasons of the Project Status.</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <label>Health Comment</label>
     <length>32768</length>

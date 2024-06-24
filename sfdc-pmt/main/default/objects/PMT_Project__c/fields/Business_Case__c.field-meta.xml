@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Business_Case__c</fullName>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Business objectives: Requested solution description and expected result. Mention if this is a global solution or call out if there is any variation by region.</inlineHelpText>
     <label>Business Case</label>
